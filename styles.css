@@ -61,3 +61,21 @@
 .service-note h2 em{font-style:normal;color:var(--sage-dark)}
 .service-note>p:not(.eyebrow){max-width:430px;color:var(--muted);font-size:12px;line-height:1.9;margin:0 0 25px}
 @media(max-width:700px){.service-group{grid-template-columns:1fr;gap:20px;padding:26px 0}.service-list a{grid-template-columns:42px 1fr 18px;gap:8px}.service-list small{display:none}.service-list strong{font-size:13px}.service-overview{margin-top:7vh}}
+
+
+/* Individual service detail pages */
+.service-detail-body{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(220px,.75fr);gap:9vw;margin:9vh 0 4vh}
+.service-detail-main{border-top:1px solid var(--line)}
+.detail-section{padding:25px 0;border-bottom:1px solid var(--line)}
+.detail-section .eyebrow{margin:0 0 13px}
+.detail-section>p:last-child{font-size:13px;line-height:1.95;color:#555c54;margin:0;max-width:680px}
+.service-detail-aside{align-self:start;position:sticky;top:30px;padding:26px;background:#e6e8e2}
+.service-detail-aside h2{font-size:22px;font-weight:300;margin:24px 0 12px}
+.service-detail-aside>p:not(.eyebrow){font-size:12px;line-height:1.9;color:#596057}
+.service-detail-aside .text-link{display:inline-block;margin-top:20px}
+.aside-note{padding-top:15px;border-top:1px solid var(--line)}
+.wechat-note{display:grid;gap:9px;padding-top:20px;margin-top:24px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+.wechat-note strong{font-weight:400;color:var(--ink);font-size:13px}
+.wechat-note .copy-contact{justify-self:start}
+.detail-back{padding:4vh 0}
+@media(max-width:700px){.service-detail-body{grid-template-columns:1fr;gap:28px;margin-top:6vh}.service-detail-aside{position:static}.detail-section{padding:20px 0}}
