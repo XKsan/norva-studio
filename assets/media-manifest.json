@@ -1,0 +1,20 @@
+{
+  "status": "temporary_visual_studies",
+  "replacement_rule": "Keep each path and filename; replace SVG with WebP/JPEG while preserving aspect ratio.",
+  "video_policy": "No stock footage is presented as NORVA work. Use original footage or hosted embeds.",
+  "files": [
+    "assets/images/works/photography/01-cover.svg",
+    "assets/images/works/photography/01-01.svg",
+    "assets/images/works/photography/01-02.svg",
+    "assets/images/works/photography/01-03.svg",
+    "assets/images/works/photography/02-cover.svg",
+    "assets/images/works/documentary/01-cover.svg",
+    "assets/images/works/documentary/01-still-01.svg",
+    "assets/images/works/documentary/01-still-02.svg",
+    "assets/images/works/ant-matter/key-visual.svg",
+    "assets/images/works/ant-matter/character-01.svg",
+    "assets/images/field/himalayan-notes/cover.svg",
+    "assets/images/field/people-encounters/cover.svg",
+    "assets/images/field/places-moments/cover.svg"
+  ]
+}

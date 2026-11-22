@@ -1,0 +1,29 @@
+/* NORVA portfolio media system */
+.work-tile{background-size:cover;background-position:center;isolation:isolate}
+.work-tile:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,38,32,.08),rgba(30,38,32,.48));z-index:-1}
+.work-tile .tile-index,.work-tile .tile-title,.work-tile .tile-open{color:#f3f2eb;text-shadow:0 1px 12px rgba(0,0,0,.16)}
+.work-photo{background-image:url("assets/images/works/photography/01-cover.svg")}
+.work-film{background-image:url("assets/images/works/documentary/01-cover.svg")}
+.work-ip{background-image:url("assets/images/works/ant-matter/key-visual.svg")}
+.portfolio-intro{margin-bottom:5vh}
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:5vh}
+.portfolio-item{display:block;position:relative;overflow:hidden;background:#e2e5de}
+.portfolio-item img{display:block;width:100%;height:100%;min-height:220px;object-fit:cover;transition:transform .6s}
+.portfolio-item:hover img{transform:scale(1.025)}
+.portfolio-item.wide{grid-column:1/-1;aspect-ratio:16/7}
+.portfolio-item.landscape{aspect-ratio:3/2}
+.portfolio-label{display:flex;justify-content:space-between;gap:16px;padding:12px 2px 18px;font:9px var(--mono);letter-spacing:.13em;color:var(--muted)}
+.media-note{font-size:10px;color:var(--muted);line-height:1.8;margin:24px 0}
+.project-copy{max-width:620px;font-size:13px;line-height:1.9;color:var(--muted);margin-top:18px}
+.field-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:5vh 0}
+.field-card{display:block;overflow:hidden}
+.field-card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .5s}
+.field-card:hover img{transform:scale(1.02)}
+.field-card span{display:block;font:9px var(--mono);letter-spacing:.13em;color:var(--muted);margin-top:12px}
+.field-card strong{display:block;font-size:16px;font-weight:300;margin-top:8px}
+.video-slot{aspect-ratio:16/9;background:#dfe3dc;position:relative;display:grid;place-items:center;overflow:hidden;margin:5vh 0}
+.video-slot:before{content:"";position:absolute;width:38%;aspect-ratio:1;border:1px solid #aeb8aa;border-radius:50%;animation:slow-orbit 16s linear infinite}
+.video-slot:after{content:"";position:absolute;width:25%;aspect-ratio:1;border:1px solid #aeb8aa;border-radius:50%;animation:slow-orbit 12s linear infinite reverse}
+.video-slot span{z-index:1;font:10px var(--mono);letter-spacing:.18em;color:#687568}
+@keyframes slow-orbit{to{transform:rotate(360deg)}}
+@media(max-width:700px){.portfolio-grid{grid-template-columns:1fr}.portfolio-item.wide{grid-column:auto;aspect-ratio:4/3}.field-cards{grid-template-columns:1fr}.field-card img{aspect-ratio:16/10}}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900">
+<rect width="1440" height="900" fill="#dfe3dc"/><path d="M0 570 260 240 430 430 710 120 980 480 1190 280 1440 540V900H0Z" fill="#8b998b"/><path d="M0 690 360 430 590 620 930 330 1190 600 1440 470V900H0Z" fill="#39433d"/><circle cx="1090" cy="190" r="70" fill="#eeeadd" opacity=".65"/>
+<rect x="55" y="55" width="1330" height="790" fill="none" stroke="#f2f1e9" opacity=".55"/>
+<text x="78" y="810" font-family="monospace" font-size="18" letter-spacing="5" fill="#f2f1e9">NORVA / VISUAL STUDY</text>
+<text x="1360" y="810" text-anchor="end" font-family="monospace" font-size="14" letter-spacing="3" fill="#f2f1e9">REPLACE WITH ORIGINAL</text>
+</svg>
