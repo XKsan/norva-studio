@@ -39,3 +39,25 @@
 @media(max-width:700px){.contact-footer{justify-content:flex-start;flex-wrap:wrap;gap:12px 18px;padding:14px 0}.contact-label{width:100%}.entry-foot{gap:10px;flex-wrap:wrap}.contact-options{grid-template-columns:1fr;gap:4px}.contact-panel{margin:6vh 0 4vh}}
 
 .page-foot{height:auto;min-height:50px;flex-wrap:wrap;gap:12px;padding-top:12px;padding-bottom:12px}
+
+
+/* Chinese service architecture */
+.cn-accent{font-style:normal;color:var(--sage-dark)}
+.make-page .page-intro{max-width:850px}
+.service-overview{margin:9vh 0 4vh}
+.service-group{display:grid;grid-template-columns: minmax(190px,.72fr) 1.6fr;gap:5vw;padding:34px 0;border-top:1px solid var(--line)}
+.service-group-head{display:flex;gap:18px;align-items:flex-start}
+.service-index{font:10px var(--mono);color:var(--sage-dark);padding-top:7px}
+.service-group-head h2{font-size:clamp(19px,2.2vw,27px);font-weight:300;margin:0 0 9px;letter-spacing:.02em}
+.service-group-head p{font:9px var(--mono);letter-spacing:.13em;color:var(--muted);margin:0}
+.service-list a{display:grid;grid-template-columns:55px minmax(180px,1fr) minmax(120px,.9fr) 20px;gap:12px;align-items:center;padding:17px 0;border-bottom:1px solid var(--line);transition:padding .2s,color .2s}
+.service-list a:first-child{border-top:1px solid var(--line)}
+.service-list a:hover{padding-left:9px;color:var(--sage-dark)}
+.service-list a>span,.service-list small{font:9px var(--mono);color:var(--muted);letter-spacing:.06em}
+.service-list strong{font-size:14px;font-weight:400}
+.service-list i{font-style:normal;color:var(--sage-dark);justify-self:end}
+.service-note{margin:6vh 0 2vh;padding:5vh 0;border-top:1px solid var(--line)}
+.service-note h2{font-size:clamp(32px,5vw,55px);line-height:1.1;font-weight:300;letter-spacing:-.04em;margin:24px 0}
+.service-note h2 em{font-style:normal;color:var(--sage-dark)}
+.service-note>p:not(.eyebrow){max-width:430px;color:var(--muted);font-size:12px;line-height:1.9;margin:0 0 25px}
+@media(max-width:700px){.service-group{grid-template-columns:1fr;gap:20px;padding:26px 0}.service-list a{grid-template-columns:42px 1fr 18px;gap:8px}.service-list small{display:none}.service-list strong{font-size:13px}.service-overview{margin-top:7vh}}
