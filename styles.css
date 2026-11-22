@@ -37,3 +37,5 @@
 .contact-options strong{font-size:13px;font-weight:400;letter-spacing:0}.contact-options i{font-style:normal;color:var(--sage-dark)}
 .contact-option-wechat .copy-contact{justify-self:start}
 @media(max-width:700px){.contact-footer{justify-content:flex-start;flex-wrap:wrap;gap:12px 18px;padding:14px 0}.contact-label{width:100%}.entry-foot{gap:10px;flex-wrap:wrap}.contact-options{grid-template-columns:1fr;gap:4px}.contact-panel{margin:6vh 0 4vh}}
+
+.page-foot{height:auto;min-height:50px;flex-wrap:wrap;gap:12px;padding-top:12px;padding-bottom:12px}
