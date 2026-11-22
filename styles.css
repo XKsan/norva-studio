@@ -21,3 +21,19 @@
 .space-links strong{font-size:13px;font-weight:400;letter-spacing:.13em}
 .space-links i{font-style:normal;color:var(--sage-dark)}
 @media(max-width:700px){.space-links{grid-template-columns:1fr;gap:0}.space-links a{padding:14px 0}.space-links span{grid-column:auto}.space-links a{grid-template-columns:35px 1fr auto}}
+
+/* NORVA contact system */
+.contact-footer{display:flex;align-items:center;justify-content:flex-end;gap:clamp(14px,2.8vw,38px);font:9px var(--mono);letter-spacing:.1em;color:var(--muted)}
+.contact-label{margin-right:auto;color:var(--muted)}.contact-footer>a,.contact-wechat{white-space:nowrap}
+.contact-footer a span{letter-spacing:0;text-transform:none;margin-left:6px}
+.copy-contact{border:0;border-bottom:1px solid var(--sage-dark);padding:3px 0;background:transparent;color:var(--ink);font:inherit;letter-spacing:.08em;cursor:pointer}
+.copy-contact span{margin-left:5px;color:var(--sage-dark);font-size:8px}
+.contact-panel{margin:8vh 0 5vh;padding:5vh 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.contact-panel h2{font-size:clamp(34px,5vw,58px);line-height:1.02;font-weight:300;letter-spacing:-.055em;margin:22px 0}
+.contact-panel h2 em{font-style:normal;color:var(--sage-dark)}.contact-intro{max-width:420px;font-size:12px;line-height:1.9;color:var(--muted)}
+.contact-options{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px;margin-top:30px}
+.contact-options>a,.contact-option-wechat{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:18px 0;border-top:1px solid var(--line)}
+.contact-options>a>span,.contact-option-wechat>span{grid-column:1/-1;font:9px var(--mono);letter-spacing:.14em;color:var(--muted)}
+.contact-options strong{font-size:13px;font-weight:400;letter-spacing:0}.contact-options i{font-style:normal;color:var(--sage-dark)}
+.contact-option-wechat .copy-contact{justify-self:start}
+@media(max-width:700px){.contact-footer{justify-content:flex-start;flex-wrap:wrap;gap:12px 18px;padding:14px 0}.contact-label{width:100%}.entry-foot{gap:10px;flex-wrap:wrap}.contact-options{grid-template-columns:1fr;gap:4px}.contact-panel{margin:6vh 0 4vh}}
