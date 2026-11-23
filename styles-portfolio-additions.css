@@ -69,4 +69,9 @@
 .field-manifesto .field-panel{min-height:220px}
 .field-other-topics{grid-template-columns:1fr;gap:18px}
 .field-other-topics>.eyebrow{grid-column:auto}
-}
+} 
+/* Minimal archive state — intentional whitespace until verified original media is added. */
+.archive-empty{max-width:760px;margin:clamp(64px,12vh,140px) 0 5vh;padding:28px 0 0;border-top:1px solid var(--line)}
+.archive-empty h2{font-size:clamp(28px,4vw,46px);font-weight:300;letter-spacing:-.05em;margin:26px 0 14px}
+.archive-empty>p:last-child{max-width:460px;font-size:12px;line-height:2;color:var(--muted);margin:0}
+@media(max-width:700px){.archive-empty{margin:64px 0 4vh;padding-top:22px}.archive-empty h2{font-size:30px}}
