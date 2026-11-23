@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "assets/images/home/hero.webp"
+      - "styles.css"
   workflow_dispatch:
 
 permissions:
