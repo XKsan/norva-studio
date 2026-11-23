@@ -341,3 +341,79 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sage-dark);outline-
  .studio-hero{min-height:420px}
  .studio-hero-copy h1{font-size:37px}
 }
+/* Studio typography refinement: balanced CJK / Latin rhythm and restrained contrast. */
+.studio-overview-page{
+  --studio-ink:#30332e;
+  --studio-muted:#85877f;
+  color:var(--studio-ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.studio-overview-page .studio-kicker,
+.studio-overview-page .studio-intro-label,
+.studio-overview-page .studio-contact .eyebrow{
+  font-family:var(--mono), "Helvetica Neue", Arial, sans-serif;
+  font-size:9px;
+  font-weight:400;
+  line-height:1.5;
+  letter-spacing:.16em;
+  color:var(--studio-muted);
+  text-transform:uppercase;
+}
+.studio-overview-page .studio-kicker{color:rgba(255,255,255,.84);letter-spacing:.18em}
+.studio-overview-page .studio-hero-copy h1{
+  font-family:var(--sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-weight:300;
+  letter-spacing:-.045em;
+  line-height:1.18;
+  text-wrap:balance;
+}
+.studio-overview-page .studio-intro-text{
+  font-family:var(--sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-weight:350;
+  letter-spacing:.005em;
+  line-height:1.85;
+  color:#444840;
+}
+.studio-overview-page .studio-entry-links span{
+  font-family:var(--mono), "Helvetica Neue", Arial, sans-serif;
+  font-size:9px;
+  letter-spacing:.08em;
+  color:#92948c;
+  font-variant-numeric:tabular-nums;
+}
+.studio-overview-page .studio-entry-links strong{
+  font-family:var(--sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-weight:400;
+  letter-spacing:.015em;
+  line-height:1.45;
+  color:#343831;
+}
+.studio-overview-page .studio-entry-links i{color:#78816f}
+.studio-overview-page .studio-contact h2{
+  font-family:var(--sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-weight:300;
+  line-height:1.2;
+  letter-spacing:-.045em;
+}
+.studio-overview-page .studio-contact .contact-options span{
+  font-family:var(--mono), "Helvetica Neue", Arial, sans-serif;
+  font-size:9px;
+  letter-spacing:.14em;
+  color:#92948c;
+}
+.studio-overview-page .studio-contact .contact-options strong{
+  font-family:var(--sans), "Helvetica Neue", Arial, sans-serif;
+  font-size:14px;
+  font-weight:400;
+  letter-spacing:.005em;
+  overflow-wrap:anywhere;
+}
+@media(max-width:700px){
+  .studio-overview-page .studio-kicker{font-size:8px;letter-spacing:.14em}
+  .studio-overview-page .studio-hero-copy h1{letter-spacing:-.04em;line-height:1.2}
+  .studio-overview-page .studio-intro-label{font-size:8px;letter-spacing:.13em}
+  .studio-overview-page .studio-intro-text{font-size:16px;line-height:1.9}
+  .studio-overview-page .studio-entry-links strong{font-size:16px;letter-spacing:.01em}
+  .studio-overview-page .studio-contact .contact-options strong{font-size:13px}
+}
