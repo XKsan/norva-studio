@@ -285,3 +285,5 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sage-dark);outline-
  .entry:after{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.03) 58%,rgba(0,0,0,.52) 100%)}
  .entry-brand{left:22px;bottom:max(30px,calc(env(safe-area-inset-bottom) + 12px));font-size:18px;letter-spacing:.15em}
 }
+
+/* Hero image optimization workflow enabled. */
