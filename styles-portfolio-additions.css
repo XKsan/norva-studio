@@ -90,3 +90,7 @@
 .field-note-list article>p:not(.eyebrow){max-width:480px;font-size:12px;line-height:1.9;color:var(--muted);margin:0}
 .field-note-list article>span{display:inline-block;margin-top:20px;font:9px var(--mono);letter-spacing:.12em;color:var(--sage-dark)}
 @media(max-width:700px){.field-index{margin:54px 0 4vh}.field-index a{grid-template-columns:34px 1fr 18px;gap:12px;padding:22px 0}.field-index strong{font-size:18px}.field-note-list{margin-top:48px}.field-note-list article{padding:25px 0}}
+
+/* Do not use generated placeholder SVGs as portfolio imagery. */
+.work-photo,.work-film,.work-ip{background-image:none!important}
+.work-tile:before{display:none!important}
