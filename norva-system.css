@@ -105,3 +105,17 @@ img{display:block;max-width:100%}
  .n-footer{padding:19px 5vw;flex-wrap:wrap}.n-footer span:last-child{width:100%}.n-detail{grid-template-columns:1fr;gap:23px;padding-top:28px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* Small, consistent contact action and compact mobile navigation */
+.n-copy{display:inline-flex;align-items:center;gap:9px;border:0;border-bottom:1px solid var(--line-strong);padding:3px 0 6px;background:transparent;color:var(--soft);font:inherit;font-size:11px;cursor:pointer}
+.n-copy i{font-style:normal;font-size:9px;color:var(--gold)}
+.n-copy:hover{color:var(--gold);border-color:var(--gold)}
+.n-leaving{opacity:.82;transition:opacity .12s ease}
+@media(max-width:520px){
+ .n-top{padding:0 4vw;gap:8px}
+ .n-brand{font-size:10px;letter-spacing:0}
+ .n-brand small{font-size:7px;letter-spacing:.04em}
+ .n-nav{gap:8px}
+ .n-nav a{font-size:9px;letter-spacing:0}
+ .n-nav .n-contact{padding:6px 7px}
+}
