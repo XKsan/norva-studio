@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "assets/images/studio/hero.webp"
+      - ".github/workflows/optimize-studio-hero.yml"
   workflow_dispatch:
 
 permissions:
