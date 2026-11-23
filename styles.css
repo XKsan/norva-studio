@@ -241,3 +241,32 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sage-dark);outline-
   .ant-grid{grid-template-columns:1fr;max-width:320px;margin-inline:auto}
   .ant-card>p{font-size:11px}
 }
+
+/* Minimal brand entrance and studio navigation. */
+.landing{background:#f3f2ed}
+.entry{min-height:100svh;min-height:100dvh;background:#f3f2ed}
+.entry-mark{display:none}
+.entry-copy{top:43%}
+.entry h1{font-size:clamp(34px,6vw,68px);letter-spacing:.13em;margin:20px 0}
+.entry-sub{font-size:10px;letter-spacing:.2em}
+.enter-link{top:auto;bottom:19%;border-color:var(--line);font-size:10px;padding-bottom:13px}
+.entry-foot{left:clamp(20px,5vw,72px);right:clamp(20px,5vw,72px);bottom:22px;font-size:9px;letter-spacing:.08em}
+.studio-entry-links{max-width:760px;margin:clamp(70px,12vh,140px) 0 0}
+.studio-entry-links a{display:grid;grid-template-columns:48px 1fr 24px;align-items:center;gap:16px;padding:25px 0;border-top:1px solid var(--line);transition:padding .25s,color .25s}
+.studio-entry-links a:last-child{border-bottom:1px solid var(--line)}
+.studio-entry-links a:hover{padding-left:10px;color:var(--sage-dark)}
+.studio-entry-links span{font:9px var(--mono);color:var(--muted)}
+.studio-entry-links strong{font-size:clamp(19px,2.4vw,25px);font-weight:350;letter-spacing:-.03em}
+.studio-entry-links i{font-style:normal;color:var(--sage-dark);justify-self:end}
+.studio-contact{margin:clamp(80px,14vh,150px) 0 4vh;padding-top:25px;border-top:1px solid var(--line)}
+.studio-contact h2{font-size:clamp(30px,5vw,54px);font-weight:300;line-height:1.1;letter-spacing:-.055em;margin:25px 0}
+.studio-contact h2 em{font-style:normal;color:var(--sage-dark)}
+@media(max-width:700px){
+ .entry-copy{top:40%}
+ .entry h1{font-size:clamp(32px,9vw,48px);letter-spacing:.1em}
+ .enter-link{bottom:20%}
+ .entry-foot{bottom:18px;font-size:8px;gap:10px}
+ .studio-entry-links{margin-top:64px}
+ .studio-entry-links a{grid-template-columns:32px 1fr 18px;padding:22px 0;gap:12px}
+ .studio-contact{margin-top:82px}
+}
