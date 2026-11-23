@@ -2,9 +2,9 @@
 .work-tile{background-size:cover;background-position:center;isolation:isolate}
 .work-tile:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,38,32,.08),rgba(30,38,32,.48));z-index:-1}
 .work-tile .tile-index,.work-tile .tile-title,.work-tile .tile-open{color:#f3f2eb;text-shadow:0 1px 12px rgba(0,0,0,.16)}
-.work-photo{background-image:url("assets/images/works/photography/01-cover.svg")}
-.work-film{background-image:url("assets/images/works/documentary/01-cover.svg")}
-.work-ip{background-image:url("assets/images/works/ant-matter/key-visual.svg")}
+.work-photo{background-color:#e5e7df}
+.work-film{background-color:#e8e7e1}
+.work-ip{background-color:#e4e5df}
 .portfolio-intro{margin-bottom:5vh}
 .portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:5vh}
 .portfolio-item{display:block;position:relative;overflow:hidden;background:#e2e5de}
