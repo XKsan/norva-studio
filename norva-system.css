@@ -119,3 +119,25 @@ img{display:block;max-width:100%}
  .n-nav a{font-size:9px;letter-spacing:0}
  .n-nav .n-contact{padding:6px 7px}
 }
+/* Compact page history and home navigation */
+.n-top-left{display:flex;align-items:center;gap:17px;min-width:0}
+.n-history-controls{display:flex;align-items:center;gap:4px}
+.n-history-controls button,.n-history-controls a{
+  width:25px;height:25px;display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:50%;background:transparent;
+  color:var(--muted);font:14px/1 Arial,sans-serif;cursor:pointer;
+  transition:color .2s,border-color .2s,background .2s;
+}
+.n-history-controls a{font-size:15px}
+.n-history-controls button:hover,.n-history-controls a:hover{
+  color:var(--gold);border-color:var(--gold);background:var(--surface);
+}
+.n-history-controls button:focus-visible,.n-history-controls a:focus-visible{
+  outline:1px solid var(--gold);outline-offset:3px;
+}
+@media(max-width:520px){
+ .n-top-left{gap:8px}
+ .n-history-controls{gap:2px}
+ .n-history-controls button,.n-history-controls a{width:22px;height:22px;font-size:12px}
+ .n-brand{font-size:12px}
+}

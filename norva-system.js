@@ -10,7 +10,22 @@ document.addEventListener("DOMContentLoaded",()=>{
     const raw=a.getAttribute("href");
     if(map[raw])a.setAttribute("href",map[raw]);
     else if(raw==="index.html")a.setAttribute("href","studio.html");
-    if(a.classList.contains("n-brand"))a.setAttribute("href","studio.html");
+    if(a.classList.contains("n-brand"))a.setAttribute("href","index.html");
+  });
+  document.querySelectorAll(".n-top").forEach(header=>{
+    if(header.querySelector(".n-history-controls"))return;
+    const brand=header.querySelector(".n-brand");
+    if(!brand)return;
+    const group=document.createElement("div");
+    group.className="n-top-left";
+    const controls=document.createElement("div");
+    controls.className="n-history-controls";
+    controls.setAttribute("aria-label","页面历史导航");
+    controls.innerHTML='<button type="button" data-history="back" aria-label="后退" title="后退">←</button><button type="button" data-history="forward" aria-label="前进" title="前进">→</button><a href="index.html" aria-label="返回首页" title="返回首页">⌂</a>';
+    brand.parentNode.insertBefore(group,brand);
+    group.append(controls,brand);
+    controls.querySelector('[data-history="back"]').addEventListener("click",()=>history.back());
+    controls.querySelector('[data-history="forward"]').addEventListener("click",()=>history.forward());
   });
   const current=path.startsWith("service-")?"make.html":
     ["photography.html","documentary.html","antmonologue.html"].includes(path)?"works.html":path;
