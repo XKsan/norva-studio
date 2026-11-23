@@ -417,3 +417,42 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sage-dark);outline-
   .studio-overview-page .studio-entry-links strong{font-size:16px;letter-spacing:.01em}
   .studio-overview-page .studio-contact .contact-options strong{font-size:13px}
 }
+
+
+/* NORVA homepage — editorial entrance, naturally scrollable on mobile and desktop. */
+html:has(body.landing-editorial),body.landing-editorial{min-height:100%;height:auto;overflow-x:hidden;overflow-y:auto;background:#f3f2ed;color:#30332e}
+body.landing-editorial{margin:0}
+.landing-editorial .landing-header{height:76px;padding:0 clamp(22px,5.5vw,84px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(55,62,52,.11)}
+.landing-editorial .landing-wordmark{color:#30332e;text-decoration:none;font:500 12px/1 var(--sans);letter-spacing:.17em;min-height:44px;display:inline-flex;align-items:center}
+.landing-editorial .landing-header-note{font-size:10px;letter-spacing:.08em;color:#85877f}
+.landing-editorial .landing-main{width:min(100% - 2 * clamp(22px,5.5vw,84px),1480px);margin:0 auto}
+.landing-editorial .landing-visual{position:relative;width:100%;height:clamp(420px,66vh,720px);margin:clamp(24px,4vw,54px) auto 0;overflow:hidden;background:#d8d9d1}
+.landing-editorial .landing-photo{display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 56%}
+.landing-editorial .landing-photo-index{position:absolute;left:22px;right:22px;bottom:18px;display:flex;justify-content:space-between;color:rgba(255,255,255,.88);font:9px/1 var(--mono);letter-spacing:.16em;text-shadow:0 1px 8px rgba(0,0,0,.24)}
+.landing-editorial .landing-intro{padding:clamp(48px,7vw,92px) 0 clamp(54px,7vw,90px);max-width:980px}
+.landing-editorial .landing-eyebrow{font:9px/1.5 var(--mono);letter-spacing:.18em;color:#85877f;margin:0 0 24px}
+.landing-editorial .landing-intro h1{font-size:clamp(38px,6.3vw,78px);line-height:1.22;letter-spacing:-.055em;font-weight:300;margin:0;color:#30332e}
+.landing-editorial .mobile-break{display:none}
+.landing-editorial .landing-bottomline{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-top:clamp(28px,4vw,52px);padding-top:22px;border-top:1px solid rgba(55,62,52,.14)}
+.landing-editorial .landing-bottomline p{font-size:12px;line-height:1.9;letter-spacing:.035em;color:#777b72;margin:0}
+.landing-editorial .landing-enter{display:inline-flex;align-items:center;gap:24px;min-height:44px;color:#30332e;text-decoration:none;font:11px/1 var(--mono);letter-spacing:.12em;border-bottom:1px solid #9ba294;padding:0 0 9px}
+.landing-editorial .landing-enter span{font-size:16px;color:#747f70;transition:transform .2s}
+.landing-editorial .landing-enter:hover span{transform:translate(3px,-3px)}
+.landing-editorial .landing-footer{min-height:64px;padding:0 clamp(22px,5.5vw,84px);display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(55,62,52,.11);font:8px/1.5 var(--mono);letter-spacing:.12em;color:#92948c}
+@media(max-width:700px){
+ .landing-editorial .landing-header{height:60px;padding:0 20px}
+ .landing-editorial .landing-wordmark{font-size:11px;letter-spacing:.15em}
+ .landing-editorial .landing-header-note{font-size:9px}
+ .landing-editorial .landing-main{width:calc(100% - 40px)}
+ .landing-editorial .landing-visual{height:clamp(300px,49svh,470px);margin:18px auto 0}
+ .landing-editorial .landing-photo{object-position:45% 68%}
+ .landing-editorial .landing-photo-index{left:14px;right:14px;bottom:13px;font-size:8px}
+ .landing-editorial .landing-intro{padding:42px 0 52px}
+ .landing-editorial .landing-eyebrow{font-size:8px;letter-spacing:.13em;margin-bottom:18px}
+ .landing-editorial .landing-intro h1{font-size:clamp(36px,10vw,48px);line-height:1.3;letter-spacing:-.045em}
+ .landing-editorial .mobile-break{display:block}
+ .landing-editorial .landing-bottomline{align-items:flex-start;flex-direction:column;gap:25px;margin-top:26px;padding-top:17px}
+ .landing-editorial .landing-bottomline p{font-size:11px;line-height:1.9}
+ .landing-editorial .landing-enter{font-size:10px;gap:18px}
+ .landing-editorial .landing-footer{min-height:58px;padding:12px 20px;gap:12px;font-size:7px;letter-spacing:.07em}
+}
