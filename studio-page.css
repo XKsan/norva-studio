@@ -87,3 +87,6 @@
  .studio-footer span:last-child{width:100%}
 }
 @media(prefers-reduced-motion:reduce){.studio-discover{transition:none}}
+.studio-copy{display:flex;align-items:center;gap:14px;padding:0;border:0;background:transparent;color:#e8edf0;font:400 12px var(--sans);cursor:pointer}
+.studio-copy small{color:#718493;font-size:9px}
+.studio-copy:hover{color:#d2b995}
