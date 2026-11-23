@@ -1,0 +1,9 @@
+/* NORVA entry — clean image, typography is a live interface element */
+.norva-entry{height:100svh;min-height:480px;overflow:hidden;background:#091a29}
+.entry-screen{height:100%;width:100%;position:relative;isolation:isolate}
+.entry-screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
+.entry-screen:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(5,17,29,.28),transparent 54%),linear-gradient(0deg,rgba(5,17,29,.16),transparent 32%)}
+.entry-brand{position:absolute;z-index:2;left:5.1%;top:7.2%;display:inline-block;color:rgba(245,248,250,.94);font-family:'Manrope',Arial,sans-serif;font-size:clamp(17px,2vw,27px);font-weight:400;letter-spacing:.105em;line-height:1.2;text-decoration:none;text-shadow:0 1px 18px rgba(0,0,0,.18);transition:color .25s ease,letter-spacing .25s ease}
+.entry-brand:hover{color:#fff;letter-spacing:.14em}
+.entry-brand:focus-visible{outline:1px solid rgba(238,232,218,.8);outline-offset:9px}
+@media(max-width:700px){.entry-brand{left:6%;top:6%;font-size:18px;letter-spacing:.08em}.entry-screen img{object-position:54% center}}
