@@ -41,10 +41,12 @@
 .studio-field-future{margin-left:32%;margin-top:42px}
 .studio-field-status{color:#8398a6}
 .studio-root{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:8%;padding:116px 10% 120px}
-.studio-root-image{position:relative;height:390px;margin:0}
-.studio-root-image:before{content:"";position:absolute;inset:18px -18px -18px 18px;border:1px solid rgba(210,185,149,.28)}
-.studio-root-image img{position:relative;width:100%;height:100%;object-fit:cover;filter:saturate(.65) contrast(1.04)}
-.studio-root-image span{position:absolute;left:16px;bottom:15px;color:#f0f3f4;font:8px var(--mono);letter-spacing:.16em}
+.studio-root-mark{position:relative;height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 58%,rgba(124,155,172,.2),transparent 55%)}
+.studio-root-mark:before,.studio-root-mark:after{content:"";position:absolute;width:270px;height:270px;border:1px solid rgba(210,185,149,.19);border-radius:50%;transform:scaleX(1.45) rotate(-28deg)}
+.studio-root-mark:after{width:330px;height:330px;transform:scaleX(1.45) rotate(28deg);border-color:rgba(210,185,149,.1)}
+.studio-root-mark span,.studio-root-mark i{position:relative;z-index:1;color:#8195a3;font:8px var(--mono);letter-spacing:.25em}
+.studio-root-mark b{position:relative;z-index:1;margin:4px 0;color:rgba(210,185,149,.68);font:150px/.95 serif;font-weight:400}
+.studio-root-mark i{font-style:normal}
 .studio-root-copy h2{margin:20px 0;color:#edf1f3;font-size:clamp(29px,3.5vw,45px);line-height:1.55;letter-spacing:-.06em;font-weight:400}
 .studio-root-copy>p:not(.studio-eyebrow){max-width:420px;margin:0;color:#aebdc7;font-size:11px;line-height:2.25}
 .studio-root-copy>a{display:inline-flex;gap:17px;margin-top:24px;color:#d2b995;font-size:10px}
@@ -85,7 +87,10 @@
  .studio-field-item h3{font-size:19px}
  .studio-field-item>div>p:not(.studio-eyebrow){font-size:10px}
  .studio-root{grid-template-columns:1fr;gap:34px;padding:72px 8% 78px}
- .studio-root-image{height:285px;margin-right:5%}
+ .studio-root-mark{height:260px;margin-right:5%}
+ .studio-root-mark b{font-size:112px}
+ .studio-root-mark:before{width:200px;height:200px}
+ .studio-root-mark:after{width:245px;height:245px}
  .studio-root-copy{padding-left:3%}
  .studio-root-copy h2{font-size:31px}
  .studio-contact{display:block;padding:68px 8% 74px}
