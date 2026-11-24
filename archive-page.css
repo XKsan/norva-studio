@@ -1,0 +1,36 @@
+/* NORVA archive subpages — restrained image-led editorial layout */
+.archive-page{background:#080f18;color:#e8edf0}
+.archive-page .n-wrap{width:min(1180px,89vw)}
+.archive-hero{position:relative;min-height:570px;padding:100px 0 75px;display:flex;align-items:center;overflow:hidden}
+.archive-hero-copy{position:relative;z-index:2;width:53%;padding-left:4%}
+.archive-hero h1{font-size:clamp(39px,6vw,72px);line-height:1.25;letter-spacing:-.06em;font-weight:300;margin:22px 0}
+.archive-hero h1 em{font:italic 400 1em/1.2 Georgia,serif;color:#a9c2d3}
+.archive-hero-copy>p:last-child{max-width:410px;color:#98aab6;font-size:11px;line-height:2.25}
+.archive-visual{position:absolute;right:-2%;top:7%;width:58%;height:88%;overflow:hidden}
+.archive-visual:before{content:"";position:absolute;inset:8% 10%;border-radius:50%;background:radial-gradient(circle at 40% 36%,rgba(191,216,233,.35),rgba(77,111,138,.16) 27%,rgba(12,25,38,.08) 58%,transparent 72%);filter:blur(3px)}
+.archive-visual:after{content:"";position:absolute;left:0;top:38%;width:100%;height:25%;border:1px solid rgba(176,204,224,.2);border-radius:50%;transform:rotate(-24deg);box-shadow:0 0 0 28px rgba(176,204,224,.02),0 0 0 70px rgba(176,204,224,.014)}
+.archive-visual span{position:absolute;left:32%;top:5%;width:38%;height:90%;border:1px solid rgba(176,204,224,.13);border-radius:50%;transform:rotate(33deg)}
+.archive-visual small{position:absolute;z-index:2;right:5%;bottom:7%;font:8px var(--mono);letter-spacing:.16em;color:#71899a}
+.archive-body{padding:52px 4% 95px;border-top:1px solid rgba(211,225,235,.13);display:grid;grid-template-columns:1fr .8fr;gap:10%}
+.archive-body h2{font-size:clamp(24px,3vw,34px);font-weight:300;letter-spacing:-.04em;margin:15px 0 20px}
+.archive-body p{font-size:11px;line-height:2.25;color:#98aab6;margin:0 0 14px;max-width:530px}
+.archive-status{align-self:center;padding:24px 0 24px 25px;border-left:1px solid rgba(176,204,224,.22)}
+.archive-status strong{display:block;font:9px var(--mono);letter-spacing:.14em;color:#a9c2d3;font-weight:400;margin-bottom:13px}
+.archive-status span{font-size:12px;color:#d3dde4}
+.archive-status p{font-size:10px;margin-top:12px}
+.archive-back{display:inline-flex;gap:14px;margin-top:17px;padding-bottom:8px;border-bottom:1px solid rgba(211,225,235,.25);font-size:10px;color:#cbd8e0}
+.archive-back span{color:#a9c2d3}
+.archive-project{padding:30px 4% 80px;border-top:1px solid rgba(211,225,235,.13)}
+.archive-project h2{font-size:clamp(25px,3vw,36px);font-weight:300;margin:14px 0}
+.archive-project p{max-width:560px;font-size:11px;line-height:2.2;color:#98aab6}
+.archive-project a{display:inline-flex;gap:15px;margin-top:12px;padding-bottom:8px;border-bottom:1px solid rgba(211,225,235,.25);font-size:10px}
+@media(max-width:760px){
+ .archive-hero{min-height:550px;padding:88px 0 55px;align-items:flex-start}
+ .archive-hero-copy{width:90%;padding:54px 0 0 2%}
+ .archive-hero h1{font-size:clamp(38px,10vw,55px)}
+ .archive-visual{width:100%;height:55%;top:44%;right:-18%;opacity:.8}
+ .archive-visual small{right:8%;bottom:3%}
+ .archive-body{grid-template-columns:1fr;gap:24px;padding:42px 3% 68px}
+ .archive-status{padding:18px 0 18px 18px}
+ .archive-project{padding:28px 3% 65px}
+}
