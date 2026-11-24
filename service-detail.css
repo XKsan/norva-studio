@@ -1,0 +1,30 @@
+/* NORVA service detail — specification-led, no boxed cards */
+.service-detail-page{background:#080f18;color:#e8edf0}
+.service-detail-page .n-wrap{width:min(1160px,89vw)}
+.service-detail-page .n-page-hero{min-height:365px;padding:92px 0 62px;display:grid;grid-template-columns:1.1fr .9fr;gap:8%;align-items:end;position:relative}
+.service-detail-page .n-page-hero:after{content:"";position:absolute;right:0;top:60px;width:290px;height:290px;border:1px solid rgba(175,204,224,.12);border-radius:50%;box-shadow:0 0 0 35px rgba(175,204,224,.02),0 0 0 75px rgba(175,204,224,.015);pointer-events:none}
+.service-detail-page .n-page-hero>div,.service-detail-page .n-page-hero>p{position:relative;z-index:1}
+.service-detail-page .n-page-hero h1{font-size:clamp(32px,4.6vw,56px);font-weight:300;line-height:1.35;letter-spacing:-.055em}
+.service-detail-page .n-page-hero>p{font-size:11px;line-height:2.2;color:#97aab6;max-width:400px}
+.service-detail-page .n-detail{padding:48px 0 58px;border-top:1px solid rgba(211,225,235,.15);grid-template-columns:1fr 310px;gap:10%}
+.service-detail-page .n-detail-main article{padding:19px 0;border-bottom:1px solid rgba(211,225,235,.12)}
+.service-detail-page .n-detail-main article h2{font:9px var(--mono);letter-spacing:.12em;color:#a9c2d3;margin:0 0 10px}
+.service-detail-page .n-detail-main article p{font-size:11px;line-height:2.15;color:#a2b2bd}
+.service-detail-page .n-detail-aside{background:transparent;border:0;border-left:1px solid rgba(175,204,224,.2);padding:12px 0 12px 26px}
+.service-detail-page .n-detail-aside h2{font-size:14px;font-weight:400;color:#dce5ea;margin:13px 0}
+.service-detail-page .n-detail-aside strong{display:block;font-size:27px;font-weight:300;letter-spacing:-.04em;color:#c5d7e3;white-space:normal}
+.service-detail-page .n-detail-aside p{font-size:10px;line-height:2.1;color:#91a5b2}
+.service-detail-page .n-detail-aside .n-text-link{margin:14px 0}
+.service-detail-page .service-return{padding:0 0 55px}
+.service-detail-page .service-return a{display:inline-flex;gap:14px;border-bottom:1px solid rgba(211,225,235,.25);padding-bottom:8px;font-size:10px;color:#cbd8e0}
+.service-detail-page .service-return a span{color:#a9c2d3}
+.service-detail-page .n-footer{background:#070c13}
+@media(max-width:760px){
+ .service-detail-page .n-page-hero{min-height:0;padding:65px 0 38px;grid-template-columns:1fr;gap:13px}
+ .service-detail-page .n-page-hero:after{width:190px;height:190px;right:-70px;top:35px}
+ .service-detail-page .n-page-hero h1{font-size:34px}
+ .service-detail-page .n-detail{grid-template-columns:1fr;gap:25px;padding:30px 0 42px}
+ .service-detail-page .n-detail-aside{border-left:0;border-top:1px solid rgba(175,204,224,.2);padding:22px 0 0}
+ .service-detail-page .n-detail-aside strong{font-size:25px}
+ .service-detail-page .service-return{padding-bottom:42px}
+}
