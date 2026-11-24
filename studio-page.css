@@ -77,3 +77,6 @@
  .studio-footer{padding:17px 6vw;flex-wrap:wrap}
  .studio-footer span:last-child{width:100%}
 }
+
+.studio-intro-image .studio-visual-core{position:relative;z-index:1;width:38%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 27%,rgba(215,229,238,.72),rgba(126,160,184,.48) 18%,rgba(42,67,88,.55) 48%,rgba(5,12,20,.96) 76%);box-shadow:inset -24px -20px 45px rgba(0,0,0,.75),0 0 70px rgba(142,181,208,.12)}
+@media(max-width:760px){.studio-intro-image .studio-visual-core{width:43%}}
