@@ -86,3 +86,7 @@ body[data-mode=fluid] .workspace:before{background:radial-gradient(ellipse at 50
 @media(prefers-reduced-motion:reduce){
  .planet,.orbit-one,.orbit-two,.orbit-three,.satellite,.install-form,.install-ring,.fluid-ribbon,.object-studio .object-orbit,.object-studio .object-core{animation:none!important}
 }
+
+.visual-stage.is-changing .art{filter:blur(5px);transform:scale(1.025);opacity:0!important}
+.visual-stage .art{transition:opacity .72s ease,filter .72s ease,transform 1s cubic-bezier(.2,.7,.2,1),translate .25s ease}
+.concept-switch button:focus-visible,.menu-trigger:focus-visible,.enter-button:focus-visible,.return-button:focus-visible,.global-menu button:focus-visible,.detail-close:focus-visible{outline:1px solid var(--accent);outline-offset:5px}
