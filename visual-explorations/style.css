@@ -90,3 +90,41 @@ body[data-mode=fluid] .workspace:before{background:radial-gradient(ellipse at 50
 .visual-stage.is-changing .art{filter:blur(5px);transform:scale(1.025);opacity:0!important}
 .visual-stage .art{transition:opacity .72s ease,filter .72s ease,transform 1s cubic-bezier(.2,.7,.2,1),translate .25s ease}
 .concept-switch button:focus-visible,.menu-trigger:focus-visible,.enter-button:focus-visible,.return-button:focus-visible,.global-menu button:focus-visible,.detail-close:focus-visible{outline:1px solid var(--accent);outline-offset:5px}
+
+
+/* V3 typography refinement — quieter, editorial, more spacious */
+.entry-copy .eyebrow{
+  margin-bottom:22px;
+  font-size:8px;
+  letter-spacing:.2em;
+  color:rgba(174,194,211,.72);
+}
+.entry-copy h1{
+  font-family:"Iowan Old Style","Baskerville","Palatino Linotype",Georgia,serif;
+  font-size:clamp(54px,5.8vw,82px);
+  line-height:1.02;
+  letter-spacing:-.045em;
+  font-weight:400;
+  margin:0 0 24px;
+}
+.entry-copy h1 em{
+  font-family:inherit;
+  font-size:.96em;
+  font-style:italic;
+  font-weight:400;
+  letter-spacing:-.035em;
+  color:#bdcbd7;
+}
+.entry-description{
+  font-size:13px;
+  line-height:2.05;
+  letter-spacing:.035em;
+  color:rgba(190,200,211,.78);
+  max-width:300px;
+  margin:0 0 32px;
+}
+@media(max-width:760px){
+  .entry-copy h1{font-size:clamp(48px,11vw,68px);line-height:1.04;margin-bottom:20px}
+  .entry-copy .eyebrow{font-size:7px;letter-spacing:.17em;margin-bottom:18px}
+  .entry-description{font-size:12px;max-width:270px;line-height:1.95}
+}
