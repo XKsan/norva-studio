@@ -1,0 +1,67 @@
+/* NORVA services — editorial space, not a catalogue */
+.make-page{background:#080f18;color:#e9edf0}
+.make-page .n-wrap{width:min(1240px,90vw)}
+.make-page .n-page-hero{min-height:560px;padding:108px 0 90px;position:relative;display:block;overflow:hidden}
+.make-page .n-page-hero:before{content:"";position:absolute;z-index:0;right:2%;top:55px;width:min(46vw,560px);aspect-ratio:1;border:1px solid rgba(180,207,226,.18);border-radius:50%;box-shadow:0 0 0 52px rgba(180,207,226,.025),0 0 0 108px rgba(180,207,226,.018),inset 0 0 80px rgba(130,170,200,.06);background:radial-gradient(circle at 35% 30%,rgba(189,212,228,.28),rgba(65,93,118,.13) 22%,rgba(10,20,31,.08) 54%,transparent 70%)}
+.make-page .n-page-hero:after{content:"";position:absolute;right:-3%;top:42%;width:58vw;height:16vw;border:1px solid rgba(180,207,226,.17);border-radius:50%;transform:rotate(-24deg)}
+.make-page .n-page-hero>div,.make-page .n-page-hero>p{position:relative;z-index:1}
+.make-page .n-page-hero>div{max-width:720px}
+.make-page .n-page-hero .n-kicker{color:#9eb8cb}
+.make-page .n-page-hero h1{font-size:clamp(42px,6.5vw,82px);line-height:1.2;letter-spacing:-.065em;font-weight:300;margin:26px 0 0;max-width:760px}
+.make-page .n-page-hero h1 span{color:#b6cbd9}
+.make-page .n-page-hero>p{max-width:410px;margin:30px 0 0 34%;font-size:12px;line-height:2.15;color:#9caeba}
+.make-page .make-orbit-caption{position:absolute;right:4%;bottom:76px;z-index:2;color:#71899b;font:9px var(--mono);letter-spacing:.16em}
+.make-page .n-section{padding:72px 0 84px;border-top:1px solid rgba(211,225,235,.13)}
+.make-page .n-section-head{align-items:start;margin-bottom:44px}
+.make-page .n-section-head h2{font-size:clamp(25px,3vw,38px);font-weight:300;line-height:1.45}
+.make-page .n-section-note{max-width:330px;font-size:11px}
+.make-page .make-service-list{position:relative;border-top:1px solid rgba(211,225,235,.22)}
+.make-page .make-service-row{position:relative;display:grid;grid-template-columns:70px minmax(0,1fr) 190px 28px;gap:22px;align-items:center;min-height:108px;padding:18px 12px;border-bottom:1px solid rgba(211,225,235,.15);transition:padding .35s,background .35s}
+.make-page .make-service-row:before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:#b6cbd9;transform:scaleY(0);transform-origin:bottom;transition:transform .35s}
+.make-page .make-service-row:hover{padding-left:24px;background:linear-gradient(90deg,rgba(172,202,223,.08),transparent 75%)}
+.make-page .make-service-row:hover:before{transform:scaleY(1)}
+.make-page .make-service-no{font:10px var(--mono);color:#829bad}
+.make-page .make-service-title{font-size:clamp(16px,1.7vw,21px);font-weight:400;letter-spacing:-.025em;color:#e7edf0}
+.make-page .make-service-desc{font-size:10px;line-height:1.9;color:#8fa2af;margin:8px 0 0}
+.make-page .make-service-price{text-align:right;font-size:12px;color:#c5d4de;white-space:nowrap}
+.make-page .make-service-price small{display:block;font:8px var(--mono);letter-spacing:.1em;color:#7d94a4;margin-top:7px}
+.make-page .make-service-arrow{font-size:18px;font-weight:300;color:#9eb8cb;text-align:right;transition:transform .3s}
+.make-page .make-service-row:hover .make-service-arrow{transform:translate(4px,-4px)}
+.make-page .make-terms{display:grid;grid-template-columns:1fr 1fr;gap:8vw;padding:42px 0 0}
+.make-page .make-terms h3{font-size:18px;font-weight:300;color:#dce5ea;margin:0 0 12px}
+.make-page .make-terms p{max-width:460px;font-size:10px;line-height:2.1;color:#879ba9;margin:0}
+.make-page .make-terms .make-terms-index{font:8px var(--mono);letter-spacing:.15em;color:#829bad;margin-bottom:12px}
+.make-page .make-future{position:relative;padding:96px 0 108px;border-top:1px solid rgba(211,225,235,.13);overflow:hidden}
+.make-page .make-future:after{content:"";position:absolute;right:2%;top:15%;width:310px;height:310px;border:1px solid rgba(175,204,224,.1);border-radius:50%;box-shadow:0 0 0 35px rgba(175,204,224,.025),0 0 0 70px rgba(175,204,224,.018)}
+.make-page .make-future-heading{position:relative;z-index:1;max-width:620px;margin-left:14%}
+.make-page .make-future-heading h2{font-size:clamp(30px,4.4vw,52px);font-weight:300;line-height:1.5;letter-spacing:-.055em;color:#e5ebef;margin:18px 0}
+.make-page .make-future-heading h2 em{font-family:Georgia,serif;font-weight:400;color:#a9c0d0}
+.make-page .make-future-heading>p:last-child{font-size:11px;line-height:2.1;color:#91a5b2;max-width:420px}
+.make-page .make-future-lines{position:relative;z-index:1;display:flex;gap:clamp(22px,5vw,70px);margin:54px 0 0 14%;padding-top:22px;border-top:1px solid rgba(211,225,235,.13);max-width:780px}
+.make-page .make-future-lines span{font:9px var(--mono);letter-spacing:.12em;color:#8da3b2}
+.make-page .n-contact-block{border-top:1px solid rgba(211,225,235,.13)}
+.make-page .n-footer{background:#070c13}
+@media(max-width:760px){
+ .make-page .n-page-hero{min-height:510px;padding:92px 0 66px}
+ .make-page .n-page-hero:before{width:78vw;right:-24%;top:120px}
+ .make-page .n-page-hero:after{width:100vw;height:30vw;right:-35%;top:47%}
+ .make-page .n-page-hero h1{font-size:clamp(38px,10vw,58px)}
+ .make-page .n-page-hero>p{margin:35px 0 0 12%;max-width:320px}
+ .make-page .make-orbit-caption{right:2%;bottom:36px;font-size:7px}
+ .make-page .n-section{padding:55px 0 62px}
+ .make-page .n-section-head{display:block;margin-bottom:30px}
+ .make-page .n-section-note{margin-top:16px}
+ .make-page .make-service-row{grid-template-columns:30px minmax(0,1fr) 22px;gap:9px;min-height:104px;padding:16px 4px}
+ .make-page .make-service-title{font-size:16px}
+ .make-page .make-service-desc{font-size:9px;max-width:280px}
+ .make-page .make-service-price{grid-column:2;text-align:left;font-size:11px;margin-top:2px}
+ .make-page .make-service-price small{display:inline;margin-left:8px}
+ .make-page .make-service-arrow{grid-column:3;grid-row:1/3}
+ .make-page .make-terms{grid-template-columns:1fr;gap:28px;padding-top:34px}
+ .make-page .make-future{padding:70px 0 76px}
+ .make-page .make-future:after{width:200px;height:200px;right:-100px;top:10%}
+ .make-page .make-future-heading,.make-page .make-future-lines{margin-left:5%}
+ .make-page .make-future-heading h2{font-size:31px}
+ .make-page .make-future-lines{gap:18px;flex-wrap:wrap;margin-top:36px}
+ .make-page .make-future-lines span{font-size:8px}
+}
