@@ -15,3 +15,74 @@ body[data-mode=installation]{--accent:#c2b7a4}body[data-mode=installation] .entr
 body[data-mode=fluid]{--accent:#a8c9d8}body[data-mode=fluid] .entry{background:radial-gradient(ellipse at 67% 49%,rgba(52,95,119,.24),transparent 42%),#07121b}body[data-mode=fluid] .entry-copy{top:37%}body[data-mode=fluid] .entry-copy h1{font-size:clamp(62px,7.4vw,108px)}body[data-mode=fluid] .scene-object-main{left:20%;top:16%}body[data-mode=fluid] .scene-object-service{left:45%;top:43%}body[data-mode=fluid] .scene-object-works{right:10%;top:17%}body[data-mode=fluid] .scene-object-contact{right:38%;top:73%}
 @media(max-width:760px){.topline{height:64px;padding:0 22px}.edition{display:none}.entry{min-height:740px;padding:64px 22px 52px}.concept-switch{left:22px;right:22px;top:91px;gap:13px;flex-wrap:wrap}.concept-switch button{font-size:8px}.entry-copy{left:24px;top:29%;width:82%;max-width:none}.entry-copy h1{font-size:clamp(64px,16vw,94px)}.entry-description{font-size:12px;max-width:260px}.visual-stage{inset:25% -22% 8% 16%;opacity:.72}.planet{width:66vw;left:57%;top:47%}.orbit-one{width:94vw;height:36vw;left:57%;top:47%}.orbit-two{width:80vw;height:54vw;left:57%;top:47%}.orbit-three{width:110vw;height:70vw;left:57%;top:47%}.install-form{width:38vw;height:54vw;left:63%;top:49%}.install-ring{width:68vw;height:27vw;left:63%;top:49%}.install-fragment{width:17vw;height:17vw;left:28%;top:34%}.fluid-ribbon{width:100vw;height:29vw;left:60%;top:48%}.ribbon-one{height:20vw}.ribbon-two{width:84vw;height:46vw}.ribbon-three{width:70vw;height:62vw}.fluid-glow{width:42vw;height:42vw;left:62%;top:48%}.entry-foot{left:22px;right:22px;font-size:7px}.stage-index{right:22px;bottom:62px}.workspace{padding:94px 22px 36px}.workspace-scene{height:580px;min-height:0;margin-top:30px}.scene-object-main{left:35%;top:7%}.scene-object-service{left:0;top:39%}.scene-object-works{right:0;top:40%}.scene-object-contact{right:33%;top:72%}.object-visual{width:112px;height:112px;transform:scale(.82)}.object-caption strong{font-size:12px}.scene-note{font-size:8px;bottom:0}.workspace-bottom{align-items:flex-start;gap:20px}.workspace-bottom p{max-width:62%;line-height:1.8}.detail-panel{padding:19vh 28px 50px}.detail-meta{left:28px}.prototype-footer{padding:16px 22px;gap:20px;font-size:7px}.prototype-footer span:last-child{text-align:right}.global-menu{right:16px;top:58px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+
+/* V2 — spatial depth, quieter typography, responsive motion */
+.entry{isolation:isolate}
+.entry:before{content:"";position:absolute;z-index:0;inset:0;pointer-events:none;opacity:.52;background-image:radial-gradient(1px 1px at 12% 24%,rgba(220,235,248,.72) 50%,transparent 100%),radial-gradient(1px 1px at 27% 73%,rgba(220,235,248,.55) 50%,transparent 100%),radial-gradient(1px 1px at 43% 18%,rgba(220,235,248,.5) 50%,transparent 100%),radial-gradient(1px 1px at 82% 19%,rgba(220,235,248,.55) 50%,transparent 100%),radial-gradient(1px 1px at 91% 68%,rgba(220,235,248,.6) 50%,transparent 100%),radial-gradient(1px 1px at 69% 84%,rgba(220,235,248,.4) 50%,transparent 100%);background-size:100% 100%}
+.entry:after{content:"N / 01";position:absolute;z-index:2;right:5.2vw;top:48%;writing-mode:vertical-rl;font:8px var(--mono);letter-spacing:.28em;color:rgba(174,195,213,.34)}
+.entry-copy{transform:translate3d(var(--copy-x,0),var(--copy-y,0),0);transition:transform .4s ease}
+.entry-copy h1{position:relative;text-shadow:0 12px 48px rgba(0,0,0,.22)}
+.entry-copy h1 em{display:inline-block;transform:translateX(.035em)}
+.visual-stage{perspective:1100px}
+.visual-stage:before{content:"";position:absolute;inset:8% 5% 12% 10%;border:1px solid rgba(182,207,228,.055);border-radius:50%;transform:rotate(-18deg) scaleY(.58);pointer-events:none}
+.visual-stage:after{content:"";position:absolute;left:15%;right:4%;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(185,210,230,.09),transparent);pointer-events:none}
+.planet{animation:planet-breathe 9s ease-in-out infinite;will-change:transform}
+.orbit-one{animation:orbit-drift 28s linear infinite}
+.orbit-two{animation:orbit-drift 42s linear infinite reverse}
+.orbit-three{animation:orbit-drift 58s linear infinite}
+.satellite{animation:satellite-pulse 4s ease-in-out infinite}
+@keyframes planet-breathe{0%,100%{filter:brightness(.94);transform:translate(-50%,-50%) scale(1)}50%{filter:brightness(1.08);transform:translate(-50%,-50%) scale(1.018)}}
+@keyframes orbit-drift{from{rotate:0deg}to{rotate:360deg}}
+@keyframes satellite-pulse{0%,100%{opacity:.65;box-shadow:0 0 18px 5px rgba(172,209,236,.2)}50%{opacity:1;box-shadow:0 0 30px 10px rgba(172,209,236,.36)}}
+.install-form{animation:install-float 11s ease-in-out infinite}
+.install-ring{animation:ring-turn 24s linear infinite}
+@keyframes install-float{0%,100%{translate:0 0}50%{translate:0 -12px}}
+@keyframes ring-turn{from{rotate:0deg}to{rotate:360deg}}
+.fluid-ribbon{animation:ribbon-breathe 12s ease-in-out infinite}
+.ribbon-two{animation-delay:-4s}.ribbon-three{animation-delay:-8s}
+@keyframes ribbon-breathe{0%,100%{scale:1;opacity:.68}50%{scale:1.035;opacity:1}}
+.concept-switch button{transition:color .35s,transform .35s}
+.concept-switch button:hover{color:#fff;transform:translateY(-2px)}
+.concept-switch button.active span{color:var(--accent)}
+.stage-index{font-size:9px}
+.enter-button{transition:padding .35s,border-color .35s}
+.enter-button:hover{padding-right:10px;border-color:var(--accent)}
+.workspace{isolation:isolate}
+.workspace:before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 48%,rgba(106,145,178,.09),transparent 40%),linear-gradient(180deg,transparent 65%,rgba(2,5,9,.28))}
+.workspace:after{content:"";position:absolute;z-index:-1;left:50%;top:16%;height:68%;width:1px;background:linear-gradient(transparent,rgba(177,202,223,.1),transparent)}
+.workspace-scene{perspective:1000px}
+.scene-object{transform-style:preserve-3d;will-change:transform}
+.scene-object:before{content:"";position:absolute;z-index:-1;left:50%;top:48%;width:190px;height:190px;transform:translate(-50%,-50%);border:1px solid rgba(171,198,221,.08);border-radius:50%;opacity:.55;transition:scale .5s,opacity .5s}
+.scene-object:hover:before{scale:1.16;opacity:.95}
+.scene-object:after{content:"";position:absolute;left:50%;top:48%;width:4px;height:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px 4px color-mix(in srgb,var(--accent) 35%,transparent);opacity:.55}
+.object-visual{filter:drop-shadow(0 18px 35px rgba(0,0,0,.25))}
+.object-studio .object-orbit{animation:orbit-drift 34s linear infinite}
+.object-studio .object-core{animation:planet-breathe 8s ease-in-out infinite}
+.object-services .service-slab{position:relative}
+.object-services .service-slab:after{content:"";position:absolute;inset:12px 9px;border:1px solid rgba(231,240,247,.22);transform:translateZ(8px)}
+.object-works .work-frame{backdrop-filter:blur(8px)}
+.object-contact .object-visual{transition:background .35s,box-shadow .35s,transform .35s}
+.scene-object-contact:hover .object-visual{background:rgba(168,201,224,.07);box-shadow:0 0 45px rgba(168,201,224,.12)}
+.object-caption{position:relative;padding-left:2px}
+.object-caption:before{content:"";position:absolute;left:-15px;top:4px;width:7px;height:1px;background:var(--accent);opacity:.7}
+.scene-note{max-width:190px}
+.detail-panel{box-shadow:-30px 0 100px rgba(0,0,0,.2)}
+.detail-panel h2{max-width:340px}
+.detail-panel .eyebrow{letter-spacing:.2em}
+.prototype-footer{position:relative;z-index:2}
+body[data-mode=installation] .entry:after{color:rgba(202,193,177,.38)}
+body[data-mode=fluid] .entry:after{color:rgba(168,201,216,.4)}
+body[data-mode=installation] .workspace:before{background:radial-gradient(ellipse at 50% 48%,rgba(157,145,124,.08),transparent 40%)}
+body[data-mode=fluid] .workspace:before{background:radial-gradient(ellipse at 50% 48%,rgba(88,150,174,.1),transparent 40%)}
+@media(max-width:760px){
+ .entry:after{right:22px;top:45%;font-size:7px}
+ .entry-copy{transform:none}
+ .visual-stage:before{inset:14% 0 12% 0}
+ .workspace:after{left:50%;top:10%;height:80%}
+ .scene-object:before{width:140px;height:140px}
+ .scene-object:after{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .planet,.orbit-one,.orbit-two,.orbit-three,.satellite,.install-form,.install-ring,.fluid-ribbon,.object-studio .object-orbit,.object-studio .object-core{animation:none!important}
+}
