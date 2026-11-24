@@ -25,3 +25,54 @@ menuButton.addEventListener("click",()=>toggleMenu(!menu.classList.contains("ope
 menu.querySelectorAll("[data-section]").forEach(b=>b.addEventListener("click",()=>{if(body.dataset.view==="entry"){entry.style.display="none";workspace.classList.add("active");body.dataset.view="space";}toggleMenu(false);openDetail(b.dataset.section);}));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){panel.classList.remove("open");toggleMenu(false);}});
 setMode("cosmic");
+
+
+// V2 interaction layer: restrained parallax, deliberate transitions, keyboard access.
+const stage=document.querySelector(".visual-stage");
+let pointerFrame=0;
+function moveSpace(event){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const rect=stage.getBoundingClientRect();
+  const nx=(event.clientX-rect.left)/rect.width-.5;
+  const ny=(event.clientY-rect.top)/rect.height-.5;
+  if(pointerFrame)cancelAnimationFrame(pointerFrame);
+  pointerFrame=requestAnimationFrame(()=>{
+    stage.style.setProperty("--pointer-x",(nx*13).toFixed(2)+"px");
+    stage.style.setProperty("--pointer-y",(ny*10).toFixed(2)+"px");
+    const copy=document.querySelector(".entry-copy");
+    copy.style.setProperty("--copy-x",(-nx*5).toFixed(2)+"px");
+    copy.style.setProperty("--copy-y",(-ny*4).toFixed(2)+"px");
+    document.querySelectorAll(".art").forEach((art,i)=>{
+      art.style.translate=(nx*(i+1)*3).toFixed(2)+"px "+(ny*(i+1)*2).toFixed(2)+"px";
+    });
+  });
+}
+if(window.matchMedia("(hover: hover) and (pointer: fine)").matches){
+  document.querySelector(".entry").addEventListener("pointermove",moveSpace,{passive:true});
+  document.querySelector(".entry").addEventListener("pointerleave",()=>{
+    stage.style.removeProperty("--pointer-x");stage.style.removeProperty("--pointer-y");
+    document.querySelector(".entry-copy").style.setProperty("--copy-x","0px");
+    document.querySelector(".entry-copy").style.setProperty("--copy-y","0px");
+    document.querySelectorAll(".art").forEach(art=>art.style.translate="0 0");
+  });
+}
+const originalSetMode=setMode;
+setMode=function(mode){
+  const changed=body.dataset.mode!==mode;
+  if(changed){
+    stage.classList.add("is-changing");
+    window.setTimeout(()=>stage.classList.remove("is-changing"),720);
+  }
+  originalSetMode(mode);
+  modeButtons.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mode===mode)));
+};
+document.addEventListener("keydown",event=>{
+  if(event.altKey||event.ctrlKey||event.metaKey)return;
+  if(event.target.matches("input,textarea,select"))return;
+  if(event.key==="1")setMode("cosmic");
+  if(event.key==="2")setMode("installation");
+  if(event.key==="3")setMode("fluid");
+});
+document.querySelector(".detail-panel").addEventListener("click",event=>{
+  if(event.target===panel)panel.classList.remove("open");
+});
