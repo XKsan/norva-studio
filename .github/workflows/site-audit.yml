@@ -85,8 +85,7 @@ jobs:
                     else if(target.hash) {
                       const html = await response.text();
                       const id = decodeURIComponent(target.hash.slice(1));
-                      const escaped = id.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-                      if(!new RegExp('(?:id|name)=["\\']'+escaped+'["\\']').test(html)) report.brokenLinks.push({from:path,href,status:'missing anchor'});
+            if(!html.includes('id="'+id+'"')&&!html.includes("id='"+id+"'")&&!html.includes('name="'+id+'"')&&!html.includes("name='"+id+"'")) report.brokenLinks.push({from:path,href,status:'missing anchor'});
                     }
                   }
                 }
