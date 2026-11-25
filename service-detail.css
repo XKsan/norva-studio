@@ -126,3 +126,63 @@ body.service-detail-page .n-page-hero{overflow:hidden}
  .service-detail-page.service-document-md .n-page-hero:after{width:62px;height:76px;right:28px;top:8px}
  .service-detail-page.service-document-md .n-page-hero:before{width:24px;height:2px;right:42px;top:22px;box-shadow:0 12px 0 rgba(175,204,224,.28),0 24px 0 rgba(175,204,224,.22),0 36px 0 rgba(175,204,224,.16)}
 }
+
+
+/* Service-specific information architecture: each offer gets its own reading rhythm */
+.service-detail-page.service-short-video .n-detail{grid-template-columns:1.25fr .75fr;gap:7%}
+.service-detail-page.service-short-video .n-detail-main article:first-child{border-top:1px solid rgba(211,225,235,.12)}
+.service-detail-page.service-short-video .n-detail-aside{align-self:start;position:sticky;top:34px}
+
+.service-detail-page.service-long-video .n-detail{grid-template-columns:1fr 270px;gap:6%}
+.service-detail-page.service-long-video .n-detail-main{display:grid;grid-template-columns:1fr 1fr;column-gap:34px;align-content:start}
+.service-detail-page.service-long-video .n-detail-main article:nth-child(1),
+.service-detail-page.service-long-video .n-detail-main article:nth-child(2){border-top:1px solid rgba(211,225,235,.12)}
+.service-detail-page.service-long-video .n-detail-main article:nth-child(4){grid-column:1/-1}
+
+.service-detail-page.service-course-video .n-detail{grid-template-columns:1fr 330px;gap:9%}
+.service-detail-page.service-course-video .n-detail-main article{display:grid;grid-template-columns:112px 1fr;gap:18px;align-items:start}
+.service-detail-page.service-course-video .n-detail-main article h2{padding-top:3px}
+.service-detail-page.service-course-video .n-detail-main article p{margin:0}
+
+.service-detail-page.service-subtitles .n-detail{grid-template-columns:1fr 290px;gap:8%}
+.service-detail-page.service-subtitles .n-detail-main article{display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:start}
+.service-detail-page.service-subtitles .n-detail-main article h2{margin:3px 0 0}
+.service-detail-page.service-subtitles .n-detail-main article p{margin:0}
+
+.service-detail-page.service-ai-voice .n-detail{grid-template-columns:.85fr 1.15fr;gap:9%}
+.service-detail-page.service-ai-voice .n-detail-aside{grid-column:1;grid-row:1;border-left:0;border-right:1px solid rgba(175,204,224,.2);padding:12px 26px 12px 0}
+.service-detail-page.service-ai-voice .n-detail-main{grid-column:2;grid-row:1}
+
+.service-detail-page.service-audio-post .n-detail{grid-template-columns:1fr 310px;gap:8%}
+.service-detail-page.service-audio-post .n-detail-main{display:grid;grid-template-columns:1fr 1fr;column-gap:30px}
+.service-detail-page.service-audio-post .n-detail-main article:nth-child(1),
+.service-detail-page.service-audio-post .n-detail-main article:nth-child(2){border-top:1px solid rgba(211,225,235,.12)}
+.service-detail-page.service-audio-post .n-detail-main article:nth-child(3){grid-column:1/-1}
+
+.service-detail-page.service-document-md .n-detail{grid-template-columns:290px 1fr;gap:8%}
+.service-detail-page.service-document-md .n-detail-aside{grid-column:1;grid-row:1;border-left:0;border-right:1px solid rgba(175,204,224,.2);padding:12px 26px 12px 0}
+.service-detail-page.service-document-md .n-detail-main{grid-column:2;grid-row:1}
+.service-detail-page.service-document-md .n-detail-main article:first-child{border-top:1px solid rgba(211,225,235,.12)}
+
+@media(max-width:760px){
+ .service-detail-page.service-short-video .n-detail,
+ .service-detail-page.service-long-video .n-detail,
+ .service-detail-page.service-course-video .n-detail,
+ .service-detail-page.service-subtitles .n-detail,
+ .service-detail-page.service-ai-voice .n-detail,
+ .service-detail-page.service-audio-post .n-detail,
+ .service-detail-page.service-document-md .n-detail{display:grid;grid-template-columns:1fr;gap:25px}
+ .service-detail-page.service-short-video .n-detail-aside{position:static}
+ .service-detail-page.service-long-video .n-detail-main,
+ .service-detail-page.service-audio-post .n-detail-main{display:block}
+ .service-detail-page.service-long-video .n-detail-main article:nth-child(4),
+ .service-detail-page.service-audio-post .n-detail-main article:nth-child(3){grid-column:auto}
+ .service-detail-page.service-course-video .n-detail-main article{grid-template-columns:1fr;gap:7px}
+ .service-detail-page.service-subtitles .n-detail-main article{grid-template-columns:1fr;gap:7px}
+ .service-detail-page.service-ai-voice .n-detail-aside,
+ .service-detail-page.service-ai-voice .n-detail-main,
+ .service-detail-page.service-document-md .n-detail-aside,
+ .service-detail-page.service-document-md .n-detail-main{grid-column:auto;grid-row:auto}
+ .service-detail-page.service-ai-voice .n-detail-aside,
+ .service-detail-page.service-document-md .n-detail-aside{border-right:0;border-top:1px solid rgba(175,204,224,.2);padding:22px 0 0}
+}
