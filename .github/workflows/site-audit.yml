@@ -11,6 +11,9 @@ on:
       - "**/*.css"
       - "assets/**"
   workflow_dispatch:
+concurrency:
+  group: norva-site-audit-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
   actions: read
