@@ -102,7 +102,7 @@ jobs:
           }
           await browser.close();
           fs.writeFileSync('audit-output/report.json',JSON.stringify(report,null,2));
-          console.log(JSON.stringify({pages:report.pages.map(p=>({path:p.path,title:p.title,overflow:p.viewports.filter(v=>v.horizontalOverflow).map(v=>v.width),pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,failedRequests:p.failedRequests,images:p.viewports[0]?.images?.length??0,media:p.viewports[0]?.media?.length??0})),brokenLinks:report.brokenLinks},null,2));
+          console.log(JSON.stringify({pages:report.pages.map(p=>({path:p.path,title:p.title,overflow:p.viewports.filter(v=>v.horizontalOverflow).map(v=>({width:v.width,nodes:v.overflowNodes})),pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,failedRequests:p.failedRequests,images:p.viewports[0]?.images??[],media:p.viewports[0]?.media??[]})),brokenLinks:report.brokenLinks},null,2));
           if(report.brokenLinks.length || report.pages.some(p=>p.pageErrors.length || p.viewports.some(v=>v.horizontalOverflow))) process.exitCode=1;
           EOF
           node audit-run.mjs
