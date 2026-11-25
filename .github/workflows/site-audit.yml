@@ -79,11 +79,12 @@ jobs:
                 }
                 if(width===1440 && path==='archive.html') {
                   await page.locator('[data-filter="place"]').click();
-                  const visible=await page.locator('[data-category]:visible').count();
-                  const matching=await page.locator('[data-category="place"]:visible').count();
-                  if(visible!==matching || visible===0) item.pageErrors.push('Archive category filter failed');
+                  const filtered=await page.locator('[data-category]').evaluateAll(items=>items.map(el=>({category:el.dataset.category,hidden:el.hidden})));
+                  const visible=filtered.filter(x=>!x.hidden);
+                  if(visible.length!==2 || visible.some(x=>x.category!=='place')) item.pageErrors.push('Archive category filter failed: '+JSON.stringify(filtered));
                   await page.locator('[data-filter="all"]').click();
-                  if(await page.locator('[data-category]:visible').count()!==4) item.pageErrors.push('Archive all-filter reset failed');
+                  const hiddenAfterReset=await page.locator('[data-category]').evaluateAll(items=>items.filter(el=>el.hidden).length);
+                  if(hiddenAfterReset!==0) item.pageErrors.push('Archive all-filter reset failed');
                 }
                 const state = await page.evaluate(() => ({
                   title:document.title, lang:document.documentElement.lang,
