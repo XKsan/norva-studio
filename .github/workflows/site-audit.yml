@@ -7,7 +7,8 @@ on:
       - ".github/workflows/site-audit.yml"
       - "audit/**"
       - "*.html"
-      - "*-page.css"
+      - "*.css"
+      - "**/*.css"
       - "assets/**"
   workflow_dispatch:
 permissions:
