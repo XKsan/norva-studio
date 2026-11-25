@@ -99,6 +99,59 @@
       "license": "Pexels License (verify at download)",
       "resolution": "5899x3933",
       "notes": "Wide panoramic lake landscape."
+    },
+    {
+      "role": "documentary_video_landscape",
+      "title": "Aerial Footage Of River Surrounded By Mountains",
+      "creator": "Mike Sangma",
+      "source_url": "https://www.pexels.com/video/aerial-footage-of-river-surrounded-by-mountains-3627564/",
+      "media_url": "https://videos.pexels.com/video-files/3627564/3627564-hd_2048_1024_25fps.mp4",
+      "license": "Pexels License (free download page verified)",
+      "format": "MP4 2048x1024 25fps 27s",
+      "notes": "Playable temporary landscape video study; not NORVA original footage."
+    },
+    {
+      "role": "documentary_video_portrait",
+      "title": "Scenic Himalayan Winter Landscape Aerial",
+      "creator": "Rohan Shah",
+      "source_url": "https://www.pexels.com/video/scenic-himalayan-winter-landscape-aerial-35060645/",
+      "media_url": "https://videos.pexels.com/video-files/35060645/14851934_1080_1920_30fps.mp4",
+      "license": "Pexels License (free download page verified)",
+      "format": "MP4 1080x1920 29.97fps 13s",
+      "notes": "Playable temporary vertical video study; not NORVA original footage."
+    },
+    {
+      "role": "antmonologue_city_reflection",
+      "title": "Reflection in Window of People Walking on Street",
+      "creator": "Mathias Reding",
+      "source_url": "https://www.pexels.com/photo/reflection-in-window-of-people-walking-on-street-13532883/",
+      "license": "Pexels License (free download page verified)",
+      "resolution": "6039x4027",
+      "notes": "Temporary visual reference for urban observation concept; not an actual antmonologue frame."
+    },
+    {
+      "role": "antmonologue_urban_archway",
+      "title": "Urban Scene with Person and Reflection in Window",
+      "creator": "JUNLIN ZOU",
+      "source_url": "https://www.pexels.com/photo/urban-scene-with-person-and-reflection-in-window-33141621/",
+      "license": "Pexels License (free download page verified)",
+      "notes": "Temporary visual reference for everyday city details; not an actual antmonologue frame."
+    },
+    {
+      "role": "antmonologue_mirror_reflection",
+      "title": "Street Scene with Reflections in Urban Mirror Display",
+      "creator": "Othmane Ettalbi",
+      "source_url": "https://www.pexels.com/photo/street-scene-with-reflections-in-urban-mirror-display-36507405/",
+      "license": "Pexels License (free download page verified)",
+      "resolution": "3635x4544",
+      "notes": "Temporary visual reference for reflection and observation theme; not an actual antmonologue frame."
     }
-  ]
+  ],
+  "site_integration_status": {
+    "photography": "integrated_remote_pexels_image_sequence",
+    "documentary": "integrated_remote_pexels_mp4_video_players",
+    "antmonologue": "integrated_remote_pexels_image_sequence",
+    "works_index": "integrated_remote_pexels_visual_previews",
+    "note": "Remote Pexels CDN references are used temporarily. Local WebP/MP4 optimization and mainland-China access testing remain required before launch."
+  }
 }
