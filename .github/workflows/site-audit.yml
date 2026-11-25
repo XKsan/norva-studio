@@ -37,7 +37,7 @@ jobs:
           import fs from 'node:fs';
           const pages = [
             'index.html','studio.html','make.html','works.html',
-            'photography.html','documentary.html','antmonologue.html',
+            'photography.html','documentary.html','antmonologue.html','ant-matter.html',
             'service-short-video.html','service-long-video.html',
             'service-course-video.html','service-subtitles.html',
             'service-ai-voice.html','service-audio-post.html',
@@ -66,7 +66,10 @@ jobs:
                   width:innerWidth,
                   scrollWidth:document.documentElement.scrollWidth,
                   bodyWidth:document.body.scrollWidth,
-                  height:document.documentElement.scrollHeight
+                  height:document.documentElement.scrollHeight,
+        overflowNodes:Array.from(document.querySelectorAll('body *')).map(el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),position:s.position,overflowX:s.overflowX};}).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,20),
+        images:Array.from(document.images).map(img=>({src:img.currentSrc||img.src,loaded:img.complete&&img.naturalWidth>0,naturalWidth:img.naturalWidth,alt:img.alt})),
+        media:Array.from(document.querySelectorAll('video,iframe')).map(el=>({tag:el.tagName,src:el.src||el.getAttribute('src')||'',title:el.title||''}))
                 }));
                 item.title = state.title;
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
