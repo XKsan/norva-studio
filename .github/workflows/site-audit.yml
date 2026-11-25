@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - audit/site-quality-2026-11-25
+      - redesign/norva-world-v1
     paths:
       - ".github/workflows/site-audit.yml"
       - "audit/**"
@@ -44,7 +45,7 @@ jobs:
           import { chromium } from 'playwright';
           import fs from 'node:fs';
           const pages = [
-            'index.html','studio.html','make.html','works.html',
+            'index.html','studio.html','make.html','works.html','experiments.html','archive.html','contact.html',
             'photography.html','documentary.html','antmonologue.html','ant-matter.html',
             'service-short-video.html','service-long-video.html',
             'service-course-video.html','service-subtitles.html',
