@@ -5,6 +5,10 @@ on:
       - audit/site-quality-2026-11-25
     paths:
       - ".github/workflows/site-audit.yml"
+      - "audit/**"
+      - "*.html"
+      - "*-page.css"
+      - "assets/**"
   workflow_dispatch:
 permissions:
   contents: read
@@ -12,7 +16,7 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -56,26 +60,23 @@ jobs:
               const url = report.base + path;
               try {
                 await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
-                await page.waitForTimeout(900);
+                await page.waitForTimeout(700);
                 const state = await page.evaluate(() => ({
-                  title:document.title,
-                  lang:document.documentElement.lang,
+                  title:document.title, lang:document.documentElement.lang,
                   viewport:document.querySelector('meta[name="viewport"]')?.content || null,
-                  h1:document.querySelectorAll('h1').length,
-                  main:document.querySelectorAll('main').length,
-                  width:innerWidth,
-                  scrollWidth:document.documentElement.scrollWidth,
-                  bodyWidth:document.body.scrollWidth,
-                  height:document.documentElement.scrollHeight,
-        overflowNodes:Array.from(document.querySelectorAll('body *')).map(el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),position:s.position,overflowX:s.overflowX};}).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,20),
-        images:Array.from(document.images).map(img=>({src:img.currentSrc||img.src,loaded:img.complete&&img.naturalWidth>0,naturalWidth:img.naturalWidth,alt:img.alt})),
-        media:Array.from(document.querySelectorAll('video,iframe')).map(el=>({tag:el.tagName,src:el.src||el.getAttribute('src')||'',title:el.title||''}))
+                  h1:document.querySelectorAll('h1').length, main:document.querySelectorAll('main').length,
+                  width:innerWidth, scrollWidth:document.documentElement.scrollWidth,
+                  bodyWidth:document.body.scrollWidth, height:document.documentElement.scrollHeight,
+                  overflowNodes:Array.from(document.querySelectorAll('body *')).map(el=>{
+                    const r=el.getBoundingClientRect(),s=getComputedStyle(el);
+                    return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),position:s.position};
+                  }).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,20),
+                  images:Array.from(document.images).map(img=>({src:img.currentSrc||img.src,loaded:img.complete&&img.naturalWidth>0,naturalWidth:img.naturalWidth,alt:img.alt})),
+                  media:Array.from(document.querySelectorAll('video,iframe')).map(el=>({tag:el.tagName,src:el.src||el.getAttribute('src')||'',title:el.title||''}))
                 }));
                 item.title = state.title;
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
-                if(width===1440 || width===390) {
-                  await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
-                }
+                if(width===1440 || width===390) await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 if(width===1440) {
                   const links = await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')).filter(Boolean));
                   for(const href of links) {
@@ -86,22 +87,18 @@ jobs:
                     const response = await page.request.get(target.origin+targetPath,{timeout:15000}).catch(()=>null);
                     if(!response || !response.ok()) report.brokenLinks.push({from:path,href,status:response?.status()??'request failed'});
                     else if(target.hash) {
-                      const html = await response.text();
-                      const id = decodeURIComponent(target.hash.slice(1));
-            if(!html.includes('id="'+id+'"')&&!html.includes("id='"+id+"'")&&!html.includes('name="'+id+'"')&&!html.includes("name='"+id+"'")) report.brokenLinks.push({from:path,href,status:'missing anchor'});
+                      const html = await response.text(), id = decodeURIComponent(target.hash.slice(1));
+                      if(!html.includes('id="'+id+'"')&&!html.includes("id='"+id+"'")&&!html.includes('name="'+id+'"')&&!html.includes("name='"+id+"'")) report.brokenLinks.push({from:path,href,status:'missing anchor'});
                     }
                   }
                 }
-              } catch(e) {
-                item.pageErrors.push('Navigation '+width+': '+String(e));
-              }
+              } catch(e) { item.pageErrors.push('Navigation '+width+': '+String(e)); }
             }
-            await page.close();
-            report.pages.push(item);
+            await page.close(); report.pages.push(item);
           }
           await browser.close();
           fs.writeFileSync('audit-output/report.json',JSON.stringify(report,null,2));
-          console.log(JSON.stringify({pages:report.pages.map(p=>({path:p.path,title:p.title,overflow:p.viewports.filter(v=>v.horizontalOverflow).map(v=>v.width),pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,failedRequests:p.failedRequests})),brokenLinks:report.brokenLinks},null,2));
+          console.log(JSON.stringify({pages:report.pages.map(p=>({path:p.path,title:p.title,overflow:p.viewports.filter(v=>v.horizontalOverflow).map(v=>v.width),pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,failedRequests:p.failedRequests,images:p.viewports[0]?.images?.length??0,media:p.viewports[0]?.media?.length??0})),brokenLinks:report.brokenLinks},null,2));
           if(report.brokenLinks.length || report.pages.some(p=>p.pageErrors.length || p.viewports.some(v=>v.horizontalOverflow))) process.exitCode=1;
           EOF
           node audit-run.mjs
