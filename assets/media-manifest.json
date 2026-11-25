@@ -1,14 +1,34 @@
 {
   "status": "temporary_visual_studies_and_video_archive_slots",
-  "replacement_rule": "Keep each image path stable where possible; replace temporary SVG artwork with original WebP/JPEG while preserving intended composition.",
+  "replacement_rule": "Use properly licensed network photos and videos during site construction. Replace temporary network media with NORVA original media only after the complete site has passed review. Preserve stable paths and composition wherever possible.",
   "video_policy": {
     "principle": "The website is the portfolio and archive; public video platforms host playback; private cloud drives are for review, delivery and download only.",
     "github": "Store HTML, CSS, JS, cover images, thumbnails and small previews only. Do not store full-resolution video masters.",
-    "antmonologue": {"page": "antmonologue.html", "native_ratio": "9:16", "playback": "Embed a public platform player when available; otherwise link to the public watch page."},
-    "documentary_film": {"page": "documentary.html", "supported_ratios": ["16:9", "4:3"], "playback": "Preserve each film's original aspect ratio; use public embeds or external watch links."},
+    "antmonologue": {
+      "page": "antmonologue.html",
+      "native_ratio": "9:16",
+      "playback": "Embed a public platform player when available; otherwise link to the public watch page."
+    },
+    "documentary_film": {
+      "page": "documentary.html",
+      "supported_ratios": [
+        "16:9",
+        "4:3"
+      ],
+      "playback": "Preserve each film's original aspect ratio; use public embeds or external watch links."
+    },
     "platforms": "Choose an accessible public platform per audience and verify embed availability before publishing."
   },
-  "media_card_fields": ["title", "description", "year", "duration", "aspect_ratio", "embed_url", "watch_url", "status"],
+  "media_card_fields": [
+    "title",
+    "description",
+    "year",
+    "duration",
+    "aspect_ratio",
+    "embed_url",
+    "watch_url",
+    "status"
+  ],
   "files": [
     "assets/images/works/photography/01-cover.svg",
     "assets/images/works/photography/01-01.svg",
@@ -23,5 +43,62 @@
     "assets/images/field/himalayan-notes/cover.svg",
     "assets/images/field/people-encounters/cover.svg",
     "assets/images/field/places-moments/cover.svg"
+  ],
+  "temporary_visual_studies_and_video_archive_slots": "temporary_network_media_to_be_integrated",
+  "source_policy": {
+    "preferred_sources": [
+      "Pexels",
+      "Unsplash"
+    ],
+    "license_check": "Verify the individual asset page and current license before download/use; retain source page, creator, license, access date, local filename, and any third-party rights notes.",
+    "display_rule": "Temporary stock media must not be presented as NORVA original work, documentary evidence, or a completed client project.",
+    "delivery": "Prefer local optimized WebP images over remote hotlinks; use public video embeds or external watch pages where embedding is explicitly available."
+  },
+  "candidate_sources": [
+    {
+      "role": "photography_landscape_tibet",
+      "title": "Stunning Lake and Mountain Scenery in Tibet",
+      "creator": "Siyuan Yang",
+      "source_url": "https://www.pexels.com/photo/stunning-lake-and-mountain-scenery-in-tibet-40522380/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "8256x5504",
+      "notes": "Yamdrok Lake landscape; suitable as temporary landscape reference, not NORVA original work."
+    },
+    {
+      "role": "photography_ladakh",
+      "title": "Lake Among Desert Mountains",
+      "creator": "Abhishek Saini",
+      "source_url": "https://www.pexels.com/photo/lake-among-desert-mountains-14631547/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "2624x3936",
+      "notes": "Vertical Ladakh landscape; useful for portrait crop."
+    },
+    {
+      "role": "photography_pangong",
+      "title": "Body of Water Near Mountain",
+      "creator": "Prateek Katyal",
+      "source_url": "https://www.pexels.com/photo/body-of-water-near-mountain-10155603/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "4000x6000",
+      "notes": "Pangong Lake landscape; useful for portrait crop."
+    },
+    {
+      "role": "photography_kashmir",
+      "title": "Scenic View of Dal Lake with Himalayan Mountains",
+      "creator": "Mohd Atir",
+      "source_url": "https://www.pexels.com/photo/scenic-view-of-dal-lake-with-himalayan-mountains-30158932/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "5804x3869",
+      "notes": "Himalayan lake landscape; use only as temporary stock imagery."
+    },
+    {
+      "role": "photography_pangong_panorama",
+      "title": "A Lake Near the Mountains Under the Blue Sky and White Clouds",
+      "creator": "Anjali Vishwakarma",
+      "source_url": "https://www.pexels.com/photo/a-lake-near-the-mountains-under-the-blue-sky-and-white-clouds-14477905/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "5899x3933",
+      "notes": "Wide panoramic lake landscape."
+    }
   ]
 }
