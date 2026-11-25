@@ -76,7 +76,7 @@ jobs:
                     return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),position:s.position};
                   }).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,20),
                   images:Array.from(document.images).map(img=>({src:img.currentSrc||img.src,loaded:img.complete&&img.naturalWidth>0,naturalWidth:img.naturalWidth,alt:img.alt})),
-                  media:Array.from(document.querySelectorAll('video,iframe')).map(el=>({tag:el.tagName,src:el.src||el.getAttribute('src')||'',title:el.title||''}))
+                  media:Array.from(document.querySelectorAll('video,iframe')).map(el=>({tag:el.tagName,src:el.currentSrc||el.querySelector('source')?.src||el.src||el.getAttribute('src')||'',poster:el.poster||'',readyState:el.readyState??null,error:el.error?.code??null,title:el.title||''}))
                 }));
                 item.title = state.title;
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
