@@ -32,7 +32,7 @@ jobs:
       - name: Audit pages and capture screenshots
         run: |
           mkdir -p audit-output/screenshots
-          cat > /tmp/audit.mjs <<'EOF'
+          cat > audit-run.mjs <<'EOF'
           import { chromium } from 'playwright';
           import fs from 'node:fs';
           const pages = [
@@ -101,7 +101,7 @@ jobs:
           console.log(JSON.stringify({pages:report.pages.map(p=>({path:p.path,title:p.title,overflow:p.viewports.filter(v=>v.horizontalOverflow).map(v=>v.width),pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,failedRequests:p.failedRequests})),brokenLinks:report.brokenLinks},null,2));
           if(report.brokenLinks.length || report.pages.some(p=>p.pageErrors.length || p.viewports.some(v=>v.horizontalOverflow))) process.exitCode=1;
           EOF
-          node /tmp/audit.mjs
+          node audit-run.mjs
       - name: Upload audit report and screenshots
         if: always()
         uses: actions/upload-artifact@v4
