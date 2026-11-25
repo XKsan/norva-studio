@@ -1,14 +1,34 @@
 {
   "status": "temporary_visual_studies_and_video_archive_slots",
-  "replacement_rule": "Keep each image path stable where possible; replace temporary SVG artwork with original WebP/JPEG while preserving intended composition.",
+  "replacement_rule": "Use properly licensed network photos and videos during site construction. Replace temporary network media with NORVA original media only after the complete site has passed review. Preserve stable paths and composition wherever possible.",
   "video_policy": {
     "principle": "The website is the portfolio and archive; public video platforms host playback; private cloud drives are for review, delivery and download only.",
     "github": "Store HTML, CSS, JS, cover images, thumbnails and small previews only. Do not store full-resolution video masters.",
-    "antmonologue": {"page": "antmonologue.html", "native_ratio": "9:16", "playback": "Embed a public platform player when available; otherwise link to the public watch page."},
-    "documentary_film": {"page": "documentary.html", "supported_ratios": ["16:9", "4:3"], "playback": "Preserve each film's original aspect ratio; use public embeds or external watch links."},
+    "antmonologue": {
+      "page": "antmonologue.html",
+      "native_ratio": "9:16",
+      "playback": "Embed a public platform player when available; otherwise link to the public watch page."
+    },
+    "documentary_film": {
+      "page": "documentary.html",
+      "supported_ratios": [
+        "16:9",
+        "4:3"
+      ],
+      "playback": "Preserve each film's original aspect ratio; use public embeds or external watch links."
+    },
     "platforms": "Choose an accessible public platform per audience and verify embed availability before publishing."
   },
-  "media_card_fields": ["title", "description", "year", "duration", "aspect_ratio", "embed_url", "watch_url", "status"],
+  "media_card_fields": [
+    "title",
+    "description",
+    "year",
+    "duration",
+    "aspect_ratio",
+    "embed_url",
+    "watch_url",
+    "status"
+  ],
   "files": [
     "assets/images/works/photography/01-cover.svg",
     "assets/images/works/photography/01-01.svg",
@@ -23,5 +43,125 @@
     "assets/images/field/himalayan-notes/cover.svg",
     "assets/images/field/people-encounters/cover.svg",
     "assets/images/field/places-moments/cover.svg"
-  ]
+  ],
+  "temporary_visual_studies_and_video_archive_slots": "temporary_network_media_to_be_integrated",
+  "source_policy": {
+    "preferred_sources": [
+      "Pexels",
+      "Unsplash"
+    ],
+    "license_check": "Verify the individual asset page and current license before download/use; retain source page, creator, license, access date, local filename, and any third-party rights notes.",
+    "display_rule": "Temporary stock media must not be presented as NORVA original work, documentary evidence, or a completed client project.",
+    "delivery": "Prefer local optimized WebP images over remote hotlinks; use public video embeds or external watch pages where embedding is explicitly available."
+  },
+  "candidate_sources": [
+    {
+      "role": "photography_landscape_tibet",
+      "title": "Stunning Lake and Mountain Scenery in Tibet",
+      "creator": "Siyuan Yang",
+      "source_url": "https://www.pexels.com/photo/stunning-lake-and-mountain-scenery-in-tibet-40522380/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "8256x5504",
+      "notes": "Yamdrok Lake landscape; suitable as temporary landscape reference, not NORVA original work."
+    },
+    {
+      "role": "photography_ladakh",
+      "title": "Lake Among Desert Mountains",
+      "creator": "Abhishek Saini",
+      "source_url": "https://www.pexels.com/photo/lake-among-desert-mountains-14631547/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "2624x3936",
+      "notes": "Vertical Ladakh landscape; useful for portrait crop."
+    },
+    {
+      "role": "photography_pangong",
+      "title": "Body of Water Near Mountain",
+      "creator": "Prateek Katyal",
+      "source_url": "https://www.pexels.com/photo/body-of-water-near-mountain-10155603/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "4000x6000",
+      "notes": "Pangong Lake landscape; useful for portrait crop."
+    },
+    {
+      "role": "photography_kashmir",
+      "title": "Scenic View of Dal Lake with Himalayan Mountains",
+      "creator": "Mohd Atir",
+      "source_url": "https://www.pexels.com/photo/scenic-view-of-dal-lake-with-himalayan-mountains-30158932/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "5804x3869",
+      "notes": "Himalayan lake landscape; use only as temporary stock imagery."
+    },
+    {
+      "role": "photography_pangong_panorama",
+      "title": "A Lake Near the Mountains Under the Blue Sky and White Clouds",
+      "creator": "Anjali Vishwakarma",
+      "source_url": "https://www.pexels.com/photo/a-lake-near-the-mountains-under-the-blue-sky-and-white-clouds-14477905/",
+      "license": "Pexels License (verify at download)",
+      "resolution": "5899x3933",
+      "notes": "Wide panoramic lake landscape."
+    },
+    {
+      "role": "documentary_video_landscape",
+      "title": "Aerial Footage Of River Surrounded By Mountains",
+      "creator": "Mike Sangma",
+      "source_url": "https://www.pexels.com/video/aerial-footage-of-river-surrounded-by-mountains-3627564/",
+      "media_url": "https://videos.pexels.com/video-files/3627564/3627564-hd_2048_1024_25fps.mp4",
+      "license": "Pexels License (free download page verified)",
+      "format": "MP4 2048x1024 25fps 27s",
+      "notes": "Playable temporary landscape video study; not NORVA original footage."
+    },
+    {
+      "role": "documentary_video_portrait",
+      "title": "Scenic Himalayan Winter Landscape Aerial",
+      "creator": "Rohan Shah",
+      "source_url": "https://www.pexels.com/video/scenic-himalayan-winter-landscape-aerial-35060645/",
+      "media_url": "https://videos.pexels.com/video-files/35060645/14851934_1080_1920_30fps.mp4",
+      "license": "Pexels License (free download page verified)",
+      "format": "MP4 1080x1920 29.97fps 13s",
+      "notes": "Playable temporary vertical video study; not NORVA original footage."
+    },
+    {
+      "role": "antmonologue_city_reflection",
+      "title": "Reflection in Window of People Walking on Street",
+      "creator": "Mathias Reding",
+      "source_url": "https://www.pexels.com/photo/reflection-in-window-of-people-walking-on-street-13532883/",
+      "license": "Pexels License (free download page verified)",
+      "resolution": "6039x4027",
+      "notes": "Temporary visual reference for urban observation concept; not an actual antmonologue frame."
+    },
+    {
+      "role": "antmonologue_urban_archway",
+      "title": "Urban Scene with Person and Reflection in Window",
+      "creator": "JUNLIN ZOU",
+      "source_url": "https://www.pexels.com/photo/urban-scene-with-person-and-reflection-in-window-33141621/",
+      "license": "Pexels License (free download page verified)",
+      "notes": "Temporary visual reference for everyday city details; not an actual antmonologue frame."
+    },
+    {
+      "role": "antmonologue_mirror_reflection",
+      "title": "Street Scene with Reflections in Urban Mirror Display",
+      "creator": "Othmane Ettalbi",
+      "source_url": "https://www.pexels.com/photo/street-scene-with-reflections-in-urban-mirror-display-36507405/",
+      "license": "Pexels License (free download page verified)",
+      "resolution": "3635x4544",
+      "notes": "Temporary visual reference for reflection and observation theme; not an actual antmonologue frame."
+    },
+    {
+      "role": "photography_mount_kailash_hero",
+      "title": "A View of a Snow Covered Mountain (Mount Kailash)",
+      "creator": "Grisha Grishkoff",
+      "source_url": "https://www.pexels.com/photo/a-view-of-a-snow-covered-mountain-10881642/",
+      "direct_image_url": "https://images.pexels.com/photos/10881642/pexels-photo-10881642.jpeg?cs=srgb&dl=pexels-grishkoff-10881642.jpg&fm=jpg",
+      "license": "Pexels License (free download page verified)",
+      "location": "Ngari Prefecture, Tibet, China",
+      "notes": "Verified Mount Kailash winter photograph; temporary website reference, not NORVA original work."
+    }
+  ],
+  "site_integration_status": {
+    "photography": "integrated_remote_pexels_image_sequence",
+    "documentary": "integrated_remote_pexels_mp4_video_players",
+    "antmonologue": "integrated_remote_pexels_image_sequence",
+    "works_index": "integrated_remote_pexels_visual_previews",
+    "note": "Remote Pexels CDN references are used temporarily. Local WebP/MP4 optimization and mainland-China access testing remain required before launch."
+  }
 }
