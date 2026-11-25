@@ -29,3 +29,8 @@
  .service-detail-page .n-detail-aside strong{font-size:25px}
  .service-detail-page .service-return{padding-bottom:42px}
 }
+
+/* Mobile viewport containment: keep decorative geometry inside the visual canvas */
+html:has(body.service-detail-page){overflow-x:hidden}
+body.service-detail-page{width:100%;max-width:100%;overflow-x:hidden}
+body.service-detail-page .n-page-hero{overflow:hidden}
