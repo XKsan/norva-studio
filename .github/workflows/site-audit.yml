@@ -86,7 +86,10 @@ jobs:
                     for (const video of document.querySelectorAll('video')) {
                       video.muted=true;
                       try {
-                        await video.play();
+                        await Promise.race([
+                          video.play(),
+                          new Promise((_,reject)=>setTimeout(()=>reject(new Error('play timeout')),5000))
+                        ]);
                         await new Promise(resolve=>setTimeout(resolve,1400));
                         results.push({src:video.currentSrc||video.querySelector('source')?.src||'',currentTime:Number(video.currentTime.toFixed(2)),paused:video.paused,readyState:video.readyState,error:video.error?.code??null});
                       } catch(error) {
