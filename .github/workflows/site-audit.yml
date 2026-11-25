@@ -66,6 +66,25 @@ jobs:
               try {
                 await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
                 await page.waitForTimeout(700);
+                if(width===390) {
+                  const menu=page.locator('.menu-button');
+                  if(await menu.count()) {
+                    await menu.click();
+                    const opened=await menu.getAttribute('aria-expanded')==='true' && await page.locator('.nav').evaluate(el=>el.classList.contains('open'));
+                    if(!opened) item.pageErrors.push('Mobile navigation failed to open');
+                    await menu.click();
+                    const closed=await menu.getAttribute('aria-expanded')==='false' && !(await page.locator('.nav').evaluate(el=>el.classList.contains('open')));
+                    if(!closed) item.pageErrors.push('Mobile navigation failed to close');
+                  }
+                }
+                if(width===1440 && path==='archive.html') {
+                  await page.locator('[data-filter="place"]').click();
+                  const visible=await page.locator('[data-category]:visible').count();
+                  const matching=await page.locator('[data-category="place"]:visible').count();
+                  if(visible!==matching || visible===0) item.pageErrors.push('Archive category filter failed');
+                  await page.locator('[data-filter="all"]').click();
+                  if(await page.locator('[data-category]:visible').count()!==4) item.pageErrors.push('Archive all-filter reset failed');
+                }
                 const state = await page.evaluate(() => ({
                   title:document.title, lang:document.documentElement.lang,
                   viewport:document.querySelector('meta[name="viewport"]')?.content || null,
@@ -114,11 +133,13 @@ jobs:
                     window.scrollTo(0,0);
                     await new Promise(resolve=>setTimeout(resolve,350));
                   });
+                  const imageFailures=await page.evaluate(()=>Array.from(document.images).filter(img=>!img.complete||img.naturalWidth===0).map(img=>({url:img.currentSrc||img.src,error:'image failed to load'})));
+                  for(const failure of imageFailures) item.failedRequests.push(failure);
                   await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 }
                 if(width===1440) {
                   const links = await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')).filter(Boolean));
-                  for(const href of links) {
+                  for(const href of new Set(links)) {
                     if(href.startsWith('mailto:')||href.startsWith('tel:')||href.startsWith('javascript:')) continue;
                     const target = new URL(href,url);
                     if(target.origin!==new URL(url).origin) continue;
@@ -138,7 +159,7 @@ jobs:
           await browser.close();
           fs.writeFileSync('audit-output/report.json',JSON.stringify(report,null,2));
           console.log(JSON.stringify({pages:report.pages.map(p=>({path:p.path,title:p.title,overflow:p.viewports.filter(v=>v.horizontalOverflow).map(v=>({width:v.width,nodes:v.overflowNodes})),pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,failedRequests:p.failedRequests,images:p.viewports[0]?.images??[],media:p.viewports[0]?.media??[]})),brokenLinks:report.brokenLinks},null,2));
-          if(report.brokenLinks.length || report.pages.some(p=>p.pageErrors.length || p.viewports.some(v=>v.horizontalOverflow))) process.exitCode=1;
+          if(report.brokenLinks.length || report.pages.some(p=>p.pageErrors.length || p.consoleErrors.length || p.failedRequests.length || p.viewports.some(v=>v.horizontalOverflow))) process.exitCode=1;
           EOF
           node audit-run.mjs
       - name: Upload audit report and screenshots
