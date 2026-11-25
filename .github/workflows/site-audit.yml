@@ -1,0 +1,112 @@
+name: NORVA site audit screenshots
+on:
+  push:
+    branches:
+      - audit/site-quality-2026-11-25
+    paths:
+      - ".github/workflows/site-audit.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Start static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/norva-http.log 2>&1 &
+          for i in $(seq 1 20); do
+            curl -fsS http://127.0.0.1:4173/ >/dev/null && break
+            sleep 1
+          done
+      - name: Audit pages and capture screenshots
+        run: |
+          mkdir -p audit-output/screenshots
+          cat > /tmp/audit.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const pages = [
+            'index.html','studio.html','make.html','works.html',
+            'photography.html','documentary.html','antmonologue.html',
+            'service-short-video.html','service-long-video.html',
+            'service-course-video.html','service-subtitles.html',
+            'service-ai-voice.html','service-audio-post.html',
+            'service-document-md.html'
+          ];
+          const browser = await chromium.launch({headless:true});
+          const report = {base:'http://127.0.0.1:4173/', pages:[], brokenLinks:[]};
+          for (const path of pages) {
+            const item = {path, title:'', viewports:[], pageErrors:[], consoleErrors:[], failedRequests:[]};
+            const page = await browser.newPage({deviceScaleFactor:1});
+            page.on('pageerror', e => item.pageErrors.push(String(e)));
+            page.on('console', m => { if(m.type()==='error') item.consoleErrors.push(m.text()); });
+            page.on('requestfailed', r => item.failedRequests.push({url:r.url(),error:r.failure()?.errorText}));
+            for (const width of [1440,768,390]) {
+              await page.setViewportSize({width,height:900});
+              const url = report.base + path;
+              try {
+                await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
+                await page.waitForTimeout(900);
+                const state = await page.evaluate(() => ({
+                  title:document.title,
+                  lang:document.documentElement.lang,
+                  viewport:document.querySelector('meta[name="viewport"]')?.content || null,
+                  h1:document.querySelectorAll('h1').length,
+                  main:document.querySelectorAll('main').length,
+                  width:innerWidth,
+                  scrollWidth:document.documentElement.scrollWidth,
+                  bodyWidth:document.body.scrollWidth,
+                  height:document.documentElement.scrollHeight
+                }));
+                item.title = state.title;
+                item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
+                if(width===1440 || width===390) {
+                  await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
+                }
+                if(width===1440) {
+                  const links = await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')).filter(Boolean));
+                  for(const href of links) {
+                    if(href.startsWith('mailto:')||href.startsWith('tel:')||href.startsWith('javascript:')) continue;
+                    const target = new URL(href,url);
+                    if(target.origin!==new URL(url).origin) continue;
+                    const targetPath = target.pathname.endsWith('/') ? target.pathname+'index.html' : target.pathname;
+                    const response = await page.request.get(target.origin+targetPath,{timeout:15000}).catch(()=>null);
+                    if(!response || !response.ok()) report.brokenLinks.push({from:path,href,status:response?.status()??'request failed'});
+                    else if(target.hash) {
+                      const html = await response.text();
+                      const id = decodeURIComponent(target.hash.slice(1));
+                      const escaped = id.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+                      if(!new RegExp('(?:id|name)=["\\']'+escaped+'["\\']').test(html)) report.brokenLinks.push({from:path,href,status:'missing anchor'});
+                    }
+                  }
+                }
+              } catch(e) {
+                item.pageErrors.push('Navigation '+width+': '+String(e));
+              }
+            }
+            await page.close();
+            report.pages.push(item);
+          }
+          await browser.close();
+          fs.writeFileSync('audit-output/report.json',JSON.stringify(report,null,2));
+          console.log(JSON.stringify({pages:report.pages.map(p=>({path:p.path,title:p.title,overflow:p.viewports.filter(v=>v.horizontalOverflow).map(v=>v.width),pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,failedRequests:p.failedRequests})),brokenLinks:report.brokenLinks},null,2));
+          if(report.brokenLinks.length || report.pages.some(p=>p.pageErrors.length || p.viewports.some(v=>v.horizontalOverflow))) process.exitCode=1;
+          EOF
+          node /tmp/audit.mjs
+      - name: Upload audit report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: norva-site-audit
+          path: audit-output/
+          retention-days: 7
