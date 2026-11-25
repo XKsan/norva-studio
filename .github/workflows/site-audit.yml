@@ -46,7 +46,7 @@ jobs:
           import fs from 'node:fs';
           const pages = [
             'index.html','studio.html','make.html','works.html','experiments.html','archive.html','contact.html',
-            'photography.html','documentary.html','antmonologue.html','ant-matter.html',
+            'photography.html','documentary.html','antmonologue.html',
             'service-short-video.html','service-long-video.html',
             'service-course-video.html','service-subtitles.html',
             'service-ai-voice.html','service-audio-post.html',
