@@ -1,5 +1,5 @@
 /* NORVA service detail — specification-led, no boxed cards */
-.service-detail-page{background:#080f18;color:#e8edf0}
+.service-detail-page{background:#080f18;color:#e8edf0;overflow-x:clip}
 .service-detail-page .n-wrap{width:min(1160px,89vw)}
 .service-detail-page .n-page-hero{min-height:365px;padding:92px 0 62px;display:grid;grid-template-columns:1.1fr .9fr;gap:8%;align-items:end;position:relative}
 .service-detail-page .n-page-hero:after{content:"";position:absolute;right:0;top:60px;width:290px;height:290px;border:1px solid rgba(175,204,224,.12);border-radius:50%;box-shadow:0 0 0 35px rgba(175,204,224,.02),0 0 0 75px rgba(175,204,224,.015);pointer-events:none}
@@ -21,8 +21,9 @@
 .service-detail-page .n-footer{background:#070c13}
 @media(max-width:760px){
  .service-detail-page .n-page-hero{min-height:0;padding:65px 0 38px;grid-template-columns:1fr;gap:13px}
- .service-detail-page .n-page-hero:after{width:190px;height:190px;right:-70px;top:35px}
- .service-detail-page .n-page-hero h1{font-size:34px}
+ .service-detail-page .n-page-hero:after{width:118px;height:118px;right:8px;top:16px;opacity:.42;box-shadow:0 0 0 18px rgba(175,204,224,.018);z-index:0}
+ .service-detail-page .n-page-hero h1{font-size:34px;max-width:88%}
+ .service-detail-page .n-page-hero>p{max-width:100%}
  .service-detail-page .n-detail{grid-template-columns:1fr;gap:25px;padding:30px 0 42px}
  .service-detail-page .n-detail-aside{border-left:0;border-top:1px solid rgba(175,204,224,.2);padding:22px 0 0}
  .service-detail-page .n-detail-aside strong{font-size:25px}
