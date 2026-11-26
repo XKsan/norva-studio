@@ -96,7 +96,10 @@ jobs:
                   oneThingLinks:document.querySelectorAll('[data-onething] a').length,
                   overflowNodes:[...document.querySelectorAll('body *')].map(el=>{const r=el.getBoundingClientRect();return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right)}}).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,12),
                   images:[...document.images].map(i=>({src:i.currentSrc||i.src,loaded:i.complete&&i.naturalWidth>0,width:i.naturalWidth,alt:i.alt})),
-                  videos:[...document.querySelectorAll('video')].map(v=>({src:v.currentSrc||v.querySelector('source')?.src||'',readyState:v.readyState,error:v.error?.code??null}))
+                  videos:[...document.querySelectorAll('video')].map(v=>({src:v.currentSrc||v.querySelector('source')?.src||'',readyState:v.readyState,error:v.error?.code??null})),
+                  detailNavigation:(()=>{const links=[...document.querySelectorAll('.detail-navigation a')];return {home:links.some(a=>a.getAttribute('href')==='index.html'),works:links.some(a=>a.getAttribute('href')==='works.html'),previous:links.some(a=>a.hasAttribute('data-work-prev')),next:links.some(a=>a.hasAttribute('data-work-next'))}})(),
+                  antImageFit:(()=>{const img=document.querySelector('.antmonologue-visual img');return img?{objectFit:getComputedStyle(img).objectFit,frameRatio:img.parentElement.getBoundingClientRect().width/img.parentElement.getBoundingClientRect().height,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight}:null})(),
+                  homeDateTaglineOverlap:(()=>{const date=document.querySelector('.onething-date'),tag=document.querySelector('.home-tagline');if(!date||!tag)return null;const a=date.getBoundingClientRect(),b=tag.getBoundingClientRect();return Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top))})()
                 }));
                 if(width===1440){item.title=state.title;item.status=response?.status()??null}
                 const imageFailures=state.images.filter(i=>!i.loaded);
@@ -106,6 +109,9 @@ jobs:
                 if(route!=='index.html'&&state.navCount!==5)item.pageErrors.push('Interior navigation count is not five: '+state.navCount);
                 if(route!=='index.html'&&state.brandHome!==1)item.pageErrors.push('Brand mark does not link to homepage');
                 if(route!=='index.html'&&state.nextCount<1)item.pageErrors.push('Missing next-page destination');
+                if(['antmonologue.html','photography.html','documentary.html'].includes(route)&&(!state.detailNavigation.home||!state.detailNavigation.works||!state.detailNavigation.previous||!state.detailNavigation.next))item.pageErrors.push('Detail page navigation is incomplete: '+JSON.stringify(state.detailNavigation));
+                if(route==='antmonologue.html'&&(!state.antImageFit||state.antImageFit.objectFit!=='contain'||state.antImageFit.naturalWidth<1||state.antImageFit.naturalHeight<1))item.pageErrors.push('Antmonologue image must fit without cropping: '+JSON.stringify(state.antImageFit));
+                if(route==='index.html'&&width===390&&state.homeDateTaglineOverlap!==null&&state.homeDateTaglineOverlap>0)item.pageErrors.push('Mobile homepage date overlaps tagline: '+state.homeDateTaglineOverlap+'px');
                 if(state.pageTitleSize!==null&&state.pageTitleSize>28.5)item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
                 const expectedCanonical=route==='index.html'?base:new URL(route,base).href;
                 if(state.canonical!==expectedCanonical)item.pageErrors.push('Canonical mismatch: '+state.canonical);

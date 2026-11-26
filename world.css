@@ -30,3 +30,13 @@ body.contact-page .contact-method{max-width:720px}
 .archive-links{display:flex;gap:24px;flex-wrap:wrap}
 .archive-links a{font-size:11px;color:var(--water);border-bottom:1px solid var(--line);padding-bottom:7px}
 @media(max-width:520px){.tide-readout{gap:12px;left:12px;right:12px;bottom:12px}.experiment-input{flex-direction:column}}
+
+
+/* Targeted detail and narrow-screen fixes */
+.antmonologue-visual img{object-fit:contain;object-position:center;opacity:1;transform:none}
+.detail-navigation{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:38px 0 55px}
+.detail-return-links,.detail-sequence{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.detail-navigation a{font-size:11px;letter-spacing:.1em;padding:8px 0;border-bottom:1px solid var(--line)}
+.detail-return-links a{color:var(--muted)}
+.detail-sequence a{color:var(--water)}
+@media(max-width:520px){.home-mark{top:18%}.detail-navigation{align-items:flex-start;flex-direction:column;gap:16px}.detail-return-links,.detail-sequence{gap:18px}}
