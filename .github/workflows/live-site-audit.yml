@@ -166,15 +166,18 @@ jobs:
                       id:n.dataset.starRoom,
                       color:getComputedStyle(n.querySelector('.core')).fill,
                       labelSize:parseFloat(getComputedStyle(n.querySelector('.node-label')).fontSize),
-                      sparkleDisplay:getComputedStyle(n.querySelector('.sparkle')).display
+                      sparkleDisplay:getComputedStyle(n.querySelector('.sparkle')).display,
+                       sparkleDuration:getComputedStyle(n.querySelector('.sparkle')).animationDuration,
+                       sparkleDelay:getComputedStyle(n.querySelector('.sparkle')).animationDelay
                     })));
                     const expectedColors={studio:'rgb(159, 222, 210)',works:'rgb(216, 189, 130)',experiments:'rgb(145, 185, 232)',products:'rgb(217, 154, 145)',contact:'rgb(185, 166, 223)'};
                     const colorMap=Object.fromEntries(mobileStarMap.map(n=>[n.id,n.color]));
                     const colorsMatch=mobileStarMap.length===5&&Object.entries(expectedColors).every(([id,color])=>colorMap[id]===color);
                     const labelsRemain22px=mobileStarMap.length===5&&mobileStarMap.every(n=>n.labelSize===22);
-                    const sparklesRemainHidden=mobileStarMap.length===5&&mobileStarMap.every(n=>n.sparkleDisplay==='none');
-                    item.mobileStarMap={nodes:mobileStarMap,colorsMatch,labelsRemain22px,sparklesRemainHidden,passed:colorsMatch&&labelsRemain22px&&sparklesRemainHidden};
-                    if(!item.mobileStarMap.passed)item.pageErrors.push('390px mobile star-map palette or preserved mobile presentation failed: '+JSON.stringify(item.mobileStarMap));
+                    const expectedDelays={studio:'0s',works:'-1.68s',experiments:'-3.36s',products:'-5.04s',contact:'-6.72s'};
+                    const sparklesVisible=mobileStarMap.length===5&&mobileStarMap.every(n=>n.sparkleDisplay!=='none'&&n.sparkleDuration==='8.4s'&&expectedDelays[n.id]===n.sparkleDelay);
+                    item.mobileStarMap={nodes:mobileStarMap,colorsMatch,labelsRemain22px,sparklesVisible,passed:colorsMatch&&labelsRemain22px&&sparklesVisible};
+                    if(!item.mobileStarMap.passed)item.pageErrors.push('390px mobile star-map palette, sparkle animation or preserved mobile presentation failed: '+JSON.stringify(item.mobileStarMap));
                   }
                   const menu=page.locator('.menu-button').first();
                   if(await menu.count()){
@@ -264,7 +267,8 @@ jobs:
             '```',
             '',
             'Full route-by-route results and screenshots are attached as workflow artifacts.'
-          ].join('\n'));
+          ].join('
+'));
           console.log(JSON.stringify({deployment:report.deployment,summary:report.summary},null,2));
           const s=report.summary;
           if(!report.deployment.status||report.deployment.status>=400||s.badHttp.length||s.pageErrors||s.consoleErrors||s.failedRequests||s.brokenLinks||s.horizontalOverflow.length||s.imageFailures||s.mobileMenuFailures.length||s.externalFontRequests||s.contentPolicyErrors||!s.homeFitsSingleViewport||!s.homepageHasOneH1||!s.sitemapMatchesRoutes)process.exitCode=1;
