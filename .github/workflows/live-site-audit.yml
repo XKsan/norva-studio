@@ -116,8 +116,8 @@ jobs:
                 if(width===1440 && route==='index.html'){
                   await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:width/2,clientY:450});
                   await page.waitForTimeout(100);
-                  const ripple=await page.evaluate(()=>({count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:document.querySelector('[data-onething-keyword]')?.hidden===false}));
-                  if(ripple.count<1||!ripple.keywordVisible)item.pageErrors.push('Homepage ripple writing failed: '+JSON.stringify(ripple));
+                  const ripple=await page.evaluate(()=>{const el=document.querySelector('[data-onething-keyword]'),r=el?.getBoundingClientRect();return{count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:el?.hidden===false,centerX:r?r.left+r.width/2:0,centerY:r?r.top+r.height/2:0}});
+                  if(ripple.count<1||!ripple.keywordVisible||Math.abs(ripple.centerX-width/2)>12||Math.abs(ripple.centerY-450)>12)item.pageErrors.push('Homepage ripple writing failed: '+JSON.stringify(ripple));
                   await page.locator('[data-water-sound]').click();const soundOn=await page.locator('[data-water-sound]').innerText();await page.locator('[data-water-sound]').click();if(soundOn!=='水声 · ON')item.pageErrors.push('Homepage water sound switch failed');
                 }
                 if(width===1440 && route==='experiment-sound.html'){

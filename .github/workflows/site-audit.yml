@@ -99,8 +99,8 @@ jobs:
                   if(homeState.onethingLinks!==0) item.pageErrors.push('ONETHING must not link to a separate page');
                   await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:width/2,clientY:450});
                   await page.waitForTimeout(100);
-                  const rippleState=await page.evaluate(()=>({count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:document.querySelector('[data-onething-keyword]')?.hidden===false}));
-                  if(rippleState.count<1||!rippleState.keywordVisible) item.pageErrors.push('Homepage ripple writing interaction failed: '+JSON.stringify(rippleState));
+                  const rippleState=await page.evaluate(()=>{const el=document.querySelector('[data-onething-keyword]'),r=el?.getBoundingClientRect();return{count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:el?.hidden===false,centerX:r?r.left+r.width/2:0,centerY:r?r.top+r.height/2:0}});
+                  if(rippleState.count<1||!rippleState.keywordVisible||Math.abs(rippleState.centerX-width/2)>12||Math.abs(rippleState.centerY-450)>12) item.pageErrors.push('Homepage ripple writing interaction failed: '+JSON.stringify(rippleState));
                   await page.locator('[data-water-sound]').click();
                   const soundOn=await page.locator('[data-water-sound]').innerText();
                   await page.locator('[data-water-sound]').click();

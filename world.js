@@ -14,7 +14,7 @@ const menu=document.querySelector('.menu-button'),nav=document.querySelector('.n
 document.querySelectorAll('a[href$=".html"]').forEach(a=>a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(a.target==='_blank')return;document.body.classList.add('page-leave')}));
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const colors={COSMOS:'#bfe6e2',NATURE:'#8fd8cd',SCIENCE:'#a8d9df',HUMAN:'#c0d9d2',ART:'#b7cbdc',CULTURE:'#c4d8d4',TIME:'#9bc9c7',LIFE:'#a9d8c9','TECH & AI':'#9edbd5',TECH_AI:'#9edbd5',AI:'#9edbd5'};
-const water=document.getElementById('waterCanvas');
+const water=document.getElementById('waterCanvas');const rippleKeyword=document.querySelector('[data-onething-keyword]');if(rippleKeyword)document.body.appendChild(rippleKeyword);
 let waterTint='#8fd8cd',rippleList=[],pointer={x:-1,y:-1},ctx,W,H,dpr=1,raf=0;
 function resizeWater(){if(!water)return;const r=water.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(devicePixelRatio||1,2);water.width=Math.round(W*dpr);water.height=Math.round(H*dpr);ctx=water.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0)}
 function addRipple(x,y,p=1){rippleList.push({x,y,r:2,a:.42*p});if(rippleList.length>36)rippleList.shift();if(water)water.dataset.rippleCount=String(rippleList.length)}
