@@ -79,7 +79,9 @@ jobs:
             tagline:document.querySelector('.home-tagline').getBoundingClientRect().toJSON(),
             meaning:document.querySelector('.onething .meaning:last-child').getBoundingClientRect().toJSON(),
             map:document.querySelector('.star-map').getBoundingClientRect().toJSON(),
-            sparkleDisplay:getComputedStyle(document.querySelector('.star-node .sparkle')).display,\n            sparkleDuration:getComputedStyle(document.querySelector('.star-node .sparkle')).animationDuration,\n            sparkleDelay:getComputedStyle(document.querySelector('.star-node .sparkle')).animationDelay,
+            sparkleDisplay:getComputedStyle(document.querySelector('.star-node .sparkle')).display,
+            sparkleDuration:getComputedStyle(document.querySelector('.star-node .sparkle')).animationDuration,
+            sparkleDelay:getComputedStyle(document.querySelector('.star-node .sparkle')).animationDelay,
             labelSize:parseFloat(getComputedStyle(document.querySelector('.star-node .node-label')).fontSize)
           }));
           await page.screenshot({path:'mobile-home-390-full.png',fullPage:true});
