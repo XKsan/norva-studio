@@ -1,0 +1,159 @@
+name: NORVA production website audit
+on:
+  push:
+    branches:
+      - redesign/norva-world-v1
+    paths:
+      - ".github/workflows/live-site-audit.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  live-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Audit the public production website
+        env:
+          LIVE_BASE: https://xksan.github.io/norva-studio/
+        run: |
+          mkdir -p live-audit/screenshots
+          cat > live-audit.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const base = process.env.LIVE_BASE;
+          const routes = [
+            'index.html','studio.html','make.html','works.html','experiments.html','archive.html','contact.html',
+            'photography.html','documentary.html','antmonologue.html',
+            'service-short-video.html','service-long-video.html','service-course-video.html',
+            'service-subtitles.html','service-ai-voice.html','service-audio-post.html','service-document-md.html'
+          ];
+          const widths = [1440,768,390];
+          const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, summary:{}};
+          const browser = await chromium.launch({headless:true});
+          const root = await browser.newPage();
+          const rootResponse = await root.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
+          report.deployment = {
+            status:rootResponse?.status() ?? null,
+            finalUrl:root.url(),
+            title:await root.title(),
+            h1:await root.locator('h1').count(),
+            main:await root.locator('main').count(),
+            pageHeight:await root.evaluate(()=>document.documentElement.scrollHeight),
+            viewportHeight:await root.evaluate(()=>innerHeight),
+            horizontalWidth:await root.evaluate(()=>document.documentElement.scrollWidth)
+          };
+          await root.close();
+          for (const route of routes) {
+            const item={route,title:'',status:null,viewports:[],pageErrors:[],consoleErrors:[],failedRequests:[],mobileMenu:null};
+            const page=await browser.newPage({deviceScaleFactor:1});
+            page.on('pageerror',e=>item.pageErrors.push(String(e)));
+            page.on('console',m=>{if(m.type()==='error')item.consoleErrors.push(m.text())});
+            page.on('requestfailed',r=>{const e=r.failure()?.errorText;if(e!=='net::ERR_ABORTED')item.failedRequests.push({url:r.url(),error:e})});
+            for (const width of widths) {
+              await page.setViewportSize({width,height:900});
+              try {
+                const response=await page.goto(new URL(route,base).href,{waitUntil:'domcontentloaded',timeout:45000});
+                await page.waitForTimeout(900);
+                const state=await page.evaluate(()=>({
+                  title:document.title,lang:document.documentElement.lang,status:document.readyState,
+                  width:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+                  bodyWidth:document.body.scrollWidth,height:document.documentElement.scrollHeight,
+                  h1:document.querySelectorAll('h1').length,main:document.querySelectorAll('main').length,
+                  overflowNodes:[...document.querySelectorAll('body *')].map(el=>{const r=el.getBoundingClientRect();return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right)}}).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,12),
+                  images:[...document.images].map(i=>({src:i.currentSrc||i.src,loaded:i.complete&&i.naturalWidth>0,width:i.naturalWidth,alt:i.alt})),
+                  videos:[...document.querySelectorAll('video')].map(v=>({src:v.currentSrc||v.querySelector('source')?.src||'',readyState:v.readyState,error:v.error?.code??null}))
+                }));
+                if(width===1440){item.title=state.title;item.status=response?.status()??null}
+                const imageFailures=state.images.filter(i=>!i.loaded);
+                item.viewports.push({...state,httpStatus:response?.status()??null,horizontalOverflow:state.scrollWidth>width+1||state.bodyWidth>width+1,imageFailures});
+                if(width===1440||width===390){
+                  await page.evaluate(async()=>{
+                    for(const img of document.images){img.loading='eager';try{await img.decode()}catch{}}
+                    window.scrollTo(0,document.body.scrollHeight);await new Promise(r=>setTimeout(r,250));window.scrollTo(0,0);
+                  });
+                  await page.screenshot({path:'live-audit/screenshots/'+route.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
+                }
+                if(width===390){
+                  const menu=page.locator('button[aria-expanded="false"]').first();
+                  if(await menu.count()){
+                    const before=await menu.getAttribute('aria-expanded');
+                    await menu.click();
+                    const opened=await menu.getAttribute('aria-expanded');
+                    const controls=await menu.getAttribute('aria-controls');
+                    const hidden=controls?await page.locator('#'+controls).getAttribute('aria-hidden'):null;
+                    await menu.click();
+                    const closed=await menu.getAttribute('aria-expanded');
+                    item.mobileMenu={before,opened,hiddenAfterOpen:hidden,closed,passed:opened==='true'&&closed==='false'&&(hidden===null||hidden==='false')};
+                  }
+                }
+                if(width===1440){
+                  const hrefs=await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')).filter(Boolean));
+                  for(const href of new Set(hrefs)){
+                    if(/^(mailto:|tel:|javascript:|data:)/i.test(href))continue;
+                    let target;try{target=new URL(href,new URL(route,base))}catch{continue}
+                    if(target.origin!==new URL(base).origin)continue;
+                    const path=target.pathname.endsWith('/')?target.pathname+'index.html':target.pathname;
+                    const res=await page.request.get(target.origin+path,{timeout:20000}).catch(()=>null);
+                    if(!res||!res.ok())report.brokenLinks.push({from:route,href,status:res?.status()??'request failed'});
+                    else if(target.hash){
+                      const html=await res.text(),id=decodeURIComponent(target.hash.slice(1));
+                      if(!html.includes('id="'+id+'"')&&!html.includes("id='"+id+"'")&&!html.includes('name="'+id+'"'))report.brokenLinks.push({from:route,href,status:'missing anchor'});
+                    }
+                  }
+                }
+              }catch(e){item.pageErrors.push('viewport '+width+': '+String(e))}
+            }
+            await page.close();report.routes.push(item);
+          }
+          await browser.close();
+          const flat=report.routes.flatMap(r=>r.viewports);
+          report.summary={
+            routeCount:report.routes.length,viewportChecks:flat.length,
+            badHttp:report.routes.filter(r=>!r.status||r.status>=400).map(r=>({route:r.route,status:r.status})),
+            pageErrors:report.routes.reduce((n,r)=>n+r.pageErrors.length,0),
+            consoleErrors:report.routes.reduce((n,r)=>n+r.consoleErrors.length,0),
+            failedRequests:report.routes.reduce((n,r)=>n+r.failedRequests.length,0),
+            brokenLinks:report.brokenLinks.length,
+            horizontalOverflow:flat.filter(v=>v.horizontalOverflow).map(v=>({route:report.routes.find(r=>r.viewports.includes(v))?.route,width:v.width})),
+            imageFailures:flat.reduce((n,v)=>n+v.imageFailures.length,0),
+            mobileMenuFailures:report.routes.filter(r=>r.mobileMenu&&!r.mobileMenu.passed).map(r=>r.route),
+            homeFitsSingleViewport:report.deployment.pageHeight<=report.deployment.viewportHeight+1,
+            homepageHasOneH1:report.deployment.h1===1
+          };
+          fs.writeFileSync('live-audit/report.json',JSON.stringify(report,null,2));
+          fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY,[
+            '# NORVA production website audit',
+            '',
+            'Target: '+base,
+            'Homepage title: '+report.deployment.title,
+            'Homepage height: '+report.deployment.pageHeight+'px / viewport '+report.deployment.viewportHeight+'px',
+            '',
+            '## Summary',
+            '```json',
+            JSON.stringify(report.summary,null,2),
+            '```',
+            '',
+            'Full route-by-route results and screenshots are attached as workflow artifacts.'
+          ].join('\n'));
+          console.log(JSON.stringify({deployment:report.deployment,summary:report.summary},null,2));
+          const s=report.summary;
+          if(!report.deployment.status||report.deployment.status>=400||s.badHttp.length||s.pageErrors||s.consoleErrors||s.failedRequests||s.brokenLinks||s.horizontalOverflow.length||s.imageFailures||s.mobileMenuFailures.length)process.exitCode=1;
+          EOF
+          node live-audit.mjs
+      - name: Upload live audit report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: norva-production-live-audit
+          path: live-audit/
+          if-no-files-found: warn
