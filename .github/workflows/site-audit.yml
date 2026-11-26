@@ -1,4 +1,5 @@
 name: NORVA site audit screenshots
+# Covers current bilingual homepage and four distinct experiment interactions.
 on:
   push:
     branches:
@@ -57,7 +58,7 @@ jobs:
             'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
             'service-short-video.html','service-long-video.html','service-course-video.html','service-subtitles.html','service-ai-voice.html','service-audio-post.html'
           ];
-          const browser = await chromium.launch({headless:true});
+          const browser = await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']});
           const report = {base:'http://127.0.0.1:4173/', pages:[], brokenLinks:[]};
           for (const path of pages) {
             const item = {path, title:'', viewports:[], pageErrors:[], consoleErrors:[], failedRequests:[]};
@@ -80,9 +81,9 @@ jobs:
                   const homeState=await page.evaluate(()=>({
                     height:document.documentElement.scrollHeight,
                     viewport:innerHeight,
-                    onethingTitle:document.querySelector('[data-one-title]')?.textContent.trim()||'',
-                    onethingReveal:document.querySelector('[data-one-reveal]')?.textContent.trim()||'',
-                    onethingMeaning:document.querySelector('[data-one-meaning]')?.textContent.trim()||'',
+                    onethingTitle:[...document.querySelectorAll('[data-one-title-en],[data-one-title-zh]')].map(x=>x.textContent.trim()).join(' '),
+                    onethingReveal:[...document.querySelectorAll('[data-one-reveal-en],[data-one-reveal-zh]')].map(x=>x.textContent.trim()).join(' '),
+                    onethingMeaning:[...document.querySelectorAll('[data-one-meaning-en],[data-one-meaning-zh]')].map(x=>x.textContent.trim()).join(' '),
                     onethingLinks:document.querySelectorAll('[data-onething] a').length,
                     topMenu:!!document.querySelector('.menu-button'),
                     canvas:!!document.querySelector('#waterCanvas'),
@@ -101,8 +102,8 @@ jobs:
                   if(homeState.onethingLinks!==0) item.pageErrors.push('ONETHING must not link to a separate page');
                   await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:width/2,clientY:450});
                   await page.waitForTimeout(100);
-                  const rippleState=await page.evaluate(()=>{const el=document.querySelector('[data-onething-keyword]'),r=el?.getBoundingClientRect();return{count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:el?.hidden===false,centerX:r?r.left+r.width/2:0,centerY:r?r.top+r.height/2:0}});
-                  if(rippleState.count<1||!rippleState.keywordVisible||Math.abs(rippleState.centerX-width/2)>12||Math.abs(rippleState.centerY-450)>12) item.pageErrors.push('Homepage ripple writing interaction failed: '+JSON.stringify(rippleState));
+                  const rippleState=await page.evaluate(()=>({count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:!!document.querySelector('[data-onething-keyword]:not([hidden])')}));
+                  if(rippleState.count<1||rippleState.keywordVisible) item.pageErrors.push('Homepage water ripple should render without a floating truncated keyword: '+JSON.stringify(rippleState));
                   await page.locator('[data-water-sound]').click();
                   const soundOn=await page.locator('[data-water-sound]').innerText();
                   await page.locator('[data-water-sound]').click();
@@ -145,15 +146,31 @@ jobs:
                 if(path!=='index.html'&&await page.locator('.next-page a[href]').count()===0) item.pageErrors.push('Missing next-page destination');
                 if(path==='contact.html'&&(!bodyText.includes('tbmax.in@hotmail.com')||!bodyText.includes('HMC-NORVA'))) item.pageErrors.push('Contact page is missing the approved email or WeChat ID');
                 if(path==='experiment-sound.html'&&width===1440){
-                  await page.locator('[data-water-sound]').click();
-                  const buttonText=await page.locator('[data-water-sound]').innerText();
-                  const box=await page.locator('[data-sound-stage]').boundingBox();
-                  await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.1,clientY:box.y+box.height*.2});
-                  const low=await page.locator('[data-sound-stage]').getAttribute('data-frequency');
-                  await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.9,clientY:box.y+box.height*.8});
-                  const high=await page.locator('[data-sound-stage]').getAttribute('data-frequency');
-                  await page.locator('[data-water-sound]').click();
-                  if(buttonText!=='水声 · ON'||!low||!high||Number(high)<=Number(low)) item.pageErrors.push('Sound topography interaction failed: '+JSON.stringify({buttonText,low,high}));
+                  const canvas=await page.locator('[data-mic-canvas]').boundingBox();
+                  const button=await page.locator('[data-mic-start]').count();
+                  if(!canvas||canvas.width<100||canvas.height<100||button!==1) item.pageErrors.push('Microphone sound topography controls or canvas are missing');
+                  else {
+                    await page.context().grantPermissions(['microphone'],{origin:new URL(url).origin});
+                    await page.locator('[data-mic-start]').click();
+                    await page.waitForTimeout(350);
+                    const status=await page.locator('[data-mic-status]').innerText();
+                    const level=await page.locator('[data-mic-level]').innerText();
+                    if(!status.includes('正在读取声音')||level==='—') item.pageErrors.push('Microphone input did not start or update its readout: '+JSON.stringify({status,level}));
+                    await page.locator('[data-mic-start]').click();
+                  }
+                }
+                if(path==='experiment-tide.html'&&width===1440){
+                  const canvas=await page.locator('[data-tide-canvas]').boundingBox();
+                  const readouts=await page.locator('.tide-readout strong').allTextContents();
+                  const pixels=await page.locator('[data-tide-canvas]').evaluate(el=>{const c=el.getContext('2d');const d=c.getImageData(0,0,el.width,el.height).data;let n=0;for(let i=3;i<d.length;i+=4)if(d[i]>0)n++;return n});
+                  if(!canvas||canvas.width<100||canvas.height<100||readouts.length!==3||readouts.some(x=>!x.trim())||pixels<100) item.pageErrors.push('Generative tide canvas or time/moon readouts failed: '+JSON.stringify({canvas,readouts,pixels}));
+                }
+                if(path==='experiment-field.html'&&width===1440){
+                  await page.locator('[data-field-word]').fill('涟漪');
+                  await page.locator('[data-field-create]').click();
+                  await page.waitForTimeout(250);
+                  const pixels=await page.locator('[data-field-canvas]').evaluate(el=>{const c=el.getContext('2d');const d=c.getImageData(0,0,el.width,el.height).data;let n=0;for(let i=3;i<d.length;i+=4)if(d[i]>0)n++;return n});
+                  if(pixels<100) item.pageErrors.push('Text-to-particle field did not render visible particles: '+pixels);
                 }
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
                 if(width===1440 && path==='experiment-water.html') {
@@ -241,3 +258,5 @@ jobs:
           name: norva-site-audit
           path: audit-output/
           retention-days: 7
+
+# Re-run after correcting water preset selectors.
