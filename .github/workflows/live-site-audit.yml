@@ -2,6 +2,7 @@ name: NORVA production website audit
 on:
   push:
     branches:
+      - main
       - redesign/norva-world-v1
     paths:
       - ".github/workflows/live-site-audit.yml"
