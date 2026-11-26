@@ -134,3 +134,5 @@ body:not(.home-screen){padding-bottom:76px}
 }
 @keyframes node-pulse{0%,100%{opacity:.56}50%{opacity:1}}
 @keyframes star-twinkle{0%,100%{opacity:.18;transform:scale(.82)}48%{opacity:.9;transform:scale(1.08)}62%{opacity:.48;transform:scale(.94)}}
+
+@media(max-width:520px){.star-node .sparkle{display:none}}
