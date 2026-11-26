@@ -66,6 +66,19 @@ jobs:
               try {
                 await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
                 await page.waitForTimeout(700);
+                const homeNavCount=await page.locator('.nav a[href="index.html"]').count();
+                if(homeNavCount!==1) item.pageErrors.push('Main navigation must contain exactly one 首页 link: '+homeNavCount);
+                if(path==='index.html') {
+                  const homeState=await page.evaluate(()=>({
+                    height:document.documentElement.scrollHeight,
+                    viewport:innerHeight,
+                    canvas:!!document.querySelector('canvas[data-orbit]'),
+                    canvasRect:(()=>{const r=document.querySelector('canvas[data-orbit]')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
+                    canvasPointerEvents:document.querySelector('canvas[data-orbit]')?getComputedStyle(document.querySelector('canvas[data-orbit]')).pointerEvents:null
+                  }));
+                  if(homeState.height>homeState.viewport+1) item.pageErrors.push('Homepage should fit one viewport: '+JSON.stringify(homeState));
+                  if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100 || homeState.canvasPointerEvents==='none') item.pageErrors.push('Homepage interactive canvas is missing or not pointer-accessible: '+JSON.stringify(homeState));
+                }
                 if(width===390) {
                   const menu=page.locator('.menu-button');
                   if(await menu.count()) {
@@ -137,6 +150,15 @@ jobs:
                   const imageFailures=await page.evaluate(()=>Array.from(document.images).filter(img=>!img.complete||img.naturalWidth===0).map(img=>({url:img.currentSrc||img.src,error:'image failed to load'})));
                   for(const failure of imageFailures) item.failedRequests.push(failure);
                   await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
+                }
+                if(width===1440 && path==='index.html') {
+                  const enter=page.locator('.home-enter');
+                  if(await enter.count()!==1) item.pageErrors.push('Homepage must have exactly one entry link');
+                  else {
+                    await enter.click();
+                    await page.waitForURL('**/studio.html',{timeout:10000}).catch(()=>{});
+                    if(!page.url().endsWith('/studio.html')) item.pageErrors.push('Homepage entry did not navigate to studio.html: '+page.url());
+                  }
                 }
                 if(width===1440) {
                   const links = await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')).filter(Boolean));
