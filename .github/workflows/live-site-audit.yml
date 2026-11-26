@@ -118,6 +118,10 @@ jobs:
                   await page.waitForTimeout(100);
                   const ripple=await page.evaluate(()=>({count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:document.querySelector('[data-onething-keyword]')?.hidden===false}));
                   if(ripple.count<1||!ripple.keywordVisible)item.pageErrors.push('Homepage ripple writing failed: '+JSON.stringify(ripple));
+                  await page.locator('[data-water-sound]').click();const soundOn=await page.locator('[data-water-sound]').innerText();await page.locator('[data-water-sound]').click();if(soundOn!=='水声 · ON')item.pageErrors.push('Homepage water sound switch failed');
+                }
+                if(width===1440 && route==='experiment-sound.html'){
+                  await page.locator('[data-water-sound]').click();const buttonText=await page.locator('[data-water-sound]').innerText();const box=await page.locator('[data-sound-stage]').boundingBox();await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.1,clientY:box.y+box.height*.2});const low=await page.locator('[data-sound-stage]').getAttribute('data-frequency');await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.9,clientY:box.y+box.height*.8});const high=await page.locator('[data-sound-stage]').getAttribute('data-frequency');await page.locator('[data-water-sound]').click();if(buttonText!=='水声 · ON'||!low||!high||Number(high)<=Number(low))item.pageErrors.push('Sound topography interaction failed');
                 }
                 if(width===1440 && route==='experiment-water.html'){
                   await page.locator('[data-breath] button').click();

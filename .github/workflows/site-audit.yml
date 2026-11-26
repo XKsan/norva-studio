@@ -101,6 +101,10 @@ jobs:
                   await page.waitForTimeout(100);
                   const rippleState=await page.evaluate(()=>({count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:document.querySelector('[data-onething-keyword]')?.hidden===false}));
                   if(rippleState.count<1||!rippleState.keywordVisible) item.pageErrors.push('Homepage ripple writing interaction failed: '+JSON.stringify(rippleState));
+                  await page.locator('[data-water-sound]').click();
+                  const soundOn=await page.locator('[data-water-sound]').innerText();
+                  await page.locator('[data-water-sound]').click();
+                  if(soundOn!=='水声 · ON') item.pageErrors.push('Homepage water sound switch failed: '+soundOn);
                   if(homeState.topMenu) item.pageErrors.push('Homepage must not display a top menu');
                   if(homeState.externalFonts.length) item.pageErrors.push('External font requests detected: '+JSON.stringify(homeState.externalFonts));
                 }
@@ -138,6 +142,17 @@ jobs:
                 if(/SUMERU|须弥山|¥|￥|RMB|CNY|价格|报价|收费/.test(bodyText)) item.pageErrors.push('Forbidden brand or price text detected');
                 if(path!=='index.html'&&await page.locator('.next-page a[href]').count()===0) item.pageErrors.push('Missing next-page destination');
                 if(path==='contact.html'&&(!bodyText.includes('tbmax.in@hotmail.com')||!bodyText.includes('HMC-NORVA'))) item.pageErrors.push('Contact page is missing the approved email or WeChat ID');
+                if(path==='experiment-sound.html'&&width===1440){
+                  await page.locator('[data-water-sound]').click();
+                  const buttonText=await page.locator('[data-water-sound]').innerText();
+                  const box=await page.locator('[data-sound-stage]').boundingBox();
+                  await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.1,clientY:box.y+box.height*.2});
+                  const low=await page.locator('[data-sound-stage]').getAttribute('data-frequency');
+                  await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.9,clientY:box.y+box.height*.8});
+                  const high=await page.locator('[data-sound-stage]').getAttribute('data-frequency');
+                  await page.locator('[data-water-sound]').click();
+                  if(buttonText!=='水声 · ON'||!low||!high||Number(high)<=Number(low)) item.pageErrors.push('Sound topography interaction failed: '+JSON.stringify({buttonText,low,high}));
+                }
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
                 if(width===1440 && path==='experiment-water.html') {
                   await page.locator('[data-breath] button').click();
