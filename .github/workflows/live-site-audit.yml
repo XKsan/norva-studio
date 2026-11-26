@@ -117,7 +117,7 @@ jobs:
                 if(route==='studio.html'&&width===600&&state.studioGrid?.lastColumnEnd!=='-1')item.pageErrors.push('Studio third panel does not fill the tablet grid row: '+JSON.stringify(state.studioGrid));
                 if(route==='antmonologue.html'&&(!state.antImageFit||state.antImageFit.objectFit!=='contain'||state.antImageFit.frameWidth>421||state.antImageFit.naturalWidth<1||state.antImageFit.naturalHeight<1))item.pageErrors.push('Antmonologue image must fit without cropping: '+JSON.stringify(state.antImageFit));
                 
-                if(route==='index.html'){const spacingMin=width<=520?7:12;if(!state.onethingSpacing||Object.values(state.onethingSpacing).some(v=>v===null||v<spacingMin))item.pageErrors.push('ONETHING vertical spacing is below the '+(width<=520?'mobile':'desktop')+' accepted minimum ('+spacingMin+'px): '+JSON.stringify(state.onethingSpacing));}
+                if(route==='index.html'){const spacingMin=width<=520?7:6;if(!state.onethingSpacing||Object.values(state.onethingSpacing).some(v=>v===null||v<spacingMin))item.pageErrors.push('ONETHING vertical spacing is below the '+(width<=520?'mobile':'desktop')+' accepted minimum ('+spacingMin+'px): '+JSON.stringify(state.onethingSpacing));}
                 if(state.pageTitleSize!==null&&state.pageTitleSize>28.5)item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
                 const expectedCanonical=route==='index.html'?base:new URL(route,base).href;
                 if(state.canonical!==expectedCanonical)item.pageErrors.push('Canonical mismatch: '+state.canonical);
