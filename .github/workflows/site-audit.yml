@@ -1,4 +1,5 @@
 name: NORVA site audit screenshots
+# Covers current bilingual homepage and four distinct experiment interactions.
 on:
   push:
     branches:
