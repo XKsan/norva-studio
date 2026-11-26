@@ -60,3 +60,43 @@ body:not(.home-screen){padding-bottom:76px}
 .keep-together{white-space:nowrap}
 @media(max-width:760px){body.studio-page .content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}body.studio-page .content-grid>.content-panel:last-child:nth-child(odd){grid-column:1/-1}}
 @media(max-width:520px){.floating-page-nav{right:12px;bottom:14px;gap:5px;padding:6px}.floating-page-nav button,.floating-page-nav a{width:36px;height:36px;font-size:18px}.floating-page-nav a{font-size:16px}body.studio-page .content-grid{grid-template-columns:1fr}body.studio-page .content-grid>.content-panel:last-child:nth-child(odd){grid-column:auto}}
+
+
+/* Mobile home: restore document flow to prevent ONETHING / star-map collisions */
+@media(max-width:520px){
+  .home-screen{height:auto;min-height:100svh;overflow-x:hidden;overflow-y:auto}
+  .home-entry{height:auto;min-height:100svh}
+  .home-water{
+    height:auto;min-height:100svh;display:flex;flex-direction:column;align-items:center;
+    padding:clamp(112px,16vh,142px) 0 24px;overflow:hidden
+  }
+  .home-mark{
+    position:relative;top:auto;left:auto;transform:none;width:90vw;
+    margin:0 auto;text-align:center
+  }
+  .home-wordmark{font-size:48px;margin-bottom:12px}
+  .home-tagline{
+    display:block;max-width:100%;white-space:normal;
+    line-height:1.8;letter-spacing:.18em
+  }
+  .onething{
+    position:relative;top:auto;left:auto;transform:none;
+    width:min(92vw,440px);margin:clamp(34px,5vh,46px) auto 0;padding:0 8px
+  }
+  .onething .category{display:block;margin:0 0 12px}
+  .onething-date{margin-bottom:10px}
+  .one-bilingual h2:first-child{margin-bottom:7px}
+  .one-bilingual h2:nth-child(2){margin-bottom:10px}
+  .one-bilingual .reveal{margin:8px auto 0;line-height:1.75}
+  .one-bilingual .reveal[data-one-reveal-zh]{margin-top:8px}
+  .one-bilingual .meaning{margin:12px auto 0;line-height:1.75}
+  .one-bilingual .meaning[data-one-meaning-zh]{margin-top:8px}
+  .star-map{
+    position:relative;left:auto;bottom:auto;transform:none;flex:0 0 auto;
+    width:min(92vw,650px);height:112px;margin:30px auto 0
+  }
+  .home-hint{
+    position:relative;left:auto;bottom:auto;transform:none;
+    margin:12px auto 18px;white-space:normal;text-align:center
+  }
+}
