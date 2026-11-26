@@ -9,3 +9,15 @@ body.studio-page .content-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap
 body.contact-page .contact-method{max-width:720px}
 @media(max-width:760px){body.studio-page .content-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){body.studio-page .content-grid{grid-template-columns:1fr}}
+
+/* Balanced layouts for the manual review */
+body.studio-page .content-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 32px}
+body.contact-page .contact-layout{grid-template-columns:.9fr 1.1fr;gap:7vw;align-items:start}
+body.contact-page .contact-guidance{padding:25px 0;border-top:1px solid var(--line);max-width:480px}
+body.contact-page .contact-guidance h3{font-size:18px;font-weight:300;line-height:1.8;color:var(--moon);margin:14px 0}
+body.contact-page .contact-guidance p:not(.eyebrow){font-size:12px;line-height:2.1;color:var(--muted);margin:10px 0}
+body.contact-page .contact-layout .contact-method{max-width:none}
+.archive-collections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
+.archive-collections .archive-category{min-width:0}
+@media(max-width:760px){body.studio-page .content-grid{grid-template-columns:1fr 1fr}body.contact-page .contact-layout{grid-template-columns:1fr;gap:24px}.archive-collections{grid-template-columns:1fr}}
+@media(max-width:520px){body.studio-page .content-grid{grid-template-columns:1fr}}
