@@ -40,6 +40,7 @@ jobs:
           const widths = [1440,768,390];
           const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, summary:{}};
           const browser = await chromium.launch({headless:true});
+          const checkedLinks = new Set();
           const root = await browser.newPage();
           const rootResponse = await root.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
           report.deployment = {
@@ -103,7 +104,10 @@ jobs:
                     let target;try{target=new URL(href,new URL(route,base))}catch{continue}
                     if(target.origin!==new URL(base).origin)continue;
                     const path=target.pathname.endsWith('/')?target.pathname+'index.html':target.pathname;
-                    const res=await page.request.get(target.origin+path,{timeout:20000}).catch(()=>null);
+                    const checkUrl=target.origin+path;
+                    if(checkedLinks.has(checkUrl))continue;
+                    checkedLinks.add(checkUrl);
+                    const res=await page.request.get(checkUrl,{timeout:5000}).catch(()=>null);
                     if(!res||!res.ok())report.brokenLinks.push({from:route,href,status:res?.status()??'request failed'});
                     else if(target.hash){
                       const html=await res.text(),id=decodeURIComponent(target.hash.slice(1));
