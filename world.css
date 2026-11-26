@@ -9,3 +9,24 @@ body.studio-page .content-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap
 body.contact-page .contact-method{max-width:720px}
 @media(max-width:760px){body.studio-page .content-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){body.studio-page .content-grid{grid-template-columns:1fr}}
+
+/* Manual audit refinements */
+.onething-date{display:block;margin:0 0 12px;font:9px var(--mono);letter-spacing:.14em;color:#718990}
+.one-bilingual h2:first-child{font:11px var(--mono);letter-spacing:.08em;color:#9eb8bc;margin:0 0 5px}
+.one-bilingual h2:nth-child(2){font-size:clamp(16px,2vw,21px);margin-bottom:12px}
+.one-bilingual .reveal[data-one-reveal-en]{color:#81969d;font-size:10px}
+.one-bilingual .meaning[data-one-meaning-en]{color:#657a82;font-size:9px}
+.tide-stage{min-height:390px}
+.tide-stage canvas{position:absolute;inset:0}
+.tide-readout{position:absolute;left:20px;right:20px;bottom:18px;display:flex;gap:26px;flex-wrap:wrap;font:9px var(--mono);letter-spacing:.1em;color:#718990;pointer-events:none}
+.tide-readout strong{display:block;margin-top:6px;color:#b7d7d2;font-weight:400;font-size:12px}
+.experiment-readout{display:flex;gap:28px;flex-wrap:wrap;margin-top:18px;font:10px var(--mono);letter-spacing:.08em;color:var(--muted)}
+.experiment-readout strong{color:var(--water);font-weight:400}
+.experiment-input{display:flex;gap:12px;margin-top:20px;max-width:560px}
+.experiment-input input{flex:1;min-width:0;background:transparent;border:1px solid var(--line);padding:12px 14px;color:var(--moon);font:12px var(--sans)}
+.experiment-input button{background:transparent;border:1px solid var(--line);padding:12px 18px;color:var(--water);font-size:11px}
+.archive-category{padding:24px 0;border-top:1px solid var(--line)}
+.archive-category h3{font-size:17px;font-weight:300;letter-spacing:.08em;margin:0 0 16px;color:var(--moon)}
+.archive-links{display:flex;gap:24px;flex-wrap:wrap}
+.archive-links a{font-size:11px;color:var(--water);border-bottom:1px solid var(--line);padding-bottom:7px}
+@media(max-width:520px){.tide-readout{gap:12px;left:12px;right:12px;bottom:12px}.experiment-input{flex-direction:column}}
