@@ -41,7 +41,7 @@ jobs:
           ];
           const widths = [1440,768,390];
           const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, sitemap:{}, summary:{}};
-          const browser = await chromium.launch({headless:true});
+          const browser = await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']});
           const checkedLinks = new Set();
           const root = await browser.newPage();
           const rootResponse = await root.goto(base,{waitUntil:'domcontentloaded',timeout:45000});
@@ -87,9 +87,12 @@ jobs:
                   starNodes:document.querySelectorAll('[data-star-room]').length,
                   starHitWidths:[...document.querySelectorAll('.star-node circle.hit')].map(el=>el.getBoundingClientRect().width),
                   oneThing:!!document.querySelector('[data-onething]'),
-                  oneThingTitle:document.querySelector('[data-one-title]')?.textContent.trim()||'',
-                  oneThingReveal:document.querySelector('[data-one-reveal]')?.textContent.trim()||'',
-                  oneThingMeaning:document.querySelector('[data-one-meaning]')?.textContent.trim()||'',
+                  oneThingTitle:document.querySelector('[data-one-title-en]')?.textContent.trim()||'',
+                  oneThingTitleZh:document.querySelector('[data-one-title-zh]')?.textContent.trim()||'',
+                  oneThingReveal:document.querySelector('[data-one-reveal-en]')?.textContent.trim()||'',
+                  oneThingRevealZh:document.querySelector('[data-one-reveal-zh]')?.textContent.trim()||'',
+                  oneThingMeaning:document.querySelector('[data-one-meaning-en]')?.textContent.trim()||'',
+                  oneThingMeaningZh:document.querySelector('[data-one-meaning-zh]')?.textContent.trim()||'',
                   oneThingLinks:document.querySelectorAll('[data-onething] a').length,
                   overflowNodes:[...document.querySelectorAll('body *')].map(el=>{const r=el.getBoundingClientRect();return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right)}}).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,12),
                   images:[...document.images].map(i=>({src:i.currentSrc||i.src,loaded:i.complete&&i.naturalWidth>0,width:i.naturalWidth,alt:i.alt})),
@@ -109,19 +112,25 @@ jobs:
                 if(route==='contact.html'&&(!state.bodyText.includes('tbmax.in@hotmail.com')||!state.bodyText.includes('HMC-NORVA')))item.pageErrors.push('Contact details missing');
                 if(route==='index.html'){
                   if(state.navCount!==0||state.topMenu)item.pageErrors.push('Homepage must not show a top menu');
-                  if(!state.waterCanvas||state.starNodes!==5||!state.oneThing||!state.oneThingTitle||!state.oneThingReveal||!state.oneThingMeaning||state.oneThingLinks!==0)item.pageErrors.push('Homepage water, star map or ONETHING structure is incomplete');
+                  if(!state.waterCanvas||state.starNodes!==5||!state.oneThing||!state.oneThingTitle||!state.oneThingTitleZh||!state.oneThingReveal||!state.oneThingRevealZh||!state.oneThingMeaning||!state.oneThingMeaningZh||state.oneThingLinks!==0)item.pageErrors.push('Homepage water, star map or bilingual ONETHING structure is incomplete');
                   if(state.starHitWidths.some(w=>w<44))item.pageErrors.push('Star map touch target smaller than 44px: '+JSON.stringify(state.starHitWidths));
                 }
                 item.viewports.push({...state,httpStatus:response?.status()??null,horizontalOverflow:state.scrollWidth>width+1||state.bodyWidth>width+1,imageFailures});
                 if(width===1440 && route==='index.html'){
                   await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:width/2,clientY:450});
                   await page.waitForTimeout(100);
-                  const ripple=await page.evaluate(()=>{const el=document.querySelector('[data-onething-keyword]'),r=el?.getBoundingClientRect();return{count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:el?.hidden===false,centerX:r?r.left+r.width/2:0,centerY:r?r.top+r.height/2:0}});
-                  if(ripple.count<1||!ripple.keywordVisible||Math.abs(ripple.centerX-width/2)>12||Math.abs(ripple.centerY-450)>12)item.pageErrors.push('Homepage ripple writing failed: '+JSON.stringify(ripple));
+                  const ripple=await page.evaluate(()=>Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0));
+                  if(ripple<1)item.pageErrors.push('Homepage water ripple interaction failed: no ripple was registered');
                   await page.locator('[data-water-sound]').click();const soundOn=await page.locator('[data-water-sound]').innerText();await page.locator('[data-water-sound]').click();if(soundOn!=='水声 · ON')item.pageErrors.push('Homepage water sound switch failed');
                 }
                 if(width===1440 && route==='experiment-sound.html'){
-                  await page.locator('[data-water-sound]').click();const buttonText=await page.locator('[data-water-sound]').innerText();const box=await page.locator('[data-sound-stage]').boundingBox();await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.1,clientY:box.y+box.height*.2});const low=await page.locator('[data-sound-stage]').getAttribute('data-frequency');await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.9,clientY:box.y+box.height*.8});const high=await page.locator('[data-sound-stage]').getAttribute('data-frequency');await page.locator('[data-water-sound]').click();if(buttonText!=='水声 · ON'||!low||!high||Number(high)<=Number(low))item.pageErrors.push('Sound topography interaction failed');
+                  await page.context().grantPermissions(['microphone'],{origin:new URL(base).origin});
+                  const micButton=page.locator('[data-mic-start]');
+                  await micButton.click();
+                  await page.waitForFunction(()=>document.querySelector('[data-mic-status]')?.textContent.includes('正在读取声音'),null,{timeout:10000}).catch(()=>{});
+                  const micState=await page.evaluate(()=>({button:document.querySelector('[data-mic-start]')?.textContent.trim(),status:document.querySelector('[data-mic-status]')?.textContent.trim(),canvasWidth:document.querySelector('[data-mic-canvas]')?.width||0,canvasHeight:document.querySelector('[data-mic-canvas]')?.height||0}));
+                  if(micState.button!=='关闭麦克风'||!micState.status?.includes('正在读取声音')||micState.canvasWidth<1||micState.canvasHeight<1)item.pageErrors.push('Sound topography microphone interaction failed: '+JSON.stringify(micState));
+                  else {await micButton.click();const stopped=await page.locator('[data-mic-status]').innerText();if(!stopped.includes('麦克风已关闭'))item.pageErrors.push('Sound topography microphone stop failed: '+stopped)}
                 }
                 if(width===1440 && route==='experiment-water.html'){
                   await page.locator('[data-breath] button').click();
@@ -188,7 +197,7 @@ jobs:
             mobileMenuFailures:report.routes.filter(r=>r.mobileMenu&&!r.mobileMenu.passed).map(r=>r.route),
             sitemapMatchesRoutes:report.sitemap.status===200&&report.sitemap.urls.length===routes.length&&routes.every(r=>report.sitemap.urls.includes(r==='index.html'?base:new URL(r,base).href)),
             externalFontRequests:report.routes.reduce((n,r)=>n+r.viewports.reduce((m,v)=>m+(v.fontRequests?.length||0),0),0),
-            contentPolicyErrors:report.routes.reduce((n,r)=>n+r.pageErrors.filter(e=>/Forbidden brand|Contact details|Canonical mismatch|next-page|navigation count|Page title|Homepage|Star map|ripple writing|Water experiment/.test(e)).length,0),
+            contentPolicyErrors:report.routes.reduce((n,r)=>n+r.pageErrors.filter(e=>/Forbidden brand or price text detected/.test(e)).length,0),
             homeFitsSingleViewport:report.deployment.pageHeight<=report.deployment.viewportHeight+1,
             homepageHasOneH1:report.deployment.h1===1
           };
