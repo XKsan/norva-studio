@@ -107,7 +107,7 @@ body:not(.home-screen){padding-bottom:76px}
   .onething{top:52%}
   .star-map{bottom:10%}
   .star-node .core{fill:var(--node-color);animation:node-pulse 8.4s ease-in-out infinite}
-  .star-node .spark{fill:var(--node-color);opacity:.22;filter:drop-shadow(0 0 4px var(--node-color));transform-box:fill-box;transform-origin:center;animation:star-twinkle 8.4s ease-in-out infinite}
+  .star-node .spark{display:block;fill:var(--node-color);opacity:.22;filter:drop-shadow(0 0 4px var(--node-color));transform-box:fill-box;transform-origin:center;animation:star-twinkle 8.4s ease-in-out infinite}
   .star-node--studio{--node-color:#9fded2}
   .star-node--works{--node-color:#d8bd82}
   .star-node--experiments{--node-color:#91b9e8}
