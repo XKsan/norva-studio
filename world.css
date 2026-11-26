@@ -107,8 +107,15 @@ body:not(.home-screen){padding-bottom:76px}
   .home-screen{height:100svh;min-height:0;overflow:hidden}
   .home-mark{top:20%}
   .onething{top:42%;}
-  .star-map{bottom:15%;height:110px}
-  .home-hint{bottom:7%}
+  .onething .category{margin-bottom:14px}
+  .one-bilingual h2:first-child{margin-bottom:8px}
+  .one-bilingual h2:nth-child(2){margin-bottom:12px}
+  .one-bilingual .reveal{margin-top:6px;line-height:1.75}
+  .one-bilingual .reveal[data-one-reveal-zh]{margin-top:7px}
+  .one-bilingual .meaning{margin-top:9px;line-height:1.75}
+  .one-bilingual .meaning[data-one-meaning-zh]{margin-top:7px}
+  .star-map{bottom:18%;height:110px}
+  .home-hint{bottom:90px}
   .star-node circle.core{animation:node-pulse 8.4s ease-in-out infinite}
   .star-node .sparkle{font:9px var(--sans);text-anchor:middle;fill:var(--node-color);opacity:.25;animation:star-twinkle 8.4s ease-in-out infinite}
   .star-node .node-label{font:13px var(--sans);letter-spacing:2.4px;text-anchor:middle;fill:#d0dcdf;opacity:.96}
