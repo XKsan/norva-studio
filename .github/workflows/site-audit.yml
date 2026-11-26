@@ -179,7 +179,7 @@ jobs:
                   await page.locator('[data-breath] button').click();
                   if(!breathOn||!breathLabel.includes('吸气')) item.pageErrors.push('4/6 breathing interaction failed');
                   await page.locator('[data-water-tone]').first().click();
-                  const tone=await page.locator('[data-play-canvas]').evaluate(el=>getComputedStyle(el).getPropertyValue('--water-preview').trim());
+                  const tone=await page.locator('[data-play-canvas]').getAttribute('data-current-tone');
                   if(tone!=='#8fd8cd') item.pageErrors.push('Local water tone control failed: '+tone);
                 }
                 if(width===1440) {
