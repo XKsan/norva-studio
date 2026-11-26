@@ -106,7 +106,7 @@ body:not(.home-screen){padding-bottom:76px}
   .home-mark{top:25%}
   .onething{top:52%}
   .star-map{bottom:15%}
-  .home-hint{bottom:55px}
+  .home-hint{bottom:90px}
   .star-node[class*="star-node--"] .core{fill:var(--node-color);animation:node-pulse 8.4s ease-in-out infinite}
   .star-node .spark{display:block;fill:var(--node-color);opacity:.22;filter:drop-shadow(0 0 4px var(--node-color));transform-box:fill-box;transform-origin:center;animation:star-twinkle 8.4s ease-in-out infinite}
   .star-node--studio{--node-color:#9fded2}
