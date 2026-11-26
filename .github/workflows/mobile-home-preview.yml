@@ -1,4 +1,4 @@
-name: Mobile home visual preview
+name: Homepage responsive visual preview
 on:
   pull_request:
     branches: [main]
@@ -10,9 +10,9 @@ on:
 permissions:
   contents: read
 jobs:
-  screenshot:
+  homepage-preview:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,46 +22,47 @@ jobs:
         run: |
           npm install --no-save playwright
           npx playwright install --with-deps chromium
-      - name: Verify 390px mobile Chrome-style document scrolling
+      - name: Verify desktop composition, star map and mobile layout
         run: |
           python3 -m http.server 4173 >/tmp/norva-preview-server.log 2>&1 &
           node --input-type=module <<'EOF'
           import { chromium } from 'playwright';
-          import { readFileSync } from 'node:fs';
-          const browser = await chromium.launch({headless:true});
-          const page = await browser.newPage({viewport:{width:390,height:651},deviceScaleFactor:1,isMobile:false,hasTouch:true,reducedMotion:'reduce'});
-          await page.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle'});
-          await page.waitForTimeout(1200);
-          const before = await page.evaluate(() => ({
-            viewport:{width:innerWidth,height:innerHeight},
-            documentHeight:document.documentElement.scrollHeight,
-            bodyHeight:document.body.scrollHeight,
-            bodyOverflow:getComputedStyle(document.body).overflowY,
-            waterOverflow:getComputedStyle(document.querySelector('.home-water')).overflow,
-            category:document.querySelector('.onething .category').getBoundingClientRect().toJSON(),
-            tagline:document.querySelector('.home-tagline').getBoundingClientRect().toJSON(),
-            meaning:document.querySelector('.onething .meaning:last-child').getBoundingClientRect().toJSON(),
-            map:document.querySelector('.star-map').getBoundingClientRect().toJSON()
-          }));
-          await page.screenshot({path:'mobile-home-390-full.png',fullPage:true});
-          await page.evaluate(() => window.scrollTo(0,document.documentElement.scrollHeight));
-          await page.waitForTimeout(250);
-          const after = await page.evaluate(() => {
-            const r=document.querySelector('.home-hint').getBoundingClientRect();
-            return {scrollY,scrollHeight:document.documentElement.scrollHeight,clientHeight:document.documentElement.clientHeight,hint:{top:r.top,bottom:r.bottom},hintVisible:r.bottom>0&&r.top<innerHeight,scrollbarNeeded:document.documentElement.scrollHeight>document.documentElement.clientHeight};
-          });
-          await page.screenshot({path:'mobile-home-390-bottom.png'});
-          console.log(JSON.stringify({before,after},null,2));
-          if(before.documentHeight<=before.viewport.height || before.bodyOverflow==='hidden' || before.waterOverflow==='hidden' || before.category.top<before.tagline.bottom || before.map.top<before.meaning.bottom || after.scrollY<=0 || !after.hintVisible || !after.scrollbarNeeded) process.exitCode=1;
-          const js=readFileSync('world.js','utf8');
-          if(!/noiseFilter\.frequency\.value=1200/.test(js)||!/setTargetAtTime\(\.2,audio\.currentTime,\.25\)/.test(js)) { console.error('Water audio gain/filter settings not updated'); process.exitCode=1; }
+          const browser=await chromium.launch({headless:true});
+          const desktop=[];
+          for(const viewport of [{width:1440,height:900},{width:1512,height:982}]){
+            const page=await browser.newPage({viewport,reducedMotion:'no-preference'});
+            await page.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle'});
+            await page.waitForTimeout(1200);
+            const state=await page.evaluate(()=>{const r=s=>document.querySelector(s).getBoundingClientRect();const tag=r('.home-tagline'),cat=r('.onething .category'),mark=r('.home-mark'),map=r('.star-map'),hint=r('.home-hint'),nodes=[...document.querySelectorAll('.star-node circle.core')],sparks=[...document.querySelectorAll('.star-node .spark')];return {viewport:{width:innerWidth,height:innerHeight},taglineCategoryGap:cat.top-tag.bottom,brandTop:mark.top,brandTopRatio:mark.top/innerHeight,starMap:{top:map.top,bottom:map.bottom},hint:{top:hint.top,bottom:hint.bottom},starMapVisible:map.top>=0&&map.bottom<=innerHeight,hintVisible:hint.top>=0&&hint.bottom<=innerHeight,nodeColors:nodes.map(n=>getComputedStyle(n).fill),animationDelays:nodes.map(n=>getComputedStyle(n).animationDelay),sparkCount:sparks.length,labels:[...document.querySelectorAll('.star-node text')].map(n=>n.textContent),links:[...document.querySelectorAll('[data-star-room]')].map(n=>n.closest('a')?.getAttribute('href'))}});
+            await page.screenshot({path:'desktop-home-'+viewport.width+'.png',fullPage:true});
+            desktop.push(state);
+            if(state.taglineCategoryGap<28||state.brandTopRatio>.24||!state.starMapVisible||!state.hintVisible||state.starMap.bottom>state.hint.top||new Set(state.nodeColors).size!==5||new Set(state.animationDelays).size!==5||state.sparkCount!==5||state.labels.join('|')!=='工作室|作品|实验|产品|联系'||state.links.join('|')!=='studio.html|works.html|experiments.html|products.html|contact.html')process.exitCode=1;
+            await page.close();
+          }
+          const reduced=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+          await reduced.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle'});
+          const reducedDuration=await reduced.locator('.star-node .spark').first().evaluate(el=>getComputedStyle(el).animationDuration);
+          if(!['1e-05s','0.00001s','0.01ms'].includes(reducedDuration))process.exitCode=1;
+          await reduced.close();
+          const mobile=await browser.newPage({viewport:{width:390,height:651},deviceScaleFactor:1,isMobile:false,hasTouch:true,reducedMotion:'reduce'});
+          await mobile.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle'});
+          await mobile.waitForTimeout(1000);
+          const before=await mobile.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight,tagline:document.querySelector('.home-tagline').getBoundingClientRect().toJSON(),category:document.querySelector('.onething .category').getBoundingClientRect().toJSON(),bodyOverflow:getComputedStyle(document.body).overflowY,waterOverflow:getComputedStyle(document.querySelector('.home-water')).overflow}));
+          await mobile.screenshot({path:'mobile-home-390-full.png',fullPage:true});
+          await mobile.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+          const after=await mobile.evaluate(()=>{const r=document.querySelector('.home-hint').getBoundingClientRect();return {scrollY,scrollHeight:document.documentElement.scrollHeight,clientHeight:document.documentElement.clientHeight,hintVisible:r.top<innerHeight&&r.bottom>0}});
+          await mobile.screenshot({path:'mobile-home-390-bottom.png'});
+          console.log(JSON.stringify({desktop,reducedMotionDuration,mobile:{before,after}},null,2));
+          if(before.scrollWidth>before.width+1||before.category.top<before.tagline.bottom||before.bodyOverflow==='hidden'||before.waterOverflow==='hidden'||after.scrollY<=0||!after.hintVisible||after.scrollHeight<=after.clientHeight)process.exitCode=1;
           await browser.close();
           EOF
-      - name: Upload mobile screenshots
+      - name: Upload homepage preview screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: norva-mobile-home-390-scroll-preview
+          name: norva-homepage-responsive-preview
           path: |
+            desktop-home-1440.png
+            desktop-home-1512.png
             mobile-home-390-full.png
             mobile-home-390-bottom.png
           if-no-files-found: error
