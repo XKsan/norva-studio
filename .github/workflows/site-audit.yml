@@ -12,6 +12,9 @@ on:
       - "*.css"
       - "**/*.css"
       - "assets/**"
+      - "*.js"
+      - "**/*.js"
+      - "engine/**"
   workflow_dispatch:
 concurrency:
   group: norva-site-audit-${{ github.ref }}
@@ -75,6 +78,11 @@ jobs:
                   const homeState=await page.evaluate(()=>({
                     height:document.documentElement.scrollHeight,
                     viewport:innerHeight,
+                    onethingTitle:document.querySelector('[data-one-title]')?.textContent.trim()||'',
+                    onethingReveal:document.querySelector('[data-one-reveal]')?.textContent.trim()||'',
+                    onethingMeaning:document.querySelector('[data-one-meaning]')?.textContent.trim()||'',
+                    onethingLinks:document.querySelectorAll('[data-onething] a').length,
+                    topMenu:!!document.querySelector('.menu-button'),
                     canvas:!!document.querySelector('#waterCanvas'),
                     canvasRect:(()=>{const r=document.querySelector('#waterCanvas')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
                     starNodes:document.querySelectorAll('[data-star-room]').length,
@@ -85,6 +93,9 @@ jobs:
                   if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100) item.pageErrors.push('Homepage water canvas is missing or has no dimensions: '+JSON.stringify(homeState));
                   if(homeState.starNodes!==5) item.pageErrors.push('Homepage must contain five direct star-map links: '+homeState.starNodes);
                   if(!homeState.oneThing) item.pageErrors.push('Homepage ONETHING module is missing');
+                  if(!homeState.onethingTitle||!homeState.onethingReveal||!homeState.onethingMeaning) item.pageErrors.push('ONETHING full daily content is incomplete');
+                  if(homeState.onethingLinks!==0) item.pageErrors.push('ONETHING must not link to a separate page');
+                  if(homeState.topMenu) item.pageErrors.push('Homepage must not display a top menu');
                   if(homeState.externalFonts.length) item.pageErrors.push('External font requests detected: '+JSON.stringify(homeState.externalFonts));
                 }
                 if(width===390) {
@@ -104,6 +115,9 @@ jobs:
                   h1:document.querySelectorAll('h1').length, main:document.querySelectorAll('main').length,
                   width:innerWidth, scrollWidth:document.documentElement.scrollWidth,
                   bodyWidth:document.body.scrollWidth, height:document.documentElement.scrollHeight,
+                  fontRequests:performance.getEntriesByType('resource').filter(x=>/fonts\\.(googleapis|gstatic)\\.com/i.test(x.name)).map(x=>x.name),
+                  canonical:document.querySelector('link[rel=canonical]')?.href||null,
+                  pageTitleSize:(()=>{const el=document.querySelector('.page-title');return el?parseFloat(getComputedStyle(el).fontSize):null})(),
                   overflowNodes:Array.from(document.querySelectorAll('body *')).map(el=>{
                     const r=el.getBoundingClientRect(),s=getComputedStyle(el);
                     return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),position:s.position};
@@ -112,6 +126,11 @@ jobs:
                   media:Array.from(document.querySelectorAll('video,iframe')).map(el=>({tag:el.tagName,src:el.currentSrc||el.querySelector('source')?.src||el.src||el.getAttribute('src')||'',poster:el.poster||'',readyState:el.readyState??null,error:el.error?.code??null,title:el.title||''}))
                 }));
                 item.title = state.title;
+                if(state.fontRequests.length) item.pageErrors.push('External font requests: '+JSON.stringify(state.fontRequests));
+                if(state.pageTitleSize!==null&&state.pageTitleSize>28.5) item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
+                const bodyText=await page.locator('body').innerText();
+                if(/SUMERU|须弥山|¥|￥|RMB|CNY|价格|报价|收费/.test(bodyText)) item.pageErrors.push('Forbidden brand or price text detected');
+                if(path!=='index.html'&&await page.locator('.next-page a[href]').count()===0) item.pageErrors.push('Missing next-page destination');
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
                 if(width===1440) {
                   const playback = await page.evaluate(async () => {
