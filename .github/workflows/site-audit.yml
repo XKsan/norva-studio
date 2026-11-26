@@ -131,6 +131,7 @@ jobs:
                 const bodyText=await page.locator('body').innerText();
                 if(/SUMERU|须弥山|¥|￥|RMB|CNY|价格|报价|收费/.test(bodyText)) item.pageErrors.push('Forbidden brand or price text detected');
                 if(path!=='index.html'&&await page.locator('.next-page a[href]').count()===0) item.pageErrors.push('Missing next-page destination');
+                if(path==='contact.html'&&(!bodyText.includes('tbmax.in@hotmail.com')||!bodyText.includes('HMC-NORVA'))) item.pageErrors.push('Contact page is missing the approved email or WeChat ID');
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
                 if(width===1440) {
                   const playback = await page.evaluate(async () => {
