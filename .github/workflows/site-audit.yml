@@ -97,7 +97,7 @@ jobs:
                   if(!homeState.oneThing) item.pageErrors.push('Homepage ONETHING module is missing');
                   if(!homeState.onethingTitle||!homeState.onethingReveal||!homeState.onethingMeaning) item.pageErrors.push('ONETHING full daily content is incomplete');
                   if(homeState.onethingLinks!==0) item.pageErrors.push('ONETHING must not link to a separate page');
-                  await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:innerWidth/2,clientY:innerHeight/2});
+                  await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:width/2,clientY:450});
                   await page.waitForTimeout(100);
                   const rippleState=await page.evaluate(()=>({count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:document.querySelector('[data-onething-keyword]')?.hidden===false}));
                   if(rippleState.count<1||!rippleState.keywordVisible) item.pageErrors.push('Homepage ripple writing interaction failed: '+JSON.stringify(rippleState));
