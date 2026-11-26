@@ -23,7 +23,7 @@ CATEGORIES = [
     "CULTURE",
     "TIME",
     "LIFE",
-    "TECH & AI",
+    "AI",
 ]
 
 
@@ -36,7 +36,7 @@ THEMES = [
     "culture",
     "time",
     "life",
-    "tech-ai",
+    "ai",
 ]
 
 

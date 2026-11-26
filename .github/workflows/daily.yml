@@ -1,45 +1,43 @@
-name: ONETHING DAILY
+name: ONE THING DAILY
 
 on:
   schedule:
     - cron: "0 0 * * *"
+
   workflow_dispatch:
 
 permissions:
   contents: write
-  actions: write
-
-concurrency:
-  group: onething-daily-main
-  cancel-in-progress: false
 
 jobs:
   generate:
-    if: github.ref == 'refs/heads/main'
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install dependencies
-        run: pip install -r engine/requirements.txt
-      - name: Generate ONETHING
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python engine/generate.py
-      - name: Commit daily content
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/onething/today.json
-          git commit -m "Update daily ONETHING" || exit 0
-          git push origin HEAD:main
-      - name: Trigger Pages deployment
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run pages.yml --ref main
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: |
+        pip install -r engine/requirements.txt
+
+    - name: Generate ONE THING
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: |
+        python engine/generate.py
+
+    - name: Commit update
+      run: |
+        git config user.name github-actions
+        git config user.email actions@github.com
+        git add assets/onething/today.json
+        git commit -m "daily one thing" || exit 0
+        git push
