@@ -57,7 +57,7 @@ jobs:
           };
           const sitemapResponse=await root.request.get(new URL('sitemap.xml',base).href).catch(()=>null);
           const sitemapText=sitemapResponse&&sitemapResponse.ok()?await sitemapResponse.text():'';
-          report.sitemap={status:sitemapResponse?.status()??null,urls:[...sitemapText.matchAll(/<loc>(.*?)<\\/loc>/g)].map(m=>m[1])};
+          report.sitemap={status:sitemapResponse?.status()??null,urls:[...sitemapText.matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>m[1])};
           await root.close();
           for (const route of routes) {
             const item={route,title:'',status:null,viewports:[],pageErrors:[],consoleErrors:[],failedRequests:[],mobileMenu:null};
