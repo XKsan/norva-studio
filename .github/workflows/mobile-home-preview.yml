@@ -52,7 +52,7 @@ jobs:
           await mobile.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
           const after=await mobile.evaluate(()=>{const r=document.querySelector('.home-hint').getBoundingClientRect();return {scrollY,scrollHeight:document.documentElement.scrollHeight,clientHeight:document.documentElement.clientHeight,hintVisible:r.top<innerHeight&&r.bottom>0}});
           await mobile.screenshot({path:'mobile-home-390-bottom.png'});
-          console.log(JSON.stringify({desktop,reducedMotionDuration,mobile:{before,after}},null,2));
+          console.log(JSON.stringify({desktop,reducedDuration,mobile:{before,after}},null,2));
           if(before.scrollWidth>before.width+1||before.category.top<before.tagline.bottom||before.bodyOverflow==='hidden'||before.waterOverflow==='hidden'||after.scrollY<=0||!after.hintVisible||after.scrollHeight<=after.clientHeight)process.exitCode=1;
           await browser.close();
           EOF
