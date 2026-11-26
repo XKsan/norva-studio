@@ -87,7 +87,7 @@ jobs:
                     canvasRect:(()=>{const r=document.querySelector('#waterCanvas')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
                     starNodes:document.querySelectorAll('[data-star-room]').length,
                     oneThing:!!document.querySelector('[data-onething]'),
-                    externalFonts:performance.getEntriesByType('resource').filter(x=>/fonts\\.(googleapis|gstatic)\\.com/i.test(x.name)).map(x=>x.name)
+                    externalFonts:performance.getEntriesByType('resource').filter(x=>/fonts\.(googleapis|gstatic)\.com/i.test(x.name)).map(x=>x.name)
                   }));
                   if(homeState.height>homeState.viewport+1) item.pageErrors.push('Homepage should fit one viewport: '+JSON.stringify(homeState));
                   if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100) item.pageErrors.push('Homepage water canvas is missing or has no dimensions: '+JSON.stringify(homeState));
@@ -115,7 +115,7 @@ jobs:
                   h1:document.querySelectorAll('h1').length, main:document.querySelectorAll('main').length,
                   width:innerWidth, scrollWidth:document.documentElement.scrollWidth,
                   bodyWidth:document.body.scrollWidth, height:document.documentElement.scrollHeight,
-                  fontRequests:performance.getEntriesByType('resource').filter(x=>/fonts\\.(googleapis|gstatic)\\.com/i.test(x.name)).map(x=>x.name),
+                  fontRequests:performance.getEntriesByType('resource').filter(x=>/fonts\.(googleapis|gstatic)\.com/i.test(x.name)).map(x=>x.name),
                   canonical:document.querySelector('link[rel=canonical]')?.href||null,
                   pageTitleSize:(()=>{const el=document.querySelector('.page-title');return el?parseFloat(getComputedStyle(el).fontSize):null})(),
                   overflowNodes:Array.from(document.querySelectorAll('body *')).map(el=>{
