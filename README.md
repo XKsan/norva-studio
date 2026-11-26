@@ -1,12 +1,17 @@
-# NORVA STUDIO V2
+# NORVA STUDIO
 
-Minimal static multi-page website. No build step required.
+单站静态网站，部署仅使用 GitHub Actions（Pages workflow）。
 
-Pages: `index.html` (entry), `studio.html`, `make.html`, `works.html`, `field.html`.
+主入口：`index.html`。五个主空间：工作室、作品、实验、产品、联系。作品详情、实验详情、系统产品与制作服务均使用独立页面。
 
-Before public launch:
-- Replace `hello@norvastudio.com` with the real contact email.
-- Replace the abstract work tiles in `works.html` with actual project imagery and destinations.
-- Add real photography, film and original-IP links as the archive grows.
+## 内容与素材
+- 首页 ONETHING 数据：`assets/onething/today.json`。
+- 主导航数据：`assets/navigation.json`，首页星图与内页导航共用。
+- 素材登记：`assets/media-manifest.json`。临时素材状态为 `temporary`，替换后改为 `real`。
+- 真实素材替换前先在预览分支检查，验收后合并至 `main`。
 
-Deploy by pushing to `main`. In GitHub repository Settings → Pages, choose GitHub Actions as source.
+## 开发与验收
+- 所有整改在独立分支进行，`main` 仅在完整验收后更新。
+- 本地预览审计：`.github/workflows/site-audit.yml`。
+- 生产环境审计：`.github/workflows/live-site-audit.yml`，只对 `main` 上线后的站点进行检测。
+- 正式部署仅由 `.github/workflows/pages.yml` 执行。

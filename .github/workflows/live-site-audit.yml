@@ -3,10 +3,6 @@ on:
   push:
     branches:
       - main
-      - redesign/norva-world-v1
-      - redesign/deep-water-gallery-v2
-    paths:
-      - ".github/workflows/live-site-audit.yml"
   workflow_dispatch:
 permissions:
   contents: read
