@@ -1,0 +1,67 @@
+name: Desktop homepage visual preview
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'world.css'
+      - 'world.js'
+      - '.github/workflows/live-site-audit.yml'
+      - '.github/workflows/desktop-home-preview.yml'
+permissions:
+  contents: read
+jobs:
+  desktop-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Verify desktop composition, star map and mobile layout
+        run: |
+          python3 -m http.server 4173 >/tmp/norva-preview-server.log 2>&1 &
+          node --input-type=module <<'EOF'
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch({headless:true});
+          const results=[];
+          for (const viewport of [{width:1440,height:900},{width:1512,height:982}]) {
+            const page=await browser.newPage({viewport,reducedMotion:'no-preference'});
+            await page.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle'});
+            await page.waitForTimeout(1200);
+            const state=await page.evaluate(()=>{const rect=s=>document.querySelector(s).getBoundingClientRect();const tag=rect('.home-tagline'),cat=rect('.onething .category'),mark=rect('.home-mark'),map=rect('.star-map'),hint=rect('.home-hint'),nodes=[...document.querySelectorAll('.star-node circle.core')],sparks=[...document.querySelectorAll('.star-node .spark')];return {viewport:{width:innerWidth,height:innerHeight},taglineCategoryGap:cat.top-tag.bottom,brandTop:mark.top,brandTopRatio:mark.top/innerHeight,starMap:{top:map.top,bottom:map.bottom},hint:{top:hint.top,bottom:hint.bottom},starMapVisible:map.top>=0&&map.bottom<=innerHeight,hintVisible:hint.top>=0&&hint.bottom<=innerHeight,nodeColors:nodes.map(n=>getComputedStyle(n).fill),animationDelays:nodes.map(n=>getComputedStyle(n).animationDelay),sparkCount:sparks.length,sparkDelays:sparks.map(n=>getComputedStyle(n).animationDelay),labels:[...document.querySelectorAll('.star-node text')].map(n=>n.textContent),links:[...document.querySelectorAll('[data-star-room]')].map(n=>n.closest('a')?.getAttribute('href'))}}});
+            await page.screenshot({path:'desktop-home-'+viewport.width+'.png',fullPage:true});
+            results.push(state);
+            if(state.taglineCategoryGap<28||state.brandTopRatio>.24||!state.starMapVisible||!state.hintVisible||state.starMap.bottom>state.hint.top||new Set(state.nodeColors).size!==5||new Set(state.animationDelays).size!==5||state.sparkCount!==5||state.labels.join('|')!=='工作室|作品|实验|产品|联系'||state.links.join('|')!=='studio.html|works.html|experiments.html|products.html|contact.html') process.exitCode=1;
+            await page.close();
+          }
+          const reduced=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+          await reduced.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle'});
+          const reducedDuration=await reduced.locator('.star-node .spark').first().evaluate(el=>getComputedStyle(el).animationDuration);
+          if(reducedDuration!=='1e-05s'&&reducedDuration!=='0.00001s'&&reducedDuration!=='0.01ms') process.exitCode=1;
+          await reduced.close();
+          const mobile=await browser.newPage({viewport:{width:390,height:651},deviceScaleFactor:1,isMobile:false,hasTouch:true,reducedMotion:'reduce'});
+          await mobile.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle'});
+          await mobile.waitForTimeout(800);
+          const mobileBefore=await mobile.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight,tagline:document.querySelector('.home-tagline').getBoundingClientRect().toJSON(),category:document.querySelector('.onething .category').getBoundingClientRect().toJSON()}));
+          await mobile.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+          const mobileAfter=await mobile.evaluate(()=>{const r=document.querySelector('.home-hint').getBoundingClientRect();return {scrollY,hintVisible:r.top<innerHeight&&r.bottom>0,scrollHeight:document.documentElement.scrollHeight,clientHeight:document.documentElement.clientHeight}});
+          await mobile.screenshot({path:'mobile-home-390-bottom.png'});
+          console.log(JSON.stringify({desktop:results,reducedMotionDuration:reducedDuration,mobile:{before:mobileBefore,after:mobileAfter}},null,2));
+          if(mobileBefore.scrollWidth>mobileBefore.width+1||mobileBefore.category.top<mobileBefore.tagline.bottom||mobileAfter.scrollY<=0||!mobileAfter.hintVisible||mobileAfter.scrollHeight<=mobileAfter.clientHeight)process.exitCode=1;
+          await browser.close();
+          EOF
+      - name: Upload homepage preview screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: norva-homepage-desktop-preview
+          path: |
+            desktop-home-1440.png
+            desktop-home-1512.png
+            mobile-home-390-bottom.png
+          if-no-files-found: error
