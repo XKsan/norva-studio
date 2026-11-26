@@ -78,7 +78,9 @@ jobs:
             category:document.querySelector('.onething .category').getBoundingClientRect().toJSON(),
             tagline:document.querySelector('.home-tagline').getBoundingClientRect().toJSON(),
             meaning:document.querySelector('.onething .meaning:last-child').getBoundingClientRect().toJSON(),
-            map:document.querySelector('.star-map').getBoundingClientRect().toJSON()
+            map:document.querySelector('.star-map').getBoundingClientRect().toJSON(),
+            sparkleDisplay:getComputedStyle(document.querySelector('.star-node .sparkle')).display,
+            labelSize:parseFloat(getComputedStyle(document.querySelector('.star-node .node-label')).fontSize)
           }));
           await page.screenshot({path:'mobile-home-390-full.png',fullPage:true});
           await page.evaluate(() => window.scrollTo(0,document.documentElement.scrollHeight));
@@ -89,7 +91,7 @@ jobs:
           });
           await page.screenshot({path:'mobile-home-390-bottom.png'});
           console.log(JSON.stringify({before,after},null,2));
-          if(before.documentHeight<=before.viewport.height || before.bodyOverflow==='hidden' || before.waterOverflow==='hidden' || before.category.top<before.tagline.bottom || before.map.top<before.meaning.bottom || after.scrollY<=0 || !after.hintVisible || !after.scrollbarNeeded) process.exitCode=1;
+          if(before.documentHeight<=before.viewport.height || before.bodyOverflow==='hidden' || before.waterOverflow==='hidden' || before.category.top<before.tagline.bottom || before.map.top<before.meaning.bottom || before.sparkleDisplay!=='none' || before.labelSize!==22 || after.scrollY<=0 || !after.hintVisible || !after.scrollbarNeeded) process.exitCode=1;
           const js=readFileSync('world.js','utf8');
           if(!/noiseFilter\.frequency\.value=1200/.test(js)||!/setTargetAtTime\(\.2,audio\.currentTime,\.25\)/.test(js)) { console.error('Water audio gain/filter settings not updated'); process.exitCode=1; }
           await browser.close();
