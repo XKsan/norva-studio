@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - redesign/norva-world-v1
+      - redesign/deep-water-gallery-v2
     paths:
       - ".github/workflows/live-site-audit.yml"
   workflow_dispatch:
@@ -33,10 +34,12 @@ jobs:
           import fs from 'node:fs';
           const base = process.env.LIVE_BASE;
           const routes = [
-            'index.html','studio.html','make.html','works.html','experiments.html','archive.html','contact.html',
+            'index.html','studio.html','works.html','experiments.html','products.html','archive.html','contact.html',
             'photography.html','documentary.html','antmonologue.html',
+            'experiment-water.html','experiment-tide.html','experiment-sound.html','experiment-field.html',
+            'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
             'service-short-video.html','service-long-video.html','service-course-video.html',
-            'service-subtitles.html','service-ai-voice.html','service-audio-post.html','service-document-md.html'
+            'service-subtitles.html','service-ai-voice.html','service-audio-post.html'
           ];
           const widths = [1440,768,390];
           const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, summary:{}};
@@ -86,16 +89,16 @@ jobs:
                   await page.screenshot({path:'live-audit/screenshots/'+route.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 }
                 if(width===390){
-                  const menu=page.locator('button[aria-expanded="false"]').first();
+                  const menu=page.locator('.menu-button').first();
                   if(await menu.count()){
                     const before=await menu.getAttribute('aria-expanded');
                     await menu.click();
-                    const opened=await menu.getAttribute('aria-expanded');
-                    const controls=await menu.getAttribute('aria-controls');
-                    const hidden=controls?await page.locator('#'+controls).getAttribute('aria-hidden'):null;
-                    await menu.click();
-                    const closed=await menu.getAttribute('aria-expanded');
-                    item.mobileMenu={before,opened,hiddenAfterOpen:hidden,closed,passed:opened==='true'&&closed==='false'&&(hidden===null||hidden==='false')};
+                    const opened=await page.locator('.menu-button').first().getAttribute('aria-expanded');
+                    const visibleAfterOpen=await page.locator('.nav').isVisible();
+                    await page.locator('.menu-button').first().click();
+                    const closed=await page.locator('.menu-button').first().getAttribute('aria-expanded');
+                    const hiddenAfterClose=!(await page.locator('.nav').isVisible());
+                    item.mobileMenu={before,opened,visibleAfterOpen,closed,hiddenAfterClose,passed:before==='false'&&opened==='true'&&visibleAfterOpen&&closed==='false'&&hiddenAfterClose};
                   }
                 }
                 if(width===1440){
