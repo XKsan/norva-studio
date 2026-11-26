@@ -86,12 +86,14 @@ jobs:
                     canvas:!!document.querySelector('#waterCanvas'),
                     canvasRect:(()=>{const r=document.querySelector('#waterCanvas')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
                     starNodes:document.querySelectorAll('[data-star-room]').length,
+                    starHitWidths:Array.from(document.querySelectorAll('.star-node circle.hit')).map(el=>el.getBoundingClientRect().width),
                     oneThing:!!document.querySelector('[data-onething]'),
                     externalFonts:performance.getEntriesByType('resource').filter(x=>/fonts\.(googleapis|gstatic)\.com/i.test(x.name)).map(x=>x.name)
                   }));
                   if(homeState.height>homeState.viewport+1) item.pageErrors.push('Homepage should fit one viewport: '+JSON.stringify(homeState));
                   if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100) item.pageErrors.push('Homepage water canvas is missing or has no dimensions: '+JSON.stringify(homeState));
                   if(homeState.starNodes!==5) item.pageErrors.push('Homepage must contain five direct star-map links: '+homeState.starNodes);
+                  if(homeState.starHitWidths.some(w=>w<44)) item.pageErrors.push('Star map touch target is smaller than 44px: '+JSON.stringify(homeState.starHitWidths));
                   if(!homeState.oneThing) item.pageErrors.push('Homepage ONETHING module is missing');
                   if(!homeState.onethingTitle||!homeState.onethingReveal||!homeState.onethingMeaning) item.pageErrors.push('ONETHING full daily content is incomplete');
                   if(homeState.onethingLinks!==0) item.pageErrors.push('ONETHING must not link to a separate page');
