@@ -150,6 +150,17 @@ jobs:
                   if(!canvas||canvas.width<100||canvas.height<100||button!==1) item.pageErrors.push('Microphone sound topography controls or canvas are missing');
                 }
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
+                if(width===1440 && path==='experiment-tide.html') {
+                  const box=await page.locator('[data-tide-canvas]').boundingBox();
+                  const pixels=await page.locator('[data-tide-canvas]').evaluate(el=>{const c=el.getContext('2d');const d=c.getImageData(0,0,el.width,el.height).data;let visible=0;for(let i=3;i<d.length;i+=4)if(d[i]>0)visible++;return visible});
+                  if(!box||box.width<100||box.height<100||pixels<100) item.pageErrors.push('Generative tide canvas has no visible time/moon-driven rendering: '+JSON.stringify({box,pixels}));
+                }
+                if(width===1440 && path==='experiment-field.html') {
+                  await page.locator('[data-field-word]').fill('水');
+                  await page.locator('[data-field-create]').click();
+                  const pixels=await page.locator('[data-field-canvas]').evaluate(el=>{const c=el.getContext('2d');const d=c.getImageData(0,0,el.width,el.height).data;let visible=0;for(let i=3;i<d.length;i+=4)if(d[i]>0)visible++;return visible});
+                  if(pixels<10) item.pageErrors.push('Text-to-particle field did not render visible particles: '+pixels);
+                }
                 if(width===1440 && path==='experiment-water.html') {
                   await page.locator('[data-breath] button').click();
                   const breathOn=await page.locator('.breath-orb').evaluate(el=>el.classList.contains('active'));
@@ -158,7 +169,10 @@ jobs:
                   if(!breathOn||!breathLabel.includes('吸气')) item.pageErrors.push('4/6 breathing interaction failed');
                   await page.locator('[data-water-tone]').first().click();
                   const tone=await page.locator('[data-play-canvas]').evaluate(el=>getComputedStyle(el).getPropertyValue('--water-preview').trim());
+                  await page.locator('[data-play-canvas]').dispatchEvent('pointerdown',{clientX:400,clientY:250});
+                  const rippleCount=await page.locator('[data-play-canvas]').getAttribute('data-ripple-count');
                   if(tone!=='#8fd8cd') item.pageErrors.push('Local water tone control failed: '+tone);
+                  if(Number(rippleCount)<1) item.pageErrors.push('Water memory canvas did not respond to touch');
                 }
                 if(width===1440) {
                   const playback = await page.evaluate(async () => {
