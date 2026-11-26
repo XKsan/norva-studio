@@ -5,6 +5,7 @@ on:
       - audit/site-quality-2026-11-25
       - redesign/norva-world-v1
       - redesign/deep-water-gallery-v2
+      - fix/manual-audit-2026-11-26
     paths:
       - ".github/workflows/site-audit.yml"
       - "audit/**"
