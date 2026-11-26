@@ -4,6 +4,7 @@ on:
     branches:
       - audit/site-quality-2026-11-25
       - redesign/norva-world-v1
+      - redesign/deep-water-gallery-v2
     paths:
       - ".github/workflows/site-audit.yml"
       - "audit/**"
@@ -11,6 +12,10 @@ on:
       - "*.css"
       - "**/*.css"
       - "assets/**"
+      - "*.js"
+      - "**/*.js"
+      - "engine/**"
+      - "README.md"
   workflow_dispatch:
 concurrency:
   group: norva-site-audit-${{ github.ref }}
@@ -45,12 +50,11 @@ jobs:
           import { chromium } from 'playwright';
           import fs from 'node:fs';
           const pages = [
-            'index.html','studio.html','make.html','works.html','experiments.html','archive.html','contact.html',
+            'index.html','studio.html','works.html','experiments.html','products.html','archive.html','contact.html',
             'photography.html','documentary.html','antmonologue.html',
-            'service-short-video.html','service-long-video.html',
-            'service-course-video.html','service-subtitles.html',
-            'service-ai-voice.html','service-audio-post.html',
-            'service-document-md.html'
+            'experiment-water.html','experiment-tide.html','experiment-sound.html','experiment-field.html',
+            'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
+            'service-short-video.html','service-long-video.html','service-course-video.html','service-subtitles.html','service-ai-voice.html','service-audio-post.html'
           ];
           const browser = await chromium.launch({headless:true});
           const report = {base:'http://127.0.0.1:4173/', pages:[], brokenLinks:[]};
@@ -66,18 +70,44 @@ jobs:
               try {
                 await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
                 await page.waitForTimeout(700);
-                const homeNavCount=await page.locator('.nav a[href="index.html"]').count();
-                if(homeNavCount!==1) item.pageErrors.push('Main navigation must contain exactly one 首页 link: '+homeNavCount);
+                const navCount=await page.locator('.nav a').count();
+                if(path!=='index.html'&&navCount!==5) item.pageErrors.push('Interior navigation must contain exactly five rooms: '+navCount);
+                if(path==='index.html'&&navCount!==0) item.pageErrors.push('Homepage must not show top navigation: '+navCount);
+                const brandHome=await page.locator('.brand[href="index.html"]').count();
+                if(path!=='index.html'&&brandHome!==1) item.pageErrors.push('Brand mark must link to homepage: '+brandHome);
                 if(path==='index.html') {
                   const homeState=await page.evaluate(()=>({
                     height:document.documentElement.scrollHeight,
                     viewport:innerHeight,
-                    canvas:!!document.querySelector('canvas[data-orbit]'),
-                    canvasRect:(()=>{const r=document.querySelector('canvas[data-orbit]')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
-                    canvasPointerEvents:document.querySelector('canvas[data-orbit]')?getComputedStyle(document.querySelector('canvas[data-orbit]')).pointerEvents:null
+                    onethingTitle:document.querySelector('[data-one-title]')?.textContent.trim()||'',
+                    onethingReveal:document.querySelector('[data-one-reveal]')?.textContent.trim()||'',
+                    onethingMeaning:document.querySelector('[data-one-meaning]')?.textContent.trim()||'',
+                    onethingLinks:document.querySelectorAll('[data-onething] a').length,
+                    topMenu:!!document.querySelector('.menu-button'),
+                    canvas:!!document.querySelector('#waterCanvas'),
+                    canvasRect:(()=>{const r=document.querySelector('#waterCanvas')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
+                    starNodes:document.querySelectorAll('[data-star-room]').length,
+                    starHitWidths:Array.from(document.querySelectorAll('.star-node circle.hit')).map(el=>el.getBoundingClientRect().width),
+                    oneThing:!!document.querySelector('[data-onething]'),
+                    externalFonts:performance.getEntriesByType('resource').filter(x=>/fonts\.(googleapis|gstatic)\.com/i.test(x.name)).map(x=>x.name)
                   }));
                   if(homeState.height>homeState.viewport+1) item.pageErrors.push('Homepage should fit one viewport: '+JSON.stringify(homeState));
-                  if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100 || homeState.canvasPointerEvents==='none') item.pageErrors.push('Homepage interactive canvas is missing or not pointer-accessible: '+JSON.stringify(homeState));
+                  if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100) item.pageErrors.push('Homepage water canvas is missing or has no dimensions: '+JSON.stringify(homeState));
+                  if(homeState.starNodes!==5) item.pageErrors.push('Homepage must contain five direct star-map links: '+homeState.starNodes);
+                  if(homeState.starHitWidths.some(w=>w<44)) item.pageErrors.push('Star map touch target is smaller than 44px: '+JSON.stringify(homeState.starHitWidths));
+                  if(!homeState.oneThing) item.pageErrors.push('Homepage ONETHING module is missing');
+                  if(!homeState.onethingTitle||!homeState.onethingReveal||!homeState.onethingMeaning) item.pageErrors.push('ONETHING full daily content is incomplete');
+                  if(homeState.onethingLinks!==0) item.pageErrors.push('ONETHING must not link to a separate page');
+                  await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:width/2,clientY:450});
+                  await page.waitForTimeout(100);
+                  const rippleState=await page.evaluate(()=>{const el=document.querySelector('[data-onething-keyword]'),r=el?.getBoundingClientRect();return{count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:el?.hidden===false,centerX:r?r.left+r.width/2:0,centerY:r?r.top+r.height/2:0}});
+                  if(rippleState.count<1||!rippleState.keywordVisible||Math.abs(rippleState.centerX-width/2)>12||Math.abs(rippleState.centerY-450)>12) item.pageErrors.push('Homepage ripple writing interaction failed: '+JSON.stringify(rippleState));
+                  await page.locator('[data-water-sound]').click();
+                  const soundOn=await page.locator('[data-water-sound]').innerText();
+                  await page.locator('[data-water-sound]').click();
+                  if(soundOn!=='水声 · ON') item.pageErrors.push('Homepage water sound switch failed: '+soundOn);
+                  if(homeState.topMenu) item.pageErrors.push('Homepage must not display a top menu');
+                  if(homeState.externalFonts.length) item.pageErrors.push('External font requests detected: '+JSON.stringify(homeState.externalFonts));
                 }
                 if(width===390) {
                   const menu=page.locator('.menu-button');
@@ -90,21 +120,15 @@ jobs:
                     if(!closed) item.pageErrors.push('Mobile navigation failed to close');
                   }
                 }
-                if(width===1440 && path==='archive.html') {
-                  await page.locator('[data-filter="place"]').click();
-                  const filtered=await page.locator('[data-category]').evaluateAll(items=>items.map(el=>({category:el.dataset.category,hidden:el.hidden})));
-                  const visible=filtered.filter(x=>!x.hidden);
-                  if(visible.length!==2 || visible.some(x=>x.category!=='place')) item.pageErrors.push('Archive category filter failed: '+JSON.stringify(filtered));
-                  await page.locator('[data-filter="all"]').click();
-                  const hiddenAfterReset=await page.locator('[data-category]').evaluateAll(items=>items.filter(el=>el.hidden).length);
-                  if(hiddenAfterReset!==0) item.pageErrors.push('Archive all-filter reset failed');
-                }
                 const state = await page.evaluate(() => ({
                   title:document.title, lang:document.documentElement.lang,
                   viewport:document.querySelector('meta[name="viewport"]')?.content || null,
                   h1:document.querySelectorAll('h1').length, main:document.querySelectorAll('main').length,
                   width:innerWidth, scrollWidth:document.documentElement.scrollWidth,
                   bodyWidth:document.body.scrollWidth, height:document.documentElement.scrollHeight,
+                  fontRequests:performance.getEntriesByType('resource').filter(x=>/fonts\.(googleapis|gstatic)\.com/i.test(x.name)).map(x=>x.name),
+                  canonical:document.querySelector('link[rel=canonical]')?.href||null,
+                  pageTitleSize:(()=>{const el=document.querySelector('.page-title');return el?parseFloat(getComputedStyle(el).fontSize):null})(),
                   overflowNodes:Array.from(document.querySelectorAll('body *')).map(el=>{
                     const r=el.getBoundingClientRect(),s=getComputedStyle(el);
                     return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),position:s.position};
@@ -113,7 +137,34 @@ jobs:
                   media:Array.from(document.querySelectorAll('video,iframe')).map(el=>({tag:el.tagName,src:el.currentSrc||el.querySelector('source')?.src||el.src||el.getAttribute('src')||'',poster:el.poster||'',readyState:el.readyState??null,error:el.error?.code??null,title:el.title||''}))
                 }));
                 item.title = state.title;
+                if(state.fontRequests.length) item.pageErrors.push('External font requests: '+JSON.stringify(state.fontRequests));
+                if(state.pageTitleSize!==null&&state.pageTitleSize>28.5) item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
+                const bodyText=await page.locator('body').innerText();
+                if(/SUMERU|须弥山|¥|￥|RMB|CNY|价格|报价|收费/.test(bodyText)) item.pageErrors.push('Forbidden brand or price text detected');
+                if(path!=='index.html'&&await page.locator('.next-page a[href]').count()===0) item.pageErrors.push('Missing next-page destination');
+                if(path==='contact.html'&&(!bodyText.includes('tbmax.in@hotmail.com')||!bodyText.includes('HMC-NORVA'))) item.pageErrors.push('Contact page is missing the approved email or WeChat ID');
+                if(path==='experiment-sound.html'&&width===1440){
+                  await page.locator('[data-water-sound]').click();
+                  const buttonText=await page.locator('[data-water-sound]').innerText();
+                  const box=await page.locator('[data-sound-stage]').boundingBox();
+                  await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.1,clientY:box.y+box.height*.2});
+                  const low=await page.locator('[data-sound-stage]').getAttribute('data-frequency');
+                  await page.locator('[data-sound-stage]').dispatchEvent('pointermove',{clientX:box.x+box.width*.9,clientY:box.y+box.height*.8});
+                  const high=await page.locator('[data-sound-stage]').getAttribute('data-frequency');
+                  await page.locator('[data-water-sound]').click();
+                  if(buttonText!=='水声 · ON'||!low||!high||Number(high)<=Number(low)) item.pageErrors.push('Sound topography interaction failed: '+JSON.stringify({buttonText,low,high}));
+                }
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
+                if(width===1440 && path==='experiment-water.html') {
+                  await page.locator('[data-breath] button').click();
+                  const breathOn=await page.locator('.breath-orb').evaluate(el=>el.classList.contains('active'));
+                  const breathLabel=await page.locator('[data-breath-label]').innerText();
+                  await page.locator('[data-breath] button').click();
+                  if(!breathOn||!breathLabel.includes('吸气')) item.pageErrors.push('4/6 breathing interaction failed');
+                  await page.locator('[data-water-tone]').first().click();
+                  const tone=await page.locator('[data-play-canvas]').getAttribute('data-current-tone');
+                  if(tone!=='#8fd8cd') item.pageErrors.push('Local water tone control failed: '+tone);
+                }
                 if(width===1440) {
                   const playback = await page.evaluate(async () => {
                     const results=[];
@@ -142,23 +193,20 @@ jobs:
                       img.loading='eager';
                       try { await img.decode(); } catch {}
                     }
+                    document.documentElement.style.scrollBehavior='auto';
                     window.scrollTo(0,document.body.scrollHeight);
                     await new Promise(resolve=>setTimeout(resolve,350));
                     window.scrollTo(0,0);
-                    await new Promise(resolve=>setTimeout(resolve,350));
+                    await new Promise(resolve=>setTimeout(resolve,80));
                   });
                   const imageFailures=await page.evaluate(()=>Array.from(document.images).filter(img=>!img.complete||img.naturalWidth===0).map(img=>({url:img.currentSrc||img.src,error:'image failed to load'})));
                   for(const failure of imageFailures) item.failedRequests.push(failure);
                   await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 }
                 if(width===1440 && path==='index.html') {
-                  const enter=page.locator('.home-enter');
-                  if(await enter.count()!==1) item.pageErrors.push('Homepage must have exactly one entry link');
-                  else {
-                    await enter.click();
-                    await page.waitForURL('**/studio.html',{timeout:10000}).catch(()=>{});
-                    if(!page.url().endsWith('/studio.html')) item.pageErrors.push('Homepage entry did not navigate to studio.html: '+page.url());
-                  }
+                  const expected=['studio','works','experiments','products','contact'];
+                  const actual=await page.locator('[data-star-room]').evaluateAll(nodes=>nodes.map(n=>n.dataset.starRoom));
+                  if(expected.some(x=>!actual.includes(x))||actual.length!==5) item.pageErrors.push('Star map destinations mismatch: '+JSON.stringify(actual));
                 }
                 if(width===1440) {
                   const links = await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')).filter(Boolean));

@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "id": "studio",
+      "label": "工作室",
+      "href": "studio.html"
+    },
+    {
+      "id": "works",
+      "label": "作品",
+      "href": "works.html"
+    },
+    {
+      "id": "experiments",
+      "label": "实验",
+      "href": "experiments.html"
+    },
+    {
+      "id": "products",
+      "label": "产品",
+      "href": "products.html"
+    },
+    {
+      "id": "contact",
+      "label": "联系",
+      "href": "contact.html"
+    }
+  ]
+}

@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /visual-explorations/
 Sitemap: https://xksan.github.io/norva-studio/sitemap.xml

@@ -1,6 +1,6 @@
 {
   "status": "temporary_visual_studies_and_video_archive_slots",
-  "replacement_rule": "Use properly licensed network photos and videos during site construction. Replace temporary network media with NORVA original media only after the complete site has passed review. Preserve stable paths and composition wherever possible.",
+  "replacement_rule": "每个图片/视频位在本清单中登记 id、path、status（temporary/real）与 replacement_note。替换时保持路径与文件名不变；预览环境检查通过后再合并到 main。",
   "video_policy": {
     "principle": "The website is the portfolio and archive; public video platforms host playback; private cloud drives are for review, delivery and download only.",
     "github": "Store HTML, CSS, JS, cover images, thumbnails and small previews only. Do not store full-resolution video masters.",
@@ -28,21 +28,6 @@
     "embed_url",
     "watch_url",
     "status"
-  ],
-  "files": [
-    "assets/images/works/photography/01-cover.svg",
-    "assets/images/works/photography/01-01.svg",
-    "assets/images/works/photography/01-02.svg",
-    "assets/images/works/photography/01-03.svg",
-    "assets/images/works/photography/02-cover.svg",
-    "assets/images/works/documentary/01-cover.svg",
-    "assets/images/works/documentary/01-still-01.svg",
-    "assets/images/works/documentary/01-still-02.svg",
-    "assets/images/works/ant-matter/key-visual.svg",
-    "assets/images/works/ant-matter/character-01.svg",
-    "assets/images/field/himalayan-notes/cover.svg",
-    "assets/images/field/people-encounters/cover.svg",
-    "assets/images/field/places-moments/cover.svg"
   ],
   "temporary_visual_studies_and_video_archive_slots": "temporary_network_media_to_be_integrated",
   "source_policy": {
@@ -163,5 +148,99 @@
     "antmonologue": "integrated_remote_pexels_image_sequence",
     "works_index": "integrated_remote_pexels_visual_previews",
     "note": "Remote Pexels CDN references are used temporarily. Local WebP/MP4 optimization and mainland-China access testing remain required before launch."
-  }
+  },
+  "media": [
+    {
+      "id": "media-001",
+      "path": "assets/images/works/photography/01-cover.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-002",
+      "path": "assets/images/works/photography/01-01.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-003",
+      "path": "assets/images/works/photography/01-02.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-004",
+      "path": "assets/images/works/photography/01-03.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-005",
+      "path": "assets/images/works/photography/02-cover.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-006",
+      "path": "assets/images/works/documentary/01-cover.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-007",
+      "path": "assets/images/works/documentary/01-still-01.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-008",
+      "path": "assets/images/works/documentary/01-still-02.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-009",
+      "path": "assets/images/works/ant-matter/key-visual.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-010",
+      "path": "assets/images/works/ant-matter/character-01.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-011",
+      "path": "assets/images/field/himalayan-notes/cover.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-012",
+      "path": "assets/images/field/people-encounters/cover.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "media-013",
+      "path": "assets/images/field/places-moments/cover.svg",
+      "status": "temporary",
+      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "video-antmonologue",
+      "path": "antmonologue.html#film-player",
+      "status": "temporary",
+      "replacement_note": "视频播放占位；真实视频使用外部平台播放器，不将母版存入仓库。",
+      "media_type": "video_embed"
+    },
+    {
+      "id": "video-documentary",
+      "path": "documentary.html#film-player",
+      "status": "temporary",
+      "replacement_note": "纪录片播放占位；真实视频使用外部平台播放器，不将母版存入仓库。",
+      "media_type": "video_embed"
+    }
+  ]
 }
