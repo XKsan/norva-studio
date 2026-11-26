@@ -40,7 +40,7 @@ jobs:
             'service-subtitles.html','service-ai-voice.html','service-audio-post.html'
           ];
           const widths = [1440,768,390];
-          const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, summary:{}};
+          const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, sitemap:{}, summary:{}};
           const browser = await chromium.launch({headless:true});
           const checkedLinks = new Set();
           const root = await browser.newPage();
@@ -55,6 +55,9 @@ jobs:
             viewportHeight:await root.evaluate(()=>innerHeight),
             horizontalWidth:await root.evaluate(()=>document.documentElement.scrollWidth)
           };
+          const sitemapResponse=await root.request.get(new URL('sitemap.xml',base).href).catch(()=>null);
+          const sitemapText=sitemapResponse&&sitemapResponse.ok()?await sitemapResponse.text():'';
+          report.sitemap={status:sitemapResponse?.status()??null,urls:[...sitemapText.matchAll(/<loc>(.*?)<\\/loc>/g)].map(m=>m[1])};
           await root.close();
           for (const route of routes) {
             const item={route,title:'',status:null,viewports:[],pageErrors:[],consoleErrors:[],failedRequests:[],mobileMenu:null};
@@ -72,7 +75,7 @@ jobs:
                   width:innerWidth,scrollWidth:document.documentElement.scrollWidth,
                   bodyWidth:document.body.scrollWidth,height:document.documentElement.scrollHeight,
                   h1:document.querySelectorAll('h1').length,main:document.querySelectorAll('main').length,
-                  fontRequests:performance.getEntriesByType('resource').filter(x=>/fonts\\.(googleapis|gstatic)\\.com/i.test(x.name)).map(x=>x.name),
+                  fontRequests:performance.getEntriesByType('resource').filter(x=>/fonts\.(googleapis|gstatic)\.com/i.test(x.name)).map(x=>x.name),
                   canonical:document.querySelector('link[rel=canonical]')?.href||null,
                   pageTitleSize:(()=>{const el=document.querySelector('.page-title');return el?parseFloat(getComputedStyle(el).fontSize):null})(),
                   navCount:document.querySelectorAll('.nav a').length,
@@ -95,6 +98,7 @@ jobs:
                 if(width===1440){item.title=state.title;item.status=response?.status()??null}
                 const imageFailures=state.images.filter(i=>!i.loaded);
                 if(state.fontRequests.length)item.pageErrors.push('External font requests: '+JSON.stringify(state.fontRequests));
+                if(state.h1!==1||state.main!==1||state.lang!=='zh-CN')item.pageErrors.push('Page structure or language metadata is invalid');
                 if(/SUMERU|须弥山|¥|￥|RMB|CNY|价格|报价|收费/.test(state.bodyText))item.pageErrors.push('Forbidden brand or price text detected');
                 if(route!=='index.html'&&state.navCount!==5)item.pageErrors.push('Interior navigation count is not five: '+state.navCount);
                 if(route!=='index.html'&&state.brandHome!==1)item.pageErrors.push('Brand mark does not link to homepage');
@@ -178,6 +182,7 @@ jobs:
             horizontalOverflow:flat.filter(v=>v.horizontalOverflow).map(v=>({route:report.routes.find(r=>r.viewports.includes(v))?.route,width:v.width})),
             imageFailures:flat.reduce((n,v)=>n+v.imageFailures.length,0),
             mobileMenuFailures:report.routes.filter(r=>r.mobileMenu&&!r.mobileMenu.passed).map(r=>r.route),
+            sitemapMatchesRoutes:report.sitemap.status===200&&report.sitemap.urls.length===routes.length&&routes.every(r=>report.sitemap.urls.includes(r==='index.html'?base:new URL(r,base).href)),
             externalFontRequests:report.routes.reduce((n,r)=>n+r.viewports.reduce((m,v)=>m+(v.fontRequests?.length||0),0),0),
             contentPolicyErrors:report.routes.reduce((n,r)=>n+r.pageErrors.filter(e=>/Forbidden brand|Contact details|Canonical mismatch|next-page|navigation count|Page title|Homepage|Star map|ripple writing|Water experiment/.test(e)).length,0),
             homeFitsSingleViewport:report.deployment.pageHeight<=report.deployment.viewportHeight+1,
@@ -200,7 +205,7 @@ jobs:
           ].join('\n'));
           console.log(JSON.stringify({deployment:report.deployment,summary:report.summary},null,2));
           const s=report.summary;
-          if(!report.deployment.status||report.deployment.status>=400||s.badHttp.length||s.pageErrors||s.consoleErrors||s.failedRequests||s.brokenLinks||s.horizontalOverflow.length||s.imageFailures||s.mobileMenuFailures.length)process.exitCode=1;
+          if(!report.deployment.status||report.deployment.status>=400||s.badHttp.length||s.pageErrors||s.consoleErrors||s.failedRequests||s.brokenLinks||s.horizontalOverflow.length||s.imageFailures||s.mobileMenuFailures.length||s.externalFontRequests||s.contentPolicyErrors||!s.homeFitsSingleViewport||!s.homepageHasOneH1||!s.sitemapMatchesRoutes)process.exitCode=1;
           EOF
           node live-audit.mjs
       - name: Upload live audit report and screenshots
