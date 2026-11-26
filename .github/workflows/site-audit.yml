@@ -97,6 +97,10 @@ jobs:
                   if(!homeState.oneThing) item.pageErrors.push('Homepage ONETHING module is missing');
                   if(!homeState.onethingTitle||!homeState.onethingReveal||!homeState.onethingMeaning) item.pageErrors.push('ONETHING full daily content is incomplete');
                   if(homeState.onethingLinks!==0) item.pageErrors.push('ONETHING must not link to a separate page');
+                  await page.locator('#waterCanvas').dispatchEvent('pointerdown',{clientX:innerWidth/2,clientY:innerHeight/2});
+                  await page.waitForTimeout(100);
+                  const rippleState=await page.evaluate(()=>({count:Number(document.querySelector('#waterCanvas')?.dataset.rippleCount||0),keywordVisible:document.querySelector('[data-onething-keyword]')?.hidden===false}));
+                  if(rippleState.count<1||!rippleState.keywordVisible) item.pageErrors.push('Homepage ripple writing interaction failed: '+JSON.stringify(rippleState));
                   if(homeState.topMenu) item.pageErrors.push('Homepage must not display a top menu');
                   if(homeState.externalFonts.length) item.pageErrors.push('External font requests detected: '+JSON.stringify(homeState.externalFonts));
                 }
@@ -135,6 +139,16 @@ jobs:
                 if(path!=='index.html'&&await page.locator('.next-page a[href]').count()===0) item.pageErrors.push('Missing next-page destination');
                 if(path==='contact.html'&&(!bodyText.includes('tbmax.in@hotmail.com')||!bodyText.includes('HMC-NORVA'))) item.pageErrors.push('Contact page is missing the approved email or WeChat ID');
                 item.viewports.push({...state,horizontalOverflow:state.scrollWidth>state.width+1 || state.bodyWidth>state.width+1});
+                if(width===1440 && path==='experiment-water.html') {
+                  await page.locator('[data-breath] button').click();
+                  const breathOn=await page.locator('.breath-orb').evaluate(el=>el.classList.contains('active'));
+                  const breathLabel=await page.locator('[data-breath-label]').innerText();
+                  await page.locator('[data-breath] button').click();
+                  if(!breathOn||!breathLabel.includes('吸气')) item.pageErrors.push('4/6 breathing interaction failed');
+                  await page.locator('[data-water-tone]').first().click();
+                  const tone=await page.locator('[data-play-canvas]').getAttribute('data-current-tone');
+                  if(tone!=='#8fd8cd') item.pageErrors.push('Local water tone control failed: '+tone);
+                }
                 if(width===1440) {
                   const playback = await page.evaluate(async () => {
                     const results=[];
