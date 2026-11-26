@@ -64,11 +64,11 @@ body:not(.home-screen){padding-bottom:76px}
 
 /* Mobile home: restore document flow to prevent ONETHING / star-map collisions */
 @media(max-width:520px){
-  .home-screen{height:auto;min-height:100svh;overflow-x:hidden;overflow-y:auto}
+  .home-screen{height:auto;min-height:100svh;overflow:visible}
   .home-entry{height:auto;min-height:100svh}
   .home-water{
     height:auto;min-height:100svh;display:flex;flex-direction:column;align-items:center;
-    padding:clamp(112px,16vh,142px) 0 24px;overflow:hidden
+    padding:clamp(112px,16vh,142px) 0 24px;overflow:visible
   }
   .home-mark{
     position:relative;top:auto;left:auto;transform:none;width:90vw;
