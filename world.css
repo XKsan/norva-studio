@@ -40,3 +40,23 @@ body.contact-page .contact-method{max-width:720px}
 .detail-return-links a{color:var(--muted)}
 .detail-sequence a{color:var(--water)}
 @media(max-width:520px){.home-mark{top:18%}.detail-navigation{align-items:flex-start;flex-direction:column;gap:16px}.detail-return-links,.detail-sequence{gap:18px}}
+
+
+/* Focused refinement: global icon navigation, ONETHING rhythm and responsive panels */
+body:not(.home-screen){padding-bottom:76px}
+.floating-page-nav{position:fixed;z-index:40;right:24px;bottom:22px;display:flex;align-items:center;gap:7px;padding:7px;border:1px solid rgba(143,216,205,.2);border-radius:999px;background:rgba(6,13,22,.84);backdrop-filter:blur(14px);box-shadow:0 8px 28px rgba(0,0,0,.22)}
+.floating-page-nav button,.floating-page-nav a{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(143,216,205,.16);border-radius:50%;background:rgba(143,216,205,.045);color:var(--moon);font:20px/1 var(--sans);text-decoration:none;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.floating-page-nav a{font-size:17px}
+.floating-page-nav button:hover,.floating-page-nav a:hover{background:rgba(143,216,205,.14);border-color:rgba(143,216,205,.5);color:var(--water)}
+.floating-page-nav button:focus-visible,.floating-page-nav a:focus-visible{outline:2px solid var(--water);outline-offset:3px}
+.onething .category{margin-bottom:25px}
+.onething-date{margin-bottom:23px}
+.one-bilingual h2:first-child{margin-bottom:12px}
+.one-bilingual h2:nth-child(2){margin-bottom:23px}
+.one-bilingual .reveal{margin:12px auto 0}
+.one-bilingual .reveal[data-one-reveal-zh]{margin-top:15px}
+.one-bilingual .meaning{margin:21px auto 0}
+.one-bilingual .meaning[data-one-meaning-zh]{margin-top:14px}
+.keep-together{white-space:nowrap}
+@media(max-width:760px){body.studio-page .content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}body.studio-page .content-grid>.content-panel:last-child:nth-child(odd){grid-column:1/-1}}
+@media(max-width:520px){.floating-page-nav{right:12px;bottom:14px;gap:5px;padding:6px}.floating-page-nav button,.floating-page-nav a{width:36px;height:36px;font-size:18px}.floating-page-nav a{font-size:16px}body.studio-page .content-grid{grid-template-columns:1fr}body.studio-page .content-grid>.content-panel:last-child:nth-child(odd){grid-column:auto}}
