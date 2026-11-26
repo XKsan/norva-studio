@@ -148,6 +148,15 @@ jobs:
                   const canvas=await page.locator('[data-mic-canvas]').boundingBox();
                   const button=await page.locator('[data-mic-start]').count();
                   if(!canvas||canvas.width<100||canvas.height<100||button!==1) item.pageErrors.push('Microphone sound topography controls or canvas are missing');
+                  else {
+                    await page.context().grantPermissions(['microphone'],{origin:new URL(url).origin});
+                    await page.locator('[data-mic-start]').click();
+                    await page.waitForTimeout(350);
+                    const status=await page.locator('[data-mic-status]').innerText();
+                    const level=await page.locator('[data-mic-level]').innerText();
+                    if(!status.includes('正在读取声音')||level==='—') item.pageErrors.push('Microphone input did not start or update its readout: '+JSON.stringify({status,level}));
+                    await page.locator('[data-mic-start]').click();
+                  }
                 }
                 if(path==='experiment-tide.html'&&width===1440){
                   const canvas=await page.locator('[data-tide-canvas]').boundingBox();
