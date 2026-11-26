@@ -43,6 +43,7 @@ body.contact-page .contact-method{max-width:720px}
 
 
 /* Focused refinement: global icon navigation, ONETHING rhythm and responsive panels */
+body:not(.home-screen){padding-bottom:76px}
 .floating-page-nav{position:fixed;z-index:40;right:24px;bottom:22px;display:flex;align-items:center;gap:7px;padding:7px;border:1px solid rgba(143,216,205,.2);border-radius:999px;background:rgba(6,13,22,.84);backdrop-filter:blur(14px);box-shadow:0 8px 28px rgba(0,0,0,.22)}
 .floating-page-nav button,.floating-page-nav a{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(143,216,205,.16);border-radius:50%;background:rgba(143,216,205,.045);color:var(--moon);font:20px/1 var(--sans);text-decoration:none;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
 .floating-page-nav a{font-size:17px}
