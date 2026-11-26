@@ -1,1 +1,16 @@
-{"category":"NATURE","generated_at":"2026-11-25T07:25:02.383079+00:00","id":"OT-20261125-NATURE","meaning_en":"This reveals the immense scale of atmospheric processes, where something seemingly light is a colossal mass of water vapor.","meaning_zh":"这揭示了大气过程的巨大规模，看似轻盈之物实为庞大的水蒸气团。","reveal_en":"A typical cumulus cloud, the fluffy white ones you see on a sunny day, can weigh as much as 550 tons. That's equivalent to about 100 elephants floating overhead.","reveal_zh":"你平时看到的蓬松积云，其重量可达550吨。这相当于大约100头大象在空中漂浮。","title_en":"Clouds Weigh More Than You Think","title_zh":"云朵比你想象的重得多","visual":{"color":"#87CEEB","motion":"Gentle, slow ascent of vapor particles, forming a dense, accumulating mass.","theme":"nature"}}
+{
+  "id": "OT-20261126-SCIENCE",
+  "category": "SCIENCE",
+  "title_en": "Chess Games: More Than Universal Atoms",
+  "title_zh": "国际象棋棋局多于宇宙原子",
+  "reveal_en": "The number of distinct possible ways a game of chess can unfold vastly exceeds the estimated number of atoms in the observable universe. This staggering figure highlights the immense complexity that can arise from simple rules.",
+  "reveal_zh": "国际象棋的可能走法数量，远超可观测宇宙中的原子总数。这个惊人的数字揭示了简单规则也能产生无限复杂性。",
+  "meaning_en": "It shows how exponential growth and combinatorial possibilities can quickly lead to incomprehensible scales, even from simple initial conditions.",
+  "meaning_zh": "这揭示了指数增长和组合可能性如何从简单初始条件中创造出难以想象的尺度。",
+  "visual": {
+    "theme": "science",
+    "color": "#1A237E",
+    "motion": "Expanding grid lines forming complex patterns, fading into a starry expanse."
+  },
+  "generated_at": "2026-11-26T02:52:43.426303+00:00"
+}
