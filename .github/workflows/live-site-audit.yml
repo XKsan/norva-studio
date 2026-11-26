@@ -161,6 +161,21 @@ jobs:
                   await page.screenshot({path:'live-audit/screenshots/'+route.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 }
                 if(width===390){
+                  if(route==='index.html'){
+                    const mobileStarMap=await page.locator('.star-node').evaluateAll(nodes=>nodes.map(n=>({
+                      id:n.dataset.starRoom,
+                      color:getComputedStyle(n.querySelector('.core')).fill,
+                      labelSize:parseFloat(getComputedStyle(n.querySelector('.node-label')).fontSize),
+                      sparkleDisplay:getComputedStyle(n.querySelector('.sparkle')).display
+                    })));
+                    const expectedColors={studio:'rgb(159, 222, 210)',works:'rgb(216, 189, 130)',experiments:'rgb(145, 185, 232)',products:'rgb(217, 154, 145)',contact:'rgb(185, 166, 223)'};
+                    const colorMap=Object.fromEntries(mobileStarMap.map(n=>[n.id,n.color]));
+                    const colorsMatch=mobileStarMap.length===5&&Object.entries(expectedColors).every(([id,color])=>colorMap[id]===color);
+                    const labelsRemain22px=mobileStarMap.length===5&&mobileStarMap.every(n=>n.labelSize===22);
+                    const sparklesRemainHidden=mobileStarMap.length===5&&mobileStarMap.every(n=>n.sparkleDisplay==='none');
+                    item.mobileStarMap={nodes:mobileStarMap,colorsMatch,labelsRemain22px,sparklesRemainHidden,passed:colorsMatch&&labelsRemain22px&&sparklesRemainHidden};
+                    if(!item.mobileStarMap.passed)item.pageErrors.push('390px mobile star-map palette or preserved mobile presentation failed: '+JSON.stringify(item.mobileStarMap));
+                  }
                   const menu=page.locator('.menu-button').first();
                   if(await menu.count()){
                     const before=await menu.getAttribute('aria-expanded');
