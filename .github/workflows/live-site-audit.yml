@@ -131,7 +131,7 @@ jobs:
                 if(width===1440||width===390){
                   await page.evaluate(async()=>{
                     for(const img of document.images){img.loading='eager';try{await img.decode()}catch{}}
-                    window.scrollTo(0,document.body.scrollHeight);await new Promise(r=>setTimeout(r,250));window.scrollTo(0,0);
+                    document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,document.body.scrollHeight);await new Promise(r=>setTimeout(r,250));window.scrollTo(0,0);await new Promise(r=>setTimeout(r,80));
                   });
                   await page.screenshot({path:'live-audit/screenshots/'+route.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 }
