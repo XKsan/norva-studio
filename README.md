@@ -6,6 +6,7 @@
 
 ## 内容与素材
 - 首页 ONETHING 数据：`assets/onething/today.json`。
+- ONETHING 每日生成：`engine/generate.py` + `.github/workflows/daily.yml`，使用 `GEMINI_API_KEY` Actions Secret；分类包含 `TECH & AI`。
 - 主导航数据：`assets/navigation.json`，首页星图与内页导航共用。
 - 素材登记：`assets/media-manifest.json`。临时素材状态为 `temporary`，替换后改为 `real`。
 - 真实素材替换前先在预览分支检查，验收后合并至 `main`。

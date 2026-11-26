@@ -1,14 +1,16 @@
 name: NORVA production website audit
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Deploy NORVA STUDIO"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
   actions: read
 jobs:
   live-audit:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
