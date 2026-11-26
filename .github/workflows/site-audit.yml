@@ -4,6 +4,7 @@ on:
     branches:
       - audit/site-quality-2026-11-25
       - redesign/norva-world-v1
+      - redesign/deep-water-gallery-v2
     paths:
       - ".github/workflows/site-audit.yml"
       - "audit/**"
@@ -45,12 +46,11 @@ jobs:
           import { chromium } from 'playwright';
           import fs from 'node:fs';
           const pages = [
-            'index.html','studio.html','make.html','works.html','experiments.html','archive.html','contact.html',
+            'index.html','studio.html','works.html','experiments.html','products.html','archive.html','contact.html',
             'photography.html','documentary.html','antmonologue.html',
-            'service-short-video.html','service-long-video.html',
-            'service-course-video.html','service-subtitles.html',
-            'service-ai-voice.html','service-audio-post.html',
-            'service-document-md.html'
+            'experiment-water.html','experiment-tide.html','experiment-sound.html','experiment-field.html',
+            'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
+            'service-short-video.html','service-long-video.html','service-course-video.html','service-subtitles.html','service-ai-voice.html','service-audio-post.html'
           ];
           const browser = await chromium.launch({headless:true});
           const report = {base:'http://127.0.0.1:4173/', pages:[], brokenLinks:[]};
@@ -66,18 +66,26 @@ jobs:
               try {
                 await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
                 await page.waitForTimeout(700);
-                const homeNavCount=await page.locator('.nav a[href="index.html"]').count();
-                if(homeNavCount!==1) item.pageErrors.push('Main navigation must contain exactly one 首页 link: '+homeNavCount);
+                const navCount=await page.locator('.nav a').count();
+                if(path!=='index.html'&&navCount!==5) item.pageErrors.push('Interior navigation must contain exactly five rooms: '+navCount);
+                if(path==='index.html'&&navCount!==0) item.pageErrors.push('Homepage must not show top navigation: '+navCount);
+                const brandHome=await page.locator('.brand[href="index.html"]').count();
+                if(path!=='index.html'&&brandHome!==1) item.pageErrors.push('Brand mark must link to homepage: '+brandHome);
                 if(path==='index.html') {
                   const homeState=await page.evaluate(()=>({
                     height:document.documentElement.scrollHeight,
                     viewport:innerHeight,
-                    canvas:!!document.querySelector('canvas[data-orbit]'),
-                    canvasRect:(()=>{const r=document.querySelector('canvas[data-orbit]')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
-                    canvasPointerEvents:document.querySelector('canvas[data-orbit]')?getComputedStyle(document.querySelector('canvas[data-orbit]')).pointerEvents:null
+                    canvas:!!document.querySelector('#waterCanvas'),
+                    canvasRect:(()=>{const r=document.querySelector('#waterCanvas')?.getBoundingClientRect();return r?{width:r.width,height:r.height}:null})(),
+                    starNodes:document.querySelectorAll('[data-star-room]').length,
+                    oneThing:!!document.querySelector('[data-onething]'),
+                    externalFonts:performance.getEntriesByType('resource').filter(x=>/fonts\\.(googleapis|gstatic)\\.com/i.test(x.name)).map(x=>x.name)
                   }));
                   if(homeState.height>homeState.viewport+1) item.pageErrors.push('Homepage should fit one viewport: '+JSON.stringify(homeState));
-                  if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100 || homeState.canvasPointerEvents==='none') item.pageErrors.push('Homepage interactive canvas is missing or not pointer-accessible: '+JSON.stringify(homeState));
+                  if(!homeState.canvas || !homeState.canvasRect || homeState.canvasRect.width<100 || homeState.canvasRect.height<100) item.pageErrors.push('Homepage water canvas is missing or has no dimensions: '+JSON.stringify(homeState));
+                  if(homeState.starNodes!==5) item.pageErrors.push('Homepage must contain five direct star-map links: '+homeState.starNodes);
+                  if(!homeState.oneThing) item.pageErrors.push('Homepage ONETHING module is missing');
+                  if(homeState.externalFonts.length) item.pageErrors.push('External font requests detected: '+JSON.stringify(homeState.externalFonts));
                 }
                 if(width===390) {
                   const menu=page.locator('.menu-button');
@@ -89,15 +97,6 @@ jobs:
                     const closed=await menu.getAttribute('aria-expanded')==='false' && !(await page.locator('.nav').evaluate(el=>el.classList.contains('open')));
                     if(!closed) item.pageErrors.push('Mobile navigation failed to close');
                   }
-                }
-                if(width===1440 && path==='archive.html') {
-                  await page.locator('[data-filter="place"]').click();
-                  const filtered=await page.locator('[data-category]').evaluateAll(items=>items.map(el=>({category:el.dataset.category,hidden:el.hidden})));
-                  const visible=filtered.filter(x=>!x.hidden);
-                  if(visible.length!==2 || visible.some(x=>x.category!=='place')) item.pageErrors.push('Archive category filter failed: '+JSON.stringify(filtered));
-                  await page.locator('[data-filter="all"]').click();
-                  const hiddenAfterReset=await page.locator('[data-category]').evaluateAll(items=>items.filter(el=>el.hidden).length);
-                  if(hiddenAfterReset!==0) item.pageErrors.push('Archive all-filter reset failed');
                 }
                 const state = await page.evaluate(() => ({
                   title:document.title, lang:document.documentElement.lang,
@@ -152,13 +151,9 @@ jobs:
                   await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 }
                 if(width===1440 && path==='index.html') {
-                  const enter=page.locator('.home-enter');
-                  if(await enter.count()!==1) item.pageErrors.push('Homepage must have exactly one entry link');
-                  else {
-                    await enter.click();
-                    await page.waitForURL('**/studio.html',{timeout:10000}).catch(()=>{});
-                    if(!page.url().endsWith('/studio.html')) item.pageErrors.push('Homepage entry did not navigate to studio.html: '+page.url());
-                  }
+                  const expected=['studio','works','experiments','products','contact'];
+                  const actual=await page.locator('[data-star-room]').evaluateAll(nodes=>nodes.map(n=>n.dataset.starRoom));
+                  if(expected.some(x=>!actual.includes(x))||actual.length!==5) item.pageErrors.push('Star map destinations mismatch: '+JSON.stringify(actual));
                 }
                 if(width===1440) {
                   const links = await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')).filter(Boolean));
