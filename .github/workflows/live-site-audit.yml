@@ -39,7 +39,7 @@ jobs:
             'service-short-video.html','service-long-video.html','service-course-video.html',
             'service-subtitles.html','service-ai-voice.html','service-audio-post.html'
           ];
-          const widths = [1440,768,390];
+          const widths = [1440,768,600,390];
           const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, sitemap:{}, summary:{}};
           const browser = await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']});
           const checkedLinks = new Set();
@@ -97,8 +97,10 @@ jobs:
                   overflowNodes:[...document.querySelectorAll('body *')].map(el=>{const r=el.getBoundingClientRect();return {tag:el.tagName,cls:typeof el.className==='string'?el.className:'',id:el.id,left:Math.round(r.left),right:Math.round(r.right)}}).filter(x=>x.right>innerWidth+1||x.left < -1).slice(0,12),
                   images:[...document.images].map(i=>({src:i.currentSrc||i.src,loaded:i.complete&&i.naturalWidth>0,width:i.naturalWidth,alt:i.alt})),
                   videos:[...document.querySelectorAll('video')].map(v=>({src:v.currentSrc||v.querySelector('source')?.src||'',readyState:v.readyState,error:v.error?.code??null})),
-                  detailNavigation:(()=>{const links=[...document.querySelectorAll('.detail-navigation a')];return {home:links.some(a=>a.getAttribute('href')==='index.html'),works:links.some(a=>a.getAttribute('href')==='works.html'),previous:links.some(a=>a.hasAttribute('data-work-prev')),next:links.some(a=>a.hasAttribute('data-work-next'))}})(),
-                  antImageFit:(()=>{const img=document.querySelector('.antmonologue-visual img');return img?{objectFit:getComputedStyle(img).objectFit,frameRatio:img.parentElement.getBoundingClientRect().width/img.parentElement.getBoundingClientRect().height,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight}:null})(),
+                  floatingPageNav:(()=>{const nav=document.querySelector('.floating-page-nav');return {present:!!nav,back:!!nav?.querySelector('[data-page-back]'),forward:!!nav?.querySelector('[data-page-forward]'),home:nav?.querySelector('[data-page-home]')?.getAttribute('href')==='index.html',iconOnly:!!nav&&[...nav.children].map(el=>el.textContent.trim()).join('|')==='←|→|🏠'}})(),
+                  studioGrid:(()=>{const grid=document.querySelector('body.studio-page .content-grid');const last=grid?.lastElementChild;return grid&&last?{columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,lastColumnEnd:getComputedStyle(last).gridColumnEnd}:null})(),
+                  orphanGuards:route==='archive.html'?document.querySelectorAll('.page-desc .keep-together').length:route==='contact.html'?document.querySelectorAll('.page-desc .keep-together,.section-intro .keep-together').length:null,
+                  antImageFit:(()=>{const img=document.querySelector('.antmonologue-visual img');return img?{objectFit:getComputedStyle(img).objectFit,frameRatio:img.parentElement.getBoundingClientRect().width/img.parentElement.getBoundingClientRect().height,frameWidth:img.parentElement.getBoundingClientRect().width,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight}:null})(),
                   homeDateTaglineOverlap:(()=>{const date=document.querySelector('.onething-date'),tag=document.querySelector('.home-tagline');if(!date||!tag)return null;const a=date.getBoundingClientRect(),b=tag.getBoundingClientRect();return Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top))})()
                 }));
                 if(width===1440){item.title=state.title;item.status=response?.status()??null}
@@ -109,8 +111,11 @@ jobs:
                 if(route!=='index.html'&&state.navCount!==5)item.pageErrors.push('Interior navigation count is not five: '+state.navCount);
                 if(route!=='index.html'&&state.brandHome!==1)item.pageErrors.push('Brand mark does not link to homepage');
                 if(route!=='index.html'&&state.nextCount<1)item.pageErrors.push('Missing next-page destination');
-                if(['antmonologue.html','photography.html','documentary.html'].includes(route)&&(!state.detailNavigation.home||!state.detailNavigation.works||!state.detailNavigation.previous||!state.detailNavigation.next))item.pageErrors.push('Detail page navigation is incomplete: '+JSON.stringify(state.detailNavigation));
-                if(route==='antmonologue.html'&&(!state.antImageFit||state.antImageFit.objectFit!=='contain'||state.antImageFit.naturalWidth<1||state.antImageFit.naturalHeight<1))item.pageErrors.push('Antmonologue image must fit without cropping: '+JSON.stringify(state.antImageFit));
+                if(route!=='index.html'&&(!state.floatingPageNav?.present||!state.floatingPageNav.back||!state.floatingPageNav.forward||!state.floatingPageNav.home||!state.floatingPageNav.iconOnly))item.pageErrors.push('Floating icon navigation is missing or invalid: '+JSON.stringify(state.floatingPageNav));
+                if(route==='archive.html'&&state.orphanGuards!==1)item.pageErrors.push('Archive page orphan-line guard is missing');
+                if(route==='contact.html'&&state.orphanGuards!==2)item.pageErrors.push('Contact page orphan-line guards are incomplete');
+                if(route==='studio.html'&&width===600&&state.studioGrid?.lastColumnEnd!=='span 2')item.pageErrors.push('Studio third panel does not fill the tablet grid row: '+JSON.stringify(state.studioGrid));
+                if(route==='antmonologue.html'&&(!state.antImageFit||state.antImageFit.objectFit!=='contain'||state.antImageFit.frameWidth>421||state.antImageFit.naturalWidth<1||state.antImageFit.naturalHeight<1))item.pageErrors.push('Antmonologue image must fit without cropping: '+JSON.stringify(state.antImageFit));
                 if(route==='index.html'&&width===390&&state.homeDateTaglineOverlap!==null&&state.homeDateTaglineOverlap>0)item.pageErrors.push('Mobile homepage date overlaps tagline: '+state.homeDateTaglineOverlap+'px');
                 if(state.pageTitleSize!==null&&state.pageTitleSize>28.5)item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
                 const expectedCanonical=route==='index.html'?base:new URL(route,base).href;

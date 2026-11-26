@@ -1,6 +1,16 @@
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pageName=location.pathname.split('/').pop();
+if(pageName&&pageName!=='index.html'&&!['ant-matter.html','make.html','service-document-md.html'].includes(pageName)){
+ $('.detail-navigation').forEach(el=>el.remove());
+ const pageNav=document.createElement('nav');pageNav.className='floating-page-nav';pageNav.setAttribute('aria-label','页面导航');
+ pageNav.innerHTML='<button type="button" data-page-back aria-label="后退" title="后退">←</button><button type="button" data-page-forward aria-label="前进" title="前进">→</button><a href="index.html" data-page-home aria-label="回首页" title="回首页">🏠</a>';
+ document.body.append(pageNav);
+ $('[data-page-back]',pageNav).addEventListener('click',()=>history.back());
+ $('[data-page-forward]',pageNav).addEventListener('click',()=>history.forward());
+}
+
 const FALLBACK=[{label:'工作室',href:'studio.html',id:'studio'},{label:'作品',href:'works.html',id:'works'},{label:'实验',href:'experiments.html',id:'experiments'},{label:'产品',href:'products.html',id:'products'},{label:'联系',href:'contact.html',id:'contact'}];
 function navMount(items){
  $$('[data-site-nav]').forEach(el=>{const active=el.dataset.active||location.pathname.split('/').pop().replace('.html','');el.innerHTML=items.map(n=>'<a href="'+n.href+'"'+(active===n.id?' aria-current="page"':'')+'>'+n.label+'</a>').join('')});
