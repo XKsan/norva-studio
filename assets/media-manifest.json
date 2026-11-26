@@ -227,6 +227,20 @@
       "path": "assets/images/field/places-moments/cover.svg",
       "status": "temporary",
       "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
+    },
+    {
+      "id": "video-antmonologue",
+      "path": "antmonologue.html#film-player",
+      "status": "temporary",
+      "replacement_note": "视频播放占位；真实视频使用外部平台播放器，不将母版存入仓库。",
+      "media_type": "video_embed"
+    },
+    {
+      "id": "video-documentary",
+      "path": "documentary.html#film-player",
+      "status": "temporary",
+      "replacement_note": "纪录片播放占位；真实视频使用外部平台播放器，不将母版存入仓库。",
+      "media_type": "video_embed"
     }
   ]
 }
