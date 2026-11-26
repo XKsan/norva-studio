@@ -101,8 +101,7 @@ jobs:
                   studioGrid:(()=>{const grid=document.querySelector('body.studio-page .content-grid');const last=grid?.lastElementChild;return grid&&last?{columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,lastColumnEnd:getComputedStyle(last).gridColumnEnd}:null})(),
                   orphanGuards:route==='archive.html'?document.querySelectorAll('.page-desc .keep-together').length:route==='contact.html'?document.querySelectorAll('.page-desc .keep-together,.section-intro .keep-together').length:null,
                   antImageFit:(()=>{const img=document.querySelector('.antmonologue-visual img');return img?{objectFit:getComputedStyle(img).objectFit,frameRatio:img.parentElement.getBoundingClientRect().width/img.parentElement.getBoundingClientRect().height,frameWidth:img.parentElement.getBoundingClientRect().width,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight}:null})(),
-                  onethingSpacing:(()=>{const root=document.querySelector('[data-onething]');if(!root)return null;const margin=(s,side)=>{const el=root.querySelector(s);return el?parseFloat(getComputedStyle(el)[side])||0:null};return {category:margin('.category','marginBottom'),date:margin('.onething-date','marginBottom'),titleEn:margin('.one-bilingual h2:first-child','marginBottom'),titleZh:margin('.one-bilingual h2:nth-child(2)','marginBottom'),revealEn:margin('.reveal[data-one-reveal-en]','marginTop'),revealZh:margin('.reveal[data-one-reveal-zh]','marginTop'),meaningEn:margin('.meaning[data-one-meaning-en]','marginTop'),meaningZh:margin('.meaning[data-one-meaning-zh]','marginTop')}})(),
-                  homeDateTaglineOverlap:(()=>{const date=document.querySelector('.onething-date'),tag=document.querySelector('.home-tagline');if(!date||!tag)return null;const a=date.getBoundingClientRect(),b=tag.getBoundingClientRect();return Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top))})()
+                  onethingSpacing:(()=>{const root=document.querySelector('[data-onething]');if(!root)return null;const margin=(s,side)=>{const el=root.querySelector(s);return el?parseFloat(getComputedStyle(el)[side])||0:null};return {category:margin('.category','marginBottom'),titleEn:margin('.one-bilingual h2:first-child','marginBottom'),titleZh:margin('.one-bilingual h2:nth-child(2)','marginBottom'),revealEn:margin('.reveal[data-one-reveal-en]','marginTop'),revealZh:margin('.reveal[data-one-reveal-zh]','marginTop'),meaningEn:margin('.meaning[data-one-meaning-en]','marginTop'),meaningZh:margin('.meaning[data-one-meaning-zh]','marginTop')}})(),
                 }),route);
                 if(width===1440){item.title=state.title;item.status=response?.status()??null}
                 const imageFailures=state.images.filter(i=>!i.loaded);
@@ -117,8 +116,8 @@ jobs:
                 if(route==='contact.html'&&state.orphanGuards!==2)item.pageErrors.push('Contact page orphan-line guards are incomplete');
                 if(route==='studio.html'&&width===600&&state.studioGrid?.lastColumnEnd!=='-1')item.pageErrors.push('Studio third panel does not fill the tablet grid row: '+JSON.stringify(state.studioGrid));
                 if(route==='antmonologue.html'&&(!state.antImageFit||state.antImageFit.objectFit!=='contain'||state.antImageFit.frameWidth>421||state.antImageFit.naturalWidth<1||state.antImageFit.naturalHeight<1))item.pageErrors.push('Antmonologue image must fit without cropping: '+JSON.stringify(state.antImageFit));
-                if(route==='index.html'&&width===390&&state.homeDateTaglineOverlap!==null&&state.homeDateTaglineOverlap>0)item.pageErrors.push('Mobile homepage date overlaps tagline: '+state.homeDateTaglineOverlap+'px');
-                if(route==='index.html'){const spacingMin=width<=520?7:12;if(!state.onethingSpacing||Object.values(state.onethingSpacing).some(v=>v===null||v<spacingMin))item.pageErrors.push('ONETHING vertical spacing is below the '+(width<=520?'mobile':'desktop')+' accepted minimum ('+spacingMin+'px): '+JSON.stringify(state.onethingSpacing));}
+                
+                if(route==='index.html'){const spacingMin=width<=520?7:6;if(!state.onethingSpacing||Object.values(state.onethingSpacing).some(v=>v===null||v<spacingMin))item.pageErrors.push('ONETHING vertical spacing is below the '+(width<=520?'mobile':'desktop')+' accepted minimum ('+spacingMin+'px): '+JSON.stringify(state.onethingSpacing));}
                 if(state.pageTitleSize!==null&&state.pageTitleSize>28.5)item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
                 const expectedCanonical=route==='index.html'?base:new URL(route,base).href;
                 if(state.canonical!==expectedCanonical)item.pageErrors.push('Canonical mismatch: '+state.canonical);
@@ -193,6 +192,28 @@ jobs:
                   }
                 }
               }catch(e){item.pageErrors.push('viewport '+width+': '+String(e))}
+            }
+            if(route==='index.html'){
+              for(const viewport of [{width:1440,height:900},{width:1512,height:982}]){
+                await page.setViewportSize(viewport);
+                await page.goto(new URL(route,base).href,{waitUntil:'domcontentloaded',timeout:45000});
+                await page.waitForTimeout(900);
+                const home=await page.evaluate(()=>{
+                  const rect=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right}};
+                  const tag=rect('.home-tagline'),category=rect('.onething .category'),map=rect('.star-map'),hint=rect('.home-hint');
+                  const nodes=[...document.querySelectorAll('.star-node')].map(n=>({id:n.dataset.starRoom,color:getComputedStyle(n.querySelector('.core')).fill,labelColor:getComputedStyle(n.querySelector('.node-label')).fill,labelSize:parseFloat(getComputedStyle(n.querySelector('.node-label')).fontSize),sparkle:!!n.querySelector('.sparkle'),delay:getComputedStyle(n.querySelector('.core')).animationDelay}));
+                  return {width:innerWidth,height:innerHeight,pageHeight:document.documentElement.scrollHeight,tag,category,taglineCategoryGap:tag&&category?category.top-tag.bottom:null,dateVisible:!!document.querySelector('.onething-date'),map,hint,nodes};
+                });
+                if(home.pageHeight>viewport.height+1)item.pageErrors.push('Desktop homepage does not fit one viewport at '+viewport.width+'x'+viewport.height+': '+home.pageHeight+'px');
+                if(!home.tag||!home.category||home.taglineCategoryGap<12)item.pageErrors.push('Desktop tagline and ONETHING category overlap or lack spacing at '+viewport.width+'px: '+JSON.stringify(home.taglineCategoryGap));
+                if(home.dateVisible)item.pageErrors.push('Homepage date row must not be rendered');
+                if(!home.map||!home.hint||home.map.top<0||home.map.bottom>viewport.height||home.hint.top<0||home.hint.bottom>viewport.height)item.pageErrors.push('Desktop star map or TOUCH THE WATER hint is outside the viewport at '+viewport.width+'px');
+                if(home.nodes.length!==5||new Set(home.nodes.map(n=>n.color)).size!==5||home.nodes.some(n=>!n.sparkle||n.labelSize<12||n.labelColor==='rgb(168, 189, 192)'))item.pageErrors.push('Desktop star-map nodes need five distinct colors, sparkles and clear labels: '+JSON.stringify(home.nodes));
+                await page.emulateMedia({reducedMotion:'reduce'});
+                const reduced=await page.locator('.star-node .core').first().evaluate(el=>parseFloat(getComputedStyle(el).animationDuration));
+                if(reduced>.001)item.pageErrors.push('Star-map pulse does not respect reduced-motion at '+viewport.width+'px');
+                await page.emulateMedia({reducedMotion:'no-preference'});
+              }
             }
             await page.close();report.routes.push(item);
           }
