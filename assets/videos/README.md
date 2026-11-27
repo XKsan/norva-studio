@@ -1,3 +1,10 @@
-# Video replacement slots
+# Video assets
 
-The Documentary & Film page includes a designed motion placeholder. It is intentionally not fake footage. Replace it with an original video embed or a small H.264 MP4 (1080p). For larger footage, use YouTube, Vimeo, or another video host and add the embed URL to the project page.
+Small original IP videos are stored directly in this repository:
+- original-ip/001.mp4
+- original-ip/002.mp4
+- original-ip/003.mp4
+
+Documentary pages store only short preview clips under documentary-previews/. Full-length films may use a verified public player or external watch URL. Keep original aspect ratios; use MP4/H.264; do not autoplay; use preload=none.
+
+No actual video files have been supplied yet. Add the source files before changing their JSON item status from pending to real.
