@@ -1,0 +1,47 @@
+{
+  "title": "原创 IP",
+  "description": "持续生长的短片与独立叙事。",
+  "platforms": [
+    {
+      "name": "小红书",
+      "url": ""
+    },
+    {
+      "name": "TikTok",
+      "url": ""
+    },
+    {
+      "name": "微信视频号",
+      "url": ""
+    }
+  ],
+  "items": [
+    {
+      "id": "001",
+      "title": "蚂蚁独白 001",
+      "description": "第一集｜短片内容将在正式素材替换阶段接入。",
+      "video": "assets/videos/original-ip/001.mp4",
+      "poster": "assets/images/works/ant-matter/key-visual.svg",
+      "ratio": "9:16",
+      "status": "pending"
+    },
+    {
+      "id": "002",
+      "title": "蚂蚁独白 002",
+      "description": "第二集｜短片内容将在正式素材替换阶段接入。",
+      "video": "assets/videos/original-ip/002.mp4",
+      "poster": "assets/images/works/ant-matter/key-visual.svg",
+      "ratio": "9:16",
+      "status": "pending"
+    },
+    {
+      "id": "003",
+      "title": "蚂蚁独白 003",
+      "description": "第三集｜短片内容将在正式素材替换阶段接入。",
+      "video": "assets/videos/original-ip/003.mp4",
+      "poster": "assets/images/works/ant-matter/key-visual.svg",
+      "ratio": "9:16",
+      "status": "pending"
+    }
+  ]
+}
