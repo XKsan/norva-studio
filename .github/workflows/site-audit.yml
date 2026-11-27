@@ -1,5 +1,5 @@
 name: NORVA site audit screenshots
-# Covers current bilingual homepage and four distinct experiment interactions.
+# Audits the five-room NORVA site, media archives and four interactive experiments.
 on:
   push:
     branches:
@@ -58,7 +58,8 @@ jobs:
             'experiment-water.html','experiment-tide.html','experiment-sound.html','experiment-field.html',
             'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
             'service-short-video.html','service-long-video.html','service-course-video.html','service-subtitles.html','service-ai-voice.html','service-audio-post.html'
-          ];          const browser = await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']});
+          ];
+          const browser = await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']});
           const report = {base:'http://127.0.0.1:4173/', pages:[], brokenLinks:[]};
           for (const path of pages) {
             const item = {path, title:'', viewports:[], pageErrors:[], consoleErrors:[], failedRequests:[]};
