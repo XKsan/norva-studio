@@ -1,16 +1,16 @@
 {
-  "id": "OT-20261127-HUMAN",
-  "category": "HUMAN",
-  "title_en": "Humans Emit Visible Light",
-  "title_zh": "人体发光",
-  "reveal_en": "The human body emits faint visible light, though it's about 1,000 times dimmer than what our eyes can detect. This bio-luminescence is a byproduct of biochemical reactions within us.",
-  "reveal_zh": "人体会发出微弱的可见光，但比肉眼能察觉到的光暗约1000倍。这种生物发光是人体内部生化反应的副产品。",
-  "meaning_en": "This subtle glow reminds us that even our biology holds hidden, energetic processes beyond ordinary perception and sensory limits.",
-  "meaning_zh": "这种微弱的光提醒我们，即使是我们的生物学，也拥有超越日常感知和感官限制的隐藏能量过程。",
+  "id": "OT-20261127-TIME",
+  "category": "TIME",
+  "title_en": "Cleopatra's Timeline Surprise",
+  "title_zh": "埃及艳后时间线之谜",
+  "reveal_en": "Cleopatra lived closer to the invention of the iPhone (around 2007 AD) than she did to the construction of the Great Pyramid of Giza (around 2560 BC). This highlights vast stretches of ancient history.",
+  "reveal_zh": "埃及艳后生活的年代（约公元前69-30年）比她与金字塔建成（约公元前2560年）的时间差，更接近与iPhone问世（约公元2007年）的时间差。",
+  "meaning_en": "Our perception of historical timelines is often skewed, underestimating the immense antiquity of early human achievements.",
+  "meaning_zh": "这揭示了我们对历史时间线的认知偏差，低估了人类早期文明的漫长岁月。",
   "visual": {
-    "theme": "human",
-    "color": "#FFA07A",
-    "motion": "Faint, pulsating aura around a human silhouette."
+    "theme": "time",
+    "color": "#800080",
+    "motion": "Subtle temporal distortion/ripple"
   },
-  "generated_at": "2026-11-27T05:37:40.750543+00:00"
+  "generated_at": "2026-11-27T07:24:00.332516+00:00"
 }
