@@ -150,11 +150,9 @@
     }
   ],
   "site_integration_status": {
-    "photography": "integrated_remote_pexels_image_sequence",
-    "documentary": "integrated_remote_pexels_mp4_video_players",
-    "antmonologue": "integrated_remote_pexels_image_sequence",
-    "works_index": "integrated_remote_pexels_visual_previews",
-    "note": "Remote Pexels CDN references are used temporarily. Local WebP/MP4 optimization and mainland-China access testing remain required before launch."
+    "branch": "redesign/new-ia-content-20261127",
+    "status": "restructured_waiting_for_real_media_assets",
+    "note": "New five-space navigation and data-driven archive pages are in place; actual user video files and verified social account URLs have not yet been supplied."
   },
   "media": [
     {
@@ -194,26 +192,8 @@
       "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
     },
     {
-      "id": "media-007",
-      "path": "assets/images/works/documentary/01-still-01.svg",
-      "status": "temporary",
-      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
-    },
-    {
-      "id": "media-008",
-      "path": "assets/images/works/documentary/01-still-02.svg",
-      "status": "temporary",
-      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
-    },
-    {
       "id": "media-009",
       "path": "assets/images/works/ant-matter/key-visual.svg",
-      "status": "temporary",
-      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
-    },
-    {
-      "id": "media-010",
-      "path": "assets/images/works/ant-matter/character-01.svg",
       "status": "temporary",
       "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
     },
@@ -236,18 +216,32 @@
       "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
     },
     {
-      "id": "video-antmonologue",
-      "path": "antmonologue.html#film-player",
-      "status": "temporary",
-      "replacement_note": "视频播放占位；真实视频使用外部平台播放器，不将母版存入仓库。",
-      "media_type": "video_embed"
+      "id": "ip-video-001",
+      "path": "assets/videos/original-ip/001.mp4",
+      "status": "pending",
+      "media_type": "video",
+      "replacement_note": "用户提供的原创 9:16 短片；正式素材接入后 status 改为 real。"
     },
     {
-      "id": "video-documentary",
-      "path": "documentary.html#film-player",
-      "status": "temporary",
-      "replacement_note": "纪录片播放占位；真实视频使用外部平台播放器，不将母版存入仓库。",
-      "media_type": "video_embed"
+      "id": "ip-video-002",
+      "path": "assets/videos/original-ip/002.mp4",
+      "status": "pending",
+      "media_type": "video",
+      "replacement_note": "用户提供的原创 9:16 短片；正式素材接入后 status 改为 real。"
+    },
+    {
+      "id": "ip-video-003",
+      "path": "assets/videos/original-ip/003.mp4",
+      "status": "pending",
+      "media_type": "video",
+      "replacement_note": "用户提供的原创 9:16 短片；正式素材接入后 status 改为 real。"
+    },
+    {
+      "id": "documentary-preview-001",
+      "path": "assets/videos/documentary-previews/field-study-001-preview.mp4",
+      "status": "pending",
+      "media_type": "video",
+      "replacement_note": "轻量纪录影像预告片；正式素材接入后 status 改为 real。"
     }
   ],
   "data_files": [
