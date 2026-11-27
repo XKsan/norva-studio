@@ -1,5 +1,7 @@
 name: NORVA production website audit
 on:
+  push:
+    branches: [main]
   workflow_run:
     workflows: ["Deploy NORVA STUDIO"]
     types: [completed]
