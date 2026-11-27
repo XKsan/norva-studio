@@ -5,34 +5,34 @@
     {
       "id": "photo-001",
       "title": "山地与湖泊",
-      "image": "assets/images/works/photography/01-01.svg",
-      "alt": "山地与湖泊摄影占位",
+      "image": "assets/images/works/photography/01-01.webp",
+      "alt": "山地与湖泊｜NORVA 摄影记录",
       "ratio": "4:3",
-      "status": "temporary"
+      "status": "real"
     },
     {
       "id": "photo-002",
       "title": "光线与地貌",
-      "image": "assets/images/works/photography/01-02.svg",
-      "alt": "光线与地貌摄影占位",
+      "image": "assets/images/works/photography/01-02.webp",
+      "alt": "光线与地貌｜NORVA 摄影记录",
       "ratio": "3:2",
-      "status": "temporary"
+      "status": "real"
     },
     {
       "id": "photo-003",
       "title": "行走片段",
-      "image": "assets/images/works/photography/01-03.svg",
-      "alt": "行走片段摄影占位",
+      "image": "assets/images/works/photography/01-03.webp",
+      "alt": "行走片段｜NORVA 摄影记录",
       "ratio": "3:2",
-      "status": "temporary"
+      "status": "real"
     },
     {
       "id": "photo-004",
       "title": "远方",
-      "image": "assets/images/works/photography/02-cover.svg",
-      "alt": "远方摄影占位",
+      "image": "assets/images/works/photography/02-cover.webp",
+      "alt": "远方｜NORVA 摄影记录",
       "ratio": "4:3",
-      "status": "temporary"
+      "status": "real"
     }
   ]
 }
