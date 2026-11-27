@@ -10,7 +10,6 @@ permissions:
   actions: read
 jobs:
   branch-guard:
-    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - run: echo "Production audit is reserved for the main deployment."
