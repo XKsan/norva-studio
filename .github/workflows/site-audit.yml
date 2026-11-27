@@ -1,5 +1,5 @@
 name: NORVA site audit screenshots
-# Audits the five-room NORVA site, media archives and four interactive experiments.
+# Audits the five-room NORVA site, data-driven archives, image loading and interactive experiments.
 on:
   push:
     branches:
