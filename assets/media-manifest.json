@@ -2,22 +2,29 @@
   "status": "temporary_visual_studies_and_video_archive_slots",
   "replacement_rule": "每个图片/视频位在本清单中登记 id、path、status（temporary/real）与 replacement_note。替换时保持路径与文件名不变；预览环境检查通过后再合并到 main。",
   "video_policy": {
-    "principle": "The website is the portfolio and archive; public video platforms host playback; private cloud drives are for review, delivery and download only.",
-    "github": "Store HTML, CSS, JS, cover images, thumbnails and small previews only. Do not store full-resolution video masters.",
-    "antmonologue": {
+    "principle": "Small original IP videos and short documentary previews are stored in this GitHub repository; full-length documentary masters may be hosted externally when appropriate.",
+    "github": "Store all three small 9:16 original IP videos and lightweight documentary preview clips directly in the repository. Do not store large full-length masters.",
+    "original_ip": {
       "page": "antmonologue.html",
-      "native_ratio": "9:16",
-      "playback": "Embed a public platform player when available; otherwise link to the public watch page."
+      "files": [
+        "assets/videos/original-ip/001.mp4",
+        "assets/videos/original-ip/002.mp4",
+        "assets/videos/original-ip/003.mp4"
+      ],
+      "ratio": "9:16",
+      "status": "pending_assets_not_yet_supplied"
     },
-    "documentary_film": {
+    "documentary": {
       "page": "documentary.html",
-      "supported_ratios": [
+      "preview_directory": "assets/videos/documentary-previews/",
+      "ratios": [
         "16:9",
         "4:3"
       ],
-      "playback": "Preserve each film's original aspect ratio; use public embeds or external watch links."
+      "detail_template": "documentary-film.html?film=<slug>",
+      "full_length": "External public player or verified watch URL when appropriate."
     },
-    "platforms": "Choose an accessible public platform per audience and verify embed availability before publishing."
+    "loading": "preload=none; no autoplay; lazy-load posters and images."
   },
   "media_card_fields": [
     "title",
@@ -242,5 +249,12 @@
       "replacement_note": "纪录片播放占位；真实视频使用外部平台播放器，不将母版存入仓库。",
       "media_type": "video_embed"
     }
-  ]
+  ],
+  "data_files": [
+    "assets/data/original-ip.json",
+    "assets/data/photography.json",
+    "assets/data/documentary.json",
+    "assets/data/field-notes.json"
+  ],
+  "platform_links": "Only publish Xiaohongshu, TikTok and WeChat Channels URLs after the user supplies the exact account URLs."
 }
