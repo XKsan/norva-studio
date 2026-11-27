@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const $=(s,r=document)=>r.querySelector(s);
+const $=(s,r=document)=>r.querySelector(s),$=(s,r=document)=>[...r.querySelectorAll(s)];
 const base='assets/data/';
 async function load(name){const r=await fetch(base+name+'.json');if(!r.ok)throw new Error('内容数据读取失败：'+name);return r.json()}
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
