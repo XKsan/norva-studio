@@ -10,7 +10,7 @@ permissions:
   actions: read
 jobs:
   live-audit:
-    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -114,7 +114,7 @@ jobs:
                 if(route!=='index.html'&&(!state.floatingPageNav?.present||!state.floatingPageNav.back||!state.floatingPageNav.forward||!state.floatingPageNav.home||!state.floatingPageNav.iconOnly))item.pageErrors.push('Floating icon navigation is missing or invalid: '+JSON.stringify(state.floatingPageNav));
                 if(route==='archive.html'&&state.orphanGuards!==1)item.pageErrors.push('Archive page orphan-line guard is missing');
                 if(route==='contact.html'&&state.orphanGuards!==2)item.pageErrors.push('Contact page orphan-line guards are incomplete');
-                if(route==='antmonologue.html'&&state.images.length!==3)item.pageErrors.push('Original IP page must show three independently addressable vertical media cards: '+state.images.length);
+                if(route==='antmonologue.html'&&state.images.length!==3)item.pageErrors.push('Original IP page must show three vertical poster frames: '+state.images.length);
                 
                 if(route==='index.html'){const spacingMin=width<=520?7:6;if(!state.onethingSpacing||Object.values(state.onethingSpacing).some(v=>v===null||v<spacingMin))item.pageErrors.push('ONETHING vertical spacing is below the '+(width<=520?'mobile':'desktop')+' accepted minimum ('+spacingMin+'px): '+JSON.stringify(state.onethingSpacing));}
                 if(state.pageTitleSize!==null&&state.pageTitleSize>28.5)item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
