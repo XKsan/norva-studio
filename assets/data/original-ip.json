@@ -19,29 +19,29 @@
     {
       "id": "001",
       "title": "蚂蚁独白 001",
-      "description": "第一集｜短片内容将在正式素材替换阶段接入。",
+      "description": "第一集｜原创短片",
       "video": "assets/videos/original-ip/001.mp4",
       "poster": "assets/images/works/ant-matter/key-visual.svg",
       "ratio": "9:16",
-      "status": "pending"
+      "status": "real"
     },
     {
       "id": "002",
       "title": "蚂蚁独白 002",
-      "description": "第二集｜短片内容将在正式素材替换阶段接入。",
+      "description": "第二集｜原创短片",
       "video": "assets/videos/original-ip/002.mp4",
       "poster": "assets/images/works/ant-matter/key-visual.svg",
       "ratio": "9:16",
-      "status": "pending"
+      "status": "real"
     },
     {
       "id": "003",
       "title": "蚂蚁独白 003",
-      "description": "第三集｜短片内容将在正式素材替换阶段接入。",
+      "description": "第三集｜原创短片",
       "video": "assets/videos/original-ip/003.mp4",
       "poster": "assets/images/works/ant-matter/key-visual.svg",
       "ratio": "9:16",
-      "status": "pending"
+      "status": "real"
     }
   ]
 }
