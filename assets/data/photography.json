@@ -1,0 +1,38 @@
+{
+  "title": "摄影记录",
+  "description": "在行走与停留之间，收集光线、空间与人的片刻。",
+  "items": [
+    {
+      "id": "photo-001",
+      "title": "山地与湖泊",
+      "image": "assets/images/works/photography/01-01.svg",
+      "alt": "山地与湖泊摄影占位",
+      "ratio": "4:3",
+      "status": "temporary"
+    },
+    {
+      "id": "photo-002",
+      "title": "光线与地貌",
+      "image": "assets/images/works/photography/01-02.svg",
+      "alt": "光线与地貌摄影占位",
+      "ratio": "3:2",
+      "status": "temporary"
+    },
+    {
+      "id": "photo-003",
+      "title": "行走片段",
+      "image": "assets/images/works/photography/01-03.svg",
+      "alt": "行走片段摄影占位",
+      "ratio": "3:2",
+      "status": "temporary"
+    },
+    {
+      "id": "photo-004",
+      "title": "远方",
+      "image": "assets/images/works/photography/02-cover.svg",
+      "alt": "远方摄影占位",
+      "ratio": "4:3",
+      "status": "temporary"
+    }
+  ]
+}

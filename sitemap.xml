@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://xksan.github.io/norva-studio/</loc></url>
-  <url><loc>https://xksan.github.io/norva-studio/studio.html</loc></url>
-  <url><loc>https://xksan.github.io/norva-studio/works.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/about.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/development-services.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/experiments.html</loc></url>
-  <url><loc>https://xksan.github.io/norva-studio/products.html</loc></url>
-  <url><loc>https://xksan.github.io/norva-studio/archive.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/body-speech-mind.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/contact.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/antmonologue.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/photography.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/documentary.html</loc></url>
-  <url><loc>https://xksan.github.io/norva-studio/antmonologue.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/documentary-film.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/archive.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/experiment-water.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/experiment-tide.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/experiment-sound.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/experiment-field.html</loc></url>
-  <url><loc>https://xksan.github.io/norva-studio/product-content-engine.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/product-document-converter.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/product-video-engine.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/product-content-engine.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/product-hmc-mind.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/service-short-video.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/service-long-video.html</loc></url>
@@ -24,4 +25,5 @@
   <url><loc>https://xksan.github.io/norva-studio/service-subtitles.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/service-ai-voice.html</loc></url>
   <url><loc>https://xksan.github.io/norva-studio/service-audio-post.html</loc></url>
+  <url><loc>https://xksan.github.io/norva-studio/service-knowledge-documents.html</loc></url>
 </urlset>

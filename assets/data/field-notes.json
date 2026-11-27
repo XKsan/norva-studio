@@ -1,0 +1,30 @@
+{
+  "title": "行走档案",
+  "description": "关于城市、山地、人物与时间的长期观察。",
+  "categories": [
+    {
+      "id": "CITY",
+      "title": "城市",
+      "description": "在日常空间中重新观看城市。",
+      "image": "assets/images/field/places-moments/cover.svg"
+    },
+    {
+      "id": "MOUNTAIN",
+      "title": "山地",
+      "description": "关于山地、自然与行走的现场记录。",
+      "image": "assets/images/field/himalayan-notes/cover.svg"
+    },
+    {
+      "id": "PEOPLE",
+      "title": "人物",
+      "description": "人与人之间的相遇、交谈与关系。",
+      "image": "assets/images/field/people-encounters/cover.svg"
+    },
+    {
+      "id": "TIME",
+      "title": "时间",
+      "description": "季节、变化，以及时间留下的痕迹。",
+      "image": "assets/images/works/photography/01-cover.svg"
+    }
+  ]
+}

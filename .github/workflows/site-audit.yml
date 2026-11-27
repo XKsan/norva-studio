@@ -1,11 +1,12 @@
 name: NORVA site audit screenshots
-# Covers current bilingual homepage and four distinct experiment interactions.
+# Audits the five-room NORVA site, data-driven archives, image loading and interactive experiments.
 on:
   push:
     branches:
       - audit/site-quality-2026-11-25
       - redesign/norva-world-v1
       - redesign/deep-water-gallery-v2
+      - redesign/new-ia-content-20261127
       - fix/manual-audit-2026-11-26
     paths:
       - ".github/workflows/site-audit.yml"
@@ -52,11 +53,11 @@ jobs:
           import { chromium } from 'playwright';
           import fs from 'node:fs';
           const pages = [
-            'index.html','studio.html','works.html','experiments.html','products.html','archive.html','contact.html',
-            'photography.html','documentary.html','antmonologue.html',
+            'index.html','about.html','development-services.html','experiments.html','body-speech-mind.html','contact.html',
+            'antmonologue.html','photography.html','documentary.html','documentary-film.html','archive.html',
             'experiment-water.html','experiment-tide.html','experiment-sound.html','experiment-field.html',
             'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
-            'service-short-video.html','service-long-video.html','service-course-video.html','service-subtitles.html','service-ai-voice.html','service-audio-post.html'
+            'service-short-video.html','service-long-video.html','service-course-video.html','service-subtitles.html','service-ai-voice.html','service-audio-post.html','service-knowledge-documents.html'
           ];
           const browser = await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']});
           const report = {base:'http://127.0.0.1:4173/', pages:[], brokenLinks:[]};
@@ -222,7 +223,7 @@ jobs:
                   await page.screenshot({path:'audit-output/screenshots/'+path.replace('.html','')+'-'+width+'.png',fullPage:true,animations:'disabled'});
                 }
                 if(width===1440 && path==='index.html') {
-                  const expected=['studio','works','experiments','products','contact'];
+                  const expected=['about','development','experiments','body-mind','contact'];
                   const actual=await page.locator('[data-star-room]').evaluateAll(nodes=>nodes.map(n=>n.dataset.starRoom));
                   if(expected.some(x=>!actual.includes(x))||actual.length!==5) item.pageErrors.push('Star map destinations mismatch: '+JSON.stringify(actual));
                 }
