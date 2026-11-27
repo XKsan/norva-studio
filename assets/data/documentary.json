@@ -1,0 +1,20 @@
+{
+  "title": "纪录影像",
+  "description": "从真实现场出发，以影像记录人与环境。",
+  "items": [
+    {
+      "id": "film-001",
+      "slug": "field-study-001",
+      "title": "现场记录 001",
+      "description": "纪录影像预览位。正式短预告将在素材替换阶段接入。",
+      "year": "",
+      "duration": "",
+      "ratio": "16:9",
+      "preview": "assets/videos/documentary-previews/field-study-001-preview.mp4",
+      "poster": "assets/images/works/documentary/01-cover.svg",
+      "detail": "documentary-film.html?film=field-study-001",
+      "status": "pending",
+      "full_video_url": ""
+    }
+  ]
+}
