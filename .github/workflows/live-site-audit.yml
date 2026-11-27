@@ -32,8 +32,8 @@ jobs:
           import fs from 'node:fs';
           const base = process.env.LIVE_BASE;
           const routes = [
-            'index.html','studio.html','works.html','experiments.html','products.html','archive.html','contact.html',
-            'photography.html','documentary.html','antmonologue.html',
+            'index.html','about.html','development-services.html','experiments.html','body-speech-mind.html','contact.html',
+            'antmonologue.html','photography.html','documentary.html','documentary-film.html','archive.html',
             'experiment-water.html','experiment-tide.html','experiment-sound.html','experiment-field.html',
             'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
             'service-short-video.html','service-long-video.html','service-course-video.html',
@@ -114,8 +114,7 @@ jobs:
                 if(route!=='index.html'&&(!state.floatingPageNav?.present||!state.floatingPageNav.back||!state.floatingPageNav.forward||!state.floatingPageNav.home||!state.floatingPageNav.iconOnly))item.pageErrors.push('Floating icon navigation is missing or invalid: '+JSON.stringify(state.floatingPageNav));
                 if(route==='archive.html'&&state.orphanGuards!==1)item.pageErrors.push('Archive page orphan-line guard is missing');
                 if(route==='contact.html'&&state.orphanGuards!==2)item.pageErrors.push('Contact page orphan-line guards are incomplete');
-                if(route==='studio.html'&&width===600&&state.studioGrid?.lastColumnEnd!=='-1')item.pageErrors.push('Studio third panel does not fill the tablet grid row: '+JSON.stringify(state.studioGrid));
-                if(route==='antmonologue.html'&&(!state.antImageFit||state.antImageFit.objectFit!=='contain'||state.antImageFit.frameWidth>421||state.antImageFit.naturalWidth<1||state.antImageFit.naturalHeight<1))item.pageErrors.push('Antmonologue image must fit without cropping: '+JSON.stringify(state.antImageFit));
+                if(route==='antmonologue.html'&&state.images.length!==3)item.pageErrors.push('Original IP page must show three independently addressable vertical media cards: '+state.images.length);
                 
                 if(route==='index.html'){const spacingMin=width<=520?7:6;if(!state.onethingSpacing||Object.values(state.onethingSpacing).some(v=>v===null||v<spacingMin))item.pageErrors.push('ONETHING vertical spacing is below the '+(width<=520?'mobile':'desktop')+' accepted minimum ('+spacingMin+'px): '+JSON.stringify(state.onethingSpacing));}
                 if(state.pageTitleSize!==null&&state.pageTitleSize>28.5)item.pageErrors.push('Page title exceeds 28px: '+state.pageTitleSize);
@@ -170,11 +169,11 @@ jobs:
                        sparkleDuration:getComputedStyle(n.querySelector('.sparkle')).animationDuration,
                        sparkleDelay:getComputedStyle(n.querySelector('.sparkle')).animationDelay
                     })));
-                    const expectedColors={studio:'rgb(159, 222, 210)',works:'rgb(216, 189, 130)',experiments:'rgb(145, 185, 232)',products:'rgb(217, 154, 145)',contact:'rgb(185, 166, 223)'};
+                    const expectedColors={about:'rgb(159, 222, 210)',development:'rgb(217, 154, 145)',experiments:'rgb(145, 185, 232)','body-mind':'rgb(216, 189, 130)',contact:'rgb(185, 166, 223)'};
                     const colorMap=Object.fromEntries(mobileStarMap.map(n=>[n.id,n.color]));
                     const colorsMatch=mobileStarMap.length===5&&Object.entries(expectedColors).every(([id,color])=>colorMap[id]===color);
                     const labelsRemain22px=mobileStarMap.length===5&&mobileStarMap.every(n=>n.labelSize===22);
-                    const expectedDelays={studio:'0s',works:'-1.68s',experiments:'-3.36s',products:'-5.04s',contact:'-6.72s'};
+                    const expectedDelays={about:'0s',development:'-1.68s',experiments:'-3.36s','body-mind':'-5.04s',contact:'-6.72s'};
                     const sparklesVisible=mobileStarMap.length===5&&mobileStarMap.every(n=>n.sparkleDisplay!=='none'&&n.sparkleDuration==='8.4s'&&expectedDelays[n.id]===n.sparkleDelay);
                     item.mobileStarMap={nodes:mobileStarMap,colorsMatch,labelsRemain22px,sparklesVisible,passed:colorsMatch&&labelsRemain22px&&sparklesVisible};
                     if(!item.mobileStarMap.passed)item.pageErrors.push('390px mobile star-map palette, sparkle animation or preserved mobile presentation failed: '+JSON.stringify(item.mobileStarMap));
