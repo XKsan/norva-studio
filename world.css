@@ -128,10 +128,10 @@ body:not(.home-screen){padding-bottom:76px}
 /* Shared five-node pulse and sparkle timing across desktop and mobile */
 .star-node circle.core{animation:node-pulse 8.4s ease-in-out infinite}
 .star-node .sparkle{font:9px var(--sans);text-anchor:middle;fill:var(--node-color);opacity:.25;animation:star-twinkle 8.4s ease-in-out infinite}
-.star-node--studio circle.core,.star-node--studio .sparkle{animation-delay:0s}
-.star-node--works circle.core,.star-node--works .sparkle{animation-delay:-1.68s}
+.star-node--about circle.core,.star-node--about .sparkle{animation-delay:0s}
+.star-node--development circle.core,.star-node--development .sparkle{animation-delay:-1.68s}
 .star-node--experiments circle.core,.star-node--experiments .sparkle{animation-delay:-3.36s}
-.star-node--products circle.core,.star-node--products .sparkle{animation-delay:-5.04s}
+.star-node--body-mind circle.core,.star-node--body-mind .sparkle{animation-delay:-5.04s}
 .star-node--contact circle.core,.star-node--contact .sparkle{animation-delay:-6.72s}
 
 /* Shared star-map palette: desktop and mobile */
