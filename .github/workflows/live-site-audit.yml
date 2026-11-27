@@ -37,7 +37,7 @@ jobs:
             'experiment-water.html','experiment-tide.html','experiment-sound.html','experiment-field.html',
             'product-content-engine.html','product-document-converter.html','product-video-engine.html','product-hmc-mind.html',
             'service-short-video.html','service-long-video.html','service-course-video.html',
-            'service-subtitles.html','service-ai-voice.html','service-audio-post.html'
+            'service-subtitles.html','service-ai-voice.html','service-audio-post.html','service-knowledge-documents.html'
           ];
           const widths = [1440,768,600,390];
           const report = {target:base, checkedAt:new Date().toISOString(), routes:[], brokenLinks:[], deployment:{}, sitemap:{}, summary:{}};
