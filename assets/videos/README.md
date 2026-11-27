@@ -5,6 +5,7 @@ Small original IP videos are stored directly in this repository:
 - original-ip/002.mp4
 - original-ip/003.mp4
 
-Documentary pages store only short preview clips under documentary-previews/. Full-length films may use a verified public player or external watch URL. Keep original aspect ratios; use MP4/H.264; do not autoplay; use preload=none.
+Documentary pages store short preview clips under documentary-previews/:
+- documentary-previews/field-study-001-preview.mp4
 
-No actual video files have been supplied yet. Add the source files before changing their JSON item status from pending to real.
+The documentary preview is connected in `assets/data/documentary.json`. Full-length films may use a verified public player or external watch URL. Keep original aspect ratios; use MP4/H.264; do not autoplay; use `preload=none`.
