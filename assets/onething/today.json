@@ -1,16 +1,16 @@
 {
-  "id": "OT-20261126-SCIENCE",
-  "category": "SCIENCE",
-  "title_en": "Chess Games: More Than Universal Atoms",
-  "title_zh": "国际象棋棋局多于宇宙原子",
-  "reveal_en": "The number of distinct possible ways a game of chess can unfold vastly exceeds the estimated number of atoms in the observable universe. This staggering figure highlights the immense complexity that can arise from simple rules.",
-  "reveal_zh": "国际象棋的可能走法数量，远超可观测宇宙中的原子总数。这个惊人的数字揭示了简单规则也能产生无限复杂性。",
-  "meaning_en": "It shows how exponential growth and combinatorial possibilities can quickly lead to incomprehensible scales, even from simple initial conditions.",
-  "meaning_zh": "这揭示了指数增长和组合可能性如何从简单初始条件中创造出难以想象的尺度。",
+  "id": "OT-20261127-HUMAN",
+  "category": "HUMAN",
+  "title_en": "Humans Emit Visible Light",
+  "title_zh": "人体发光",
+  "reveal_en": "The human body emits faint visible light, though it's about 1,000 times dimmer than what our eyes can detect. This bio-luminescence is a byproduct of biochemical reactions within us.",
+  "reveal_zh": "人体会发出微弱的可见光，但比肉眼能察觉到的光暗约1000倍。这种生物发光是人体内部生化反应的副产品。",
+  "meaning_en": "This subtle glow reminds us that even our biology holds hidden, energetic processes beyond ordinary perception and sensory limits.",
+  "meaning_zh": "这种微弱的光提醒我们，即使是我们的生物学，也拥有超越日常感知和感官限制的隐藏能量过程。",
   "visual": {
-    "theme": "science",
-    "color": "#1A237E",
-    "motion": "Expanding grid lines forming complex patterns, fading into a starry expanse."
+    "theme": "human",
+    "color": "#FFA07A",
+    "motion": "Faint, pulsating aura around a human silhouette."
   },
-  "generated_at": "2026-11-26T02:52:43.426303+00:00"
+  "generated_at": "2026-11-27T05:37:40.750543+00:00"
 }
