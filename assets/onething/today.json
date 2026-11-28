@@ -1,16 +1,16 @@
 {
-  "id": "OT-20261127-TIME",
-  "category": "TIME",
-  "title_en": "Cleopatra's Timeline Surprise",
-  "title_zh": "埃及艳后时间线之谜",
-  "reveal_en": "Cleopatra lived closer to the invention of the iPhone (around 2007 AD) than she did to the construction of the Great Pyramid of Giza (around 2560 BC). This highlights vast stretches of ancient history.",
-  "reveal_zh": "埃及艳后生活的年代（约公元前69-30年）比她与金字塔建成（约公元前2560年）的时间差，更接近与iPhone问世（约公元2007年）的时间差。",
-  "meaning_en": "Our perception of historical timelines is often skewed, underestimating the immense antiquity of early human achievements.",
-  "meaning_zh": "这揭示了我们对历史时间线的认知偏差，低估了人类早期文明的漫长岁月。",
+  "id": "OT-20261128-COSMOS",
+  "category": "COSMOS",
+  "title_en": "Venus: Longer Day Than Year",
+  "title_zh": "金星：一日长于一年",
+  "reveal_en": "On Venus, a single rotation on its axis takes 243 Earth days. However, its orbit around the Sun is completed in just 225 Earth days. This means a day on Venus is actually longer than its year.",
+  "reveal_zh": "金星自转一周需243个地球日，但它绕太阳公转一周只需225个地球日。因此，金星上的一天比一年还要长。",
+  "meaning_en": "Our intuitive sense of time and planetary motion is often challenged by the bizarre realities of the cosmos.",
+  "meaning_zh": "宇宙的奇特规律常常颠覆我们对时间和行星运动的直观认知。",
   "visual": {
-    "theme": "time",
-    "color": "#800080",
-    "motion": "Subtle temporal distortion/ripple"
+    "theme": "cosmos",
+    "color": "#E68A00",
+    "motion": "Slow, ponderous rotation of a clouded planet, with a swift orbit animation."
   },
-  "generated_at": "2026-11-27T07:24:00.332516+00:00"
+  "generated_at": "2026-11-28T06:54:57.009898+00:00"
 }
