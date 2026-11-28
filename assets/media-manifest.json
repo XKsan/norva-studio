@@ -1,6 +1,6 @@
 {
-  "status": "temporary_visual_studies_and_video_archive_slots",
-  "replacement_rule": "每个图片/视频位在本清单中登记 id、path、status（temporary/real）与 replacement_note。替换时保持路径与文件名不变；预览环境检查通过后再合并到 main。",
+  "status": "mixed_real_and_temporary_assets",
+  "replacement_rule": "真实素材接入后保持既有引用路径；新增素材登记 id、path、status（temporary/real）与 replacement_note。未使用的旧占位文件暂时保留，完成全站引用审计后再决定是否清理。",
   "video_policy": {
     "principle": "Small original IP videos and short documentary previews are stored in this GitHub repository; full-length documentary masters may be hosted externally when appropriate.",
     "github": "Store all three small 9:16 original IP videos and lightweight documentary preview clips directly in the repository. Do not store large full-length masters.",
@@ -12,7 +12,8 @@
         "assets/videos/original-ip/003.mp4"
       ],
       "ratio": "9:16",
-      "status": "pending_assets_not_yet_supplied"
+      "status": "real",
+      "note": "三个原创 IP 9:16 视频已存放于仓库，页面直接播放，不使用独立海报封面。"
     },
     "documentary": {
       "page": "documentary.html",
@@ -36,7 +37,7 @@
     "watch_url",
     "status"
   ],
-  "temporary_visual_studies_and_video_archive_slots": "temporary_network_media_to_be_integrated",
+  "temporary_visual_studies_and_video_archive_slots": "real_media_integrated_with_remaining_temporary_placeholders",
   "source_policy": {
     "preferred_sources": [
       "Pexels",
@@ -150,9 +151,9 @@
     }
   ],
   "site_integration_status": {
-    "branch": "redesign/new-ia-content-20261127",
-    "status": "restructured_waiting_for_real_media_assets",
-    "note": "New five-space navigation and data-driven archive pages are in place; actual user video files and verified social account URLs have not yet been supplied."
+    "branch": "main",
+    "status": "real_media_partially_integrated",
+    "note": "摄影、纪录影像、行走档案、原创 IP 视频及本批原创 IP/实验视觉素材已接入；其余未替换 SVG 仍作为临时占位保留。"
   },
   "media": [
     {
@@ -192,12 +193,6 @@
       "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
     },
     {
-      "id": "media-009",
-      "path": "assets/images/works/ant-matter/key-visual.svg",
-      "status": "temporary",
-      "replacement_note": "临时视觉占位；网站完成验收后替换为 NORVA 原始素材，保持路径与文件名不变。"
-    },
-    {
       "id": "media-011",
       "path": "assets/images/field/himalayan-notes/cover.svg",
       "status": "temporary",
@@ -218,30 +213,65 @@
     {
       "id": "ip-video-001",
       "path": "assets/videos/original-ip/001.mp4",
-      "status": "pending",
+      "status": "real",
       "media_type": "video",
-      "replacement_note": "用户提供的原创 9:16 短片；正式素材接入后 status 改为 real。"
+      "replacement_note": "已接入的原创 IP 9:16 视频，页面直接播放，不设置海报封面。"
     },
     {
       "id": "ip-video-002",
       "path": "assets/videos/original-ip/002.mp4",
-      "status": "pending",
+      "status": "real",
       "media_type": "video",
-      "replacement_note": "用户提供的原创 9:16 短片；正式素材接入后 status 改为 real。"
+      "replacement_note": "已接入的原创 IP 9:16 视频，页面直接播放，不设置海报封面。"
     },
     {
       "id": "ip-video-003",
       "path": "assets/videos/original-ip/003.mp4",
-      "status": "pending",
+      "status": "real",
       "media_type": "video",
-      "replacement_note": "用户提供的原创 9:16 短片；正式素材接入后 status 改为 real。"
+      "replacement_note": "已接入的原创 IP 9:16 视频，页面直接播放，不设置海报封面。"
     },
     {
       "id": "documentary-preview-001",
       "path": "assets/videos/documentary-previews/field-study-001-preview.mp4",
-      "status": "pending",
+      "status": "real",
       "media_type": "video",
-      "replacement_note": "轻量纪录影像预告片；正式素材接入后 status 改为 real。"
+      "replacement_note": "已接入的纪录影像轻量预告片。"
+    },
+    {
+      "id": "original-ip-cover",
+      "path": "assets/images/works/original-ip/original-ip-cover.webp",
+      "status": "real",
+      "media_type": "image",
+      "replacement_note": "原创 IP 栏目总主视觉；人物及拟人化角色剪影。"
+    },
+    {
+      "id": "experiment-water",
+      "path": "assets/images/experiments/experiment-water.webp",
+      "status": "real",
+      "media_type": "image",
+      "replacement_note": "水的记忆实验卡片视觉。"
+    },
+    {
+      "id": "experiment-tide",
+      "path": "assets/images/experiments/experiment-tide.webp",
+      "status": "real",
+      "media_type": "image",
+      "replacement_note": "生成式潮汐实验卡片视觉。"
+    },
+    {
+      "id": "experiment-sound",
+      "path": "assets/images/experiments/experiment-sound.webp",
+      "status": "real",
+      "media_type": "image",
+      "replacement_note": "声音地形实验卡片视觉。"
+    },
+    {
+      "id": "experiment-field",
+      "path": "assets/images/experiments/experiment-field.webp",
+      "status": "real",
+      "media_type": "image",
+      "replacement_note": "粒子场实验卡片视觉。"
     }
   ],
   "data_files": [
